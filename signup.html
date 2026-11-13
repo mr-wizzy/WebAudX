@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In / Sign Up — WebAudX</title>
+  <link rel="icon" type="image/png" href="assets/WebAudX-favicon.png" />
+  
+  <!-- Fonts specified in WebAudX-design-tokens.tokens.json: Montserrat (Headings) and Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /*
+     * Design Tokens extracted directly from assets/WebAudX-design-tokens.tokens.json
+     */
+    :root {
+      /* Colors: Primary */
+      --color-primary-100: #d586fb;
+      --color-primary-200: #c04af9;
+      --color-primary-300: #ab0df8;
+      --color-primary-400: #8306c1; /* Core brand color */
+      --color-primary-500: #5a0484; /* Hover state */
+      --color-primary-600: #35024e; /* Active state */
+      --color-primary-alpha-10: rgba(90, 4, 132, 0.1);
+      --color-primary-alpha-50: rgba(90, 4, 132, 0.5);
+
+      /* Colors: Secondary */
+      --color-secondary-100: #dfd4e6;
+      --color-secondary-200: #bea8ce;
+      --color-secondary-300: #9e7db5;
+      --color-secondary-400: #7d5698;
+      --color-secondary-500: #614376;
+      --color-secondary-600: #453054;
+      --color-secondary-alpha-10: rgba(125, 86, 152, 0.1);
+
+      /* Colors: Neutral */
+      --color-neutral-100: #ffffff;
+      --color-neutral-200: #e8e8e8;
+      --color-neutral-300: #d2d2d2;
+      --color-neutral-400: #bbbbbb;
+      --color-neutral-500: #a4a4a4;
+      --color-neutral-600: #8e8e8e;
+      --color-neutral-700: #777777;
+      --color-neutral-800: #606060;
+      --color-neutral-900: #4a4a4a;
+      --color-neutral-1000: #333333;
+
+      /* Colors: Feedback (Red, Green, Yellow) */
+      --color-red-100: #fb3748;
+      --color-red-200: #d00416;
+      --color-red-alpha-10: rgba(251, 55, 72, 0.1);
+      --color-green-100: #84ebb4;
+      --color-green-200: #1fc16b;
+      --color-green-alpha-10: rgba(31, 193, 107, 0.1);
+      --color-yellow-100: #ffdb43;
+      --color-yellow-200: #dfb400;
+      --color-yellow-alpha-10: rgba(255, 219, 67, 0.1);
+
+      /* Spacing Tokens */
+      --space-0: 2px;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-7: 32px;
+
+      /* Stroke Tokens */
+      --stroke-0: 1px;
+      --stroke-1: 2px;
+      --stroke-2: 4px;
+
+      /* Typography Tokens */
+      --font-family-headings: 'Montserrat', -apple-system, sans-serif;
+      --font-family-body: 'Inter', -apple-system, sans-serif;
+
+      /* Headings: h-6 token = 26px / 39px, weight 700 */
+      --font-size-h6: 26px;
+      --line-height-h6: 39px;
+
+      /* Body: b-1 = 18px / 27px (weight 500), b-2 = 12px / 18px (weight 400) */
+      --font-size-b1: 18px;
+      --line-height-b1: 27px;
+      --font-size-b2: 12px;
+      --line-height-b2: 18px;
+
+      /* Semantic UI Mapping */
+      --bg-page: #faf8fc;
+      --bg-card: var(--color-neutral-100);
+      --text-heading: var(--color-neutral-1000);
+      --text-body: var(--color-neutral-900);
+      --text-muted: var(--color-neutral-800);
+      --text-subtle: var(--color-neutral-700);
+      --border-card: var(--color-secondary-100);
+      --border-input: var(--color-neutral-300);
+      --border-input-focus: var(--color-primary-400);
+      --ring-focus: rgba(131, 6, 193, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family-body);
+      background-color: var(--bg-page);
+      background-image: radial-gradient(circle at 50% 0%, var(--color-secondary-100) 0%, var(--bg-page) 65%);
+      color: var(--text-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6) var(--space-4);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    /* Back link */
+    .back-nav {
+      margin-bottom: var(--space-4);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--space-2);
+      transition: all 0.15s ease;
+    }
+
+    .back-link:hover {
+      color: var(--color-primary-400);
+      background-color: var(--color-primary-alpha-10);
+    }
+
+    /* Main Card */
+    .card {
+      background: var(--bg-card);
+      border: var(--stroke-0) solid var(--border-card);
+      border-radius: 16px;
+      box-shadow: 
+        0 4px 6px -1px rgba(90, 4, 132, 0.04),
+        0 16px 28px -4px rgba(90, 4, 132, 0.07);
+      padding: var(--space-7) var(--space-6);
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: var(--space-6) var(--space-4);
+      }
+    }
+
+    /* Header & Logo */
+    .header {
+      text-align: center;
+      margin-bottom: var(--space-5);
+    }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: var(--space-4);
+    }
+
+    .logo {
+      height: 42px;
+      width: auto;
+      max-width: 200px;
+      object-fit: contain;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      background: var(--color-primary-alpha-10);
+      color: var(--color-primary-400);
+      font-size: var(--font-size-b2);
+      line-height: var(--line-height-b2);
+      font-weight: 600;
+      padding: var(--space-0) var(--space-3);
+      border-radius: 100px;
+      margin-bottom: var(--space-2);
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+
+    /* Heading using Montserrat & tokens */
+    h1 {
+      font-family: var(--font-family-headings);
+      font-size: var(--font-size-h6);
+      line-height: var(--line-height-h6);
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-1);
+    }
+
+    .subtitle {
+      font-family: var(--font-family-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--text-muted);
+      max-width: 380px;
+      margin: 0 auto;
+    }
+
+    /* Informative Callout (PRD Section 10) */
+    .info-callout {
+      background: var(--color-secondary-alpha-10);
+      border: var(--stroke-0) solid var(--color-secondary-100);
+      border-radius: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      margin-bottom: var(--space-5);
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--color-secondary-600);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+
+    .info-callout svg {
+      flex-shrink: 0;
+      color: var(--color-primary-400);
+      margin-top: 2px;
+    }
+
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      text-align: left;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-heading);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      font-family: var(--font-family-body);
+      font-size: 14px;
+      border: var(--stroke-0) solid var(--border-input);
+      border-radius: var(--space-3);
+      background: var(--color-neutral-100);
+      color: var(--text-heading);
+      outline: none;
+      transition: all 0.15s ease;
+    }
+
+    input[type="email"]:focus {
+      border-color: var(--border-input-focus);
+      box-shadow: 0 0 0 3px var(--ring-focus);
+    }
+
+    input[type="email"].has-error {
+      border-color: var(--color-red-100);
+      background-color: var(--color-red-alpha-10);
+    }
+
+    .field-hint {
+      font-size: var(--font-size-b2);
+      line-height: var(--line-height-b2);
+      color: var(--text-subtle);
+      margin-top: var(--space-0);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%;
+      background-color: var(--color-primary-400);
+      color: var(--color-neutral-100);
+      border: none;
+      border-radius: var(--space-3);
+      padding: var(--space-3) var(--space-5);
+      font-family: var(--font-family-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      transition: all 0.15s ease;
+      box-shadow: 0 2px 4px rgba(131, 6, 193, 0.2);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary-500);
+      box-shadow: 0 4px 10px rgba(90, 4, 132, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      background-color: var(--color-primary-600);
+      transform: translateY(0);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: var(--stroke-0) solid var(--border-card);
+      color: var(--text-heading);
+      border-radius: var(--space-3);
+      padding: var(--space-2) var(--space-4);
+      font-family: var(--font-family-body);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-1);
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-secondary-alpha-10);
+      border-color: var(--color-secondary-200);
+      color: var(--color-primary-400);
+    }
+
+    /* Banners & Alerts */
+    .alert-banner {
+      border-radius: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      font-size: 13px;
+      line-height: 18px;
+      display: none;
+      align-items: flex-start;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+
+    .alert-banner.error {
+      display: flex;
+      background-color: var(--color-red-alpha-10);
+      border: var(--stroke-0) solid var(--color-red-100);
+      color: var(--color-red-200);
+    }
+
+    .alert-banner.info {
+      display: flex;
+      background-color: var(--color-primary-alpha-10);
+      border: var(--stroke-0) solid var(--color-primary-200);
+      color: var(--color-primary-500);
+    }
+
+    /* Success State */
+    .success-view {
+      display: none;
+      text-align: center;
+      padding: var(--space-2) 0;
+    }
+
+    .success-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--color-primary-alpha-10);
+      color: var(--color-primary-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-4);
+      box-shadow: 0 0 0 var(--space-2) var(--color-secondary-alpha-10);
+    }
+
+    .success-title {
+      font-family: var(--font-family-headings);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: var(--space-2);
+    }
+
+    .success-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 20px;
+      margin-bottom: var(--space-5);
+    }
+
+    .success-email {
+      font-weight: 600;
+      color: var(--text-heading);
+      word-break: break-all;
+    }
+
+    .success-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    /* Perks Checklist (PRD Section 10.2) */
+    .branding-perks {
+      margin-top: var(--space-6);
+      padding-top: var(--space-5);
+      border-top: var(--stroke-0) solid var(--color-neutral-200);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .perk-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .perk-bullet {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--color-green-alpha-10);
+      color: var(--color-green-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: var(--space-5);
+      font-size: var(--font-size-b2);
+      color: var(--text-subtle);
+    }
+
+    footer p {
+      margin-bottom: var(--space-0);
+    }
+
+    .watermark {
+      font-weight: 600;
+      color: var(--color-primary-400);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Return link -->
+    <nav class="back-nav">
+      <a href="index.html" id="back-link" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Return to home / report
+      </a>
+    </nav>
+
+    <!-- Error / Notification banner (PRD Section 13 error messages) -->
+    <div id="global-alert" class="alert-banner" role="alert">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <span id="alert-text"></span>
+    </div>
+
+    <!-- Main Card -->
+    <main class="card">
+      
+      <!-- Brand Header -->
+      <div class="header">
+        <div class="logo-wrap">
+          <img src="assets/WebAudX-logo.png" 
+               alt="WebAudX Logo" 
+               class="logo" />
+        </div>
+        <div class="pill">Optional Agency Branding</div>
+        <h1 id="view-heading">Brand your reports</h1>
+        <p class="subtitle">Sign in with your email to add your agency name, logo, and brand colour to your clarity reports.</p>
+      </div>
+
+      <!-- Informative note based on PRD Section 10 -->
+      <div class="info-callout">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span>No account is needed to view or download standard reports. An account is only needed if you want custom branding.</span>
+      </div>
+
+      <!-- State 1: Email Request Form -->
+      <div id="form-view">
+        <form id="signup-form" novalidate>
+          <div class="form-group">
+            <label for="email-input">Your email address</label>
+            <div class="input-wrapper">
+              <input 
+                type="email" 
+                id="email-input" 
+                name="email" 
+                placeholder="you@agency.com" 
+                autocomplete="email" 
+                required 
+              />
+            </div>
+            <div id="email-error" class="field-hint" style="display: none; color: var(--color-red-200); font-weight: 500;"></div>
+            <div id="email-hint" class="field-hint">We will email you a secure sign-in link. No password needed.</div>
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn-primary">
+            <span>Send sign-in link</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Perks list from PRD Section 10.2 -->
+        <div class="branding-perks">
+          <div class="perk-item">
+            <span class="perk-bullet">✓</span>
+            <span>Add your agency name ("Prepared by [Your Agency]")</span>
+          </div>
+          <div class="perk-item">
+            <span class="perk-bullet">✓</span>
+            <span>Upload your agency logo to appear on reports</span>
+          </div>
+          <div class="perk-item">
+            <span class="perk-bullet">✓</span>
+            <span>Choose your brand accent colour and font</span>
+          </div>
+          <div class="perk-item">
+            <span class="perk-bullet">✓</span>
+            <span>Download branded PDFs for your clients</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- State 2: Confirmation / Magic Link Sent -->
+      <div id="success-view" class="success-view">
+        <div class="success-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h9"></path>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            <path d="m16 19 2 2 4-4"></path>
+          </svg>
+        </div>
+        <h2 class="success-title">Check your email</h2>
+        <p class="success-text">
+          We sent a secure sign-in link to <span id="submitted-email" class="success-email"></span>. 
+          Click the link in the message to sign in and set up your branding.
+        </p>
+        <div class="success-actions">
+          <button type="button" id="resend-btn" class="btn-secondary">
+            Send another link
+          </button>
+          <button type="button" id="change-email-btn" class="btn-secondary" style="border: none;">
+            Use a different email address
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Project Footer (PRD Section 10.4) -->
+    <footer>
+      <p class="watermark">Generated with WebAudX</p>
+      <p>Plain-English website clarity reviews</p>
+    </footer>
+  </div>
+
+  <script>
+    const formView = document.getElementById('form-view');
+    const successView = document.getElementById('success-view');
+    const signupForm = document.getElementById('signup-form');
+    const emailInput = document.getElementById('email-input');
+    const emailError = document.getElementById('email-error');
+    const emailHint = document.getElementById('email-hint');
+    const submitBtn = document.getElementById('submit-btn');
+    const submittedEmail = document.getElementById('submitted-email');
+    const resendBtn = document.getElementById('resend-btn');
+    const changeEmailBtn = document.getElementById('change-email-btn');
+    const globalAlert = document.getElementById('global-alert');
+    const alertText = document.getElementById('alert-text');
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function showAlert(message, type = 'error') {
+      alertText.textContent = message;
+      globalAlert.className = 'alert-banner ' + type;
+      globalAlert.style.display = 'flex';
+    }
+
+    function hideAlert() {
+      globalAlert.style.display = 'none';
+      alertText.textContent = '';
+    }
+
+    function clearFieldError() {
+      emailInput.classList.remove('has-error');
+      emailError.style.display = 'none';
+      emailError.textContent = '';
+      emailHint.style.display = 'block';
+    }
+
+    function setFieldError(msg) {
+      emailInput.classList.add('has-error');
+      emailError.textContent = msg;
+      emailError.style.display = 'block';
+      emailHint.style.display = 'none';
+    }
+
+    signupForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      hideAlert();
+      clearFieldError();
+
+      const email = emailInput.value.trim();
+
+      if (!email) {
+        setFieldError('Please enter your email address.');
+        emailInput.focus();
+        return;
+      }
+
+      if (!emailRegex.test(email)) {
+        setFieldError('This does not look like a valid email address. Check for typos like name@example.com.');
+        emailInput.focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.querySelector('span').textContent = 'Sending link...';
+
+      setTimeout(function() {
+        submitBtn.disabled = false;
+        submitBtn.querySelector('span').textContent = 'Send sign-in link';
+        submittedEmail.textContent = email;
+        formView.style.display = 'none';
+        successView.style.display = 'block';
+      }, 500);
+    });
+
+    changeEmailBtn.addEventListener('click', function () {
+      successView.style.display = 'none';
+      formView.style.display = 'block';
+      hideAlert();
+      clearFieldError();
+      emailInput.focus();
+    });
+
+    resendBtn.addEventListener('click', function () {
+      resendBtn.disabled = true;
+      resendBtn.textContent = 'Sending...';
+      setTimeout(function() {
+        resendBtn.disabled = false;
+        resendBtn.textContent = 'Send another link';
+        showAlert('A fresh sign-in link was sent to ' + submittedEmail.textContent + '.', 'info');
+      }, 500);
+    });
+
+    emailInput.addEventListener('input', clearFieldError);
+  </script>
+</body>
+</html>
