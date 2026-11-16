@@ -772,6 +772,271 @@
       flex-wrap: wrap;
     }
 
+    /* ==========================================================================
+       Screen 4: Questionnaire Styles (PRD Screen 4)
+       ========================================================================== */
+    .questions-section {
+      padding: var(--token-space-7) 0 var(--token-space-7);
+    }
+
+    .questions-header {
+      text-align: center;
+      margin-bottom: var(--token-space-6);
+    }
+
+    .questions-title {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-headings-h5-size);
+      line-height: var(--token-font-headings-h5-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-2);
+    }
+
+    .questions-lead {
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      color: var(--token-color-neutral-800);
+      max-width: var(--token-container-md);
+      margin: 0 auto;
+    }
+
+    .questions-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--token-space-6);
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-6);
+    }
+
+    .question-card {
+      background: var(--token-color-neutral-100);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-xl);
+      box-shadow: var(--token-shadow-card);
+      padding: var(--token-space-6);
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+
+    .question-card.has-error {
+      border-color: var(--token-color-red-100);
+      background-color: var(--token-color-red-alpha-10);
+    }
+
+    .question-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--token-space-2);
+      margin-bottom: var(--token-space-2);
+    }
+
+    .question-area-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-primary-400);
+      background: var(--token-color-primary-alpha-10);
+      padding: var(--token-space-0) var(--token-space-2);
+      border-radius: var(--token-radius-pill);
+      text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
+    }
+
+    .question-number {
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      color: var(--token-color-neutral-600);
+      font-weight: var(--token-font-body-b1-weight);
+    }
+
+    .question-text {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-4);
+    }
+
+    /* Distinct "Measured" findings box (PRD Section 2: Visibly distinct) */
+    .evidence-box {
+      background: var(--token-color-secondary-alpha-10);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-md);
+      padding: var(--token-space-3) var(--token-space-4);
+      margin-bottom: var(--token-space-4);
+    }
+
+    .evidence-heading {
+      display: flex;
+      align-items: center;
+      gap: var(--token-space-1);
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-secondary-600);
+      text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
+      margin-bottom: var(--token-space-2);
+    }
+
+    .evidence-heading svg {
+      color: var(--token-color-secondary-500);
+    }
+
+    .evidence-items-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--token-space-2);
+    }
+
+    .evidence-item-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--token-space-2);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-800);
+    }
+
+    .evidence-item-label {
+      font-weight: var(--token-font-body-b1-weight);
+      color: var(--token-color-neutral-1000);
+      white-space: nowrap;
+    }
+
+    .evidence-note {
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-700);
+      font-style: italic;
+    }
+
+    /* "Your answer" Choices Group */
+    .choices-group {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--token-space-2);
+    }
+
+    @media (max-width: 640px) {
+      .choices-group {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .choice-label {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--token-space-3) var(--token-space-2);
+      border: var(--token-stroke-0) solid var(--token-color-neutral-300);
+      border-radius: var(--token-radius-md);
+      background: var(--token-color-neutral-100);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+    }
+
+    .choice-label:hover {
+      border-color: var(--token-color-primary-400);
+      background: var(--token-color-primary-alpha-10);
+    }
+
+    .choice-label input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice-label.selected {
+      border-color: var(--token-color-primary-400);
+      background: var(--token-color-primary-alpha-10);
+      box-shadow: 0 0 0 var(--token-space-0) var(--token-color-primary-400);
+    }
+
+    .choice-text {
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      font-weight: var(--token-font-body-b1-weight);
+      color: var(--token-color-neutral-1000);
+    }
+
+    /* Distinct "Suggested" badge */
+    .suggested-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: var(--token-font-body-b4-size);
+      line-height: var(--token-font-body-b4-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-primary-500);
+      background: var(--token-color-primary-alpha-10);
+      border: var(--token-stroke-0) solid var(--token-color-primary-200);
+      padding: var(--token-space-0) var(--token-space-1);
+      border-radius: var(--token-radius-pill);
+      margin-top: var(--token-space-1);
+      text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
+    }
+
+    .questionnaire-error-box {
+      display: none;
+      align-items: flex-start;
+      gap: var(--token-space-2);
+      background: var(--token-color-red-alpha-10);
+      border: var(--token-stroke-0) solid var(--token-color-red-100);
+      border-radius: var(--token-radius-md);
+      padding: var(--token-space-3) var(--token-space-4);
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-5);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-red-200);
+      font-weight: var(--token-font-body-b1-weight);
+    }
+
+    .questionnaire-error-box svg {
+      flex-shrink: 0;
+      margin-top: var(--token-space-0);
+    }
+
+    .review-confirmation-card {
+      display: none;
+      background: var(--token-color-green-alpha-10);
+      border: var(--token-stroke-0) solid var(--token-color-green-100);
+      border-radius: var(--token-radius-lg);
+      padding: var(--token-space-4) var(--token-space-5);
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-6);
+      align-items: center;
+      gap: var(--token-space-3);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-1000);
+    }
+
+    .review-confirmation-card svg {
+      color: var(--token-color-green-200);
+      flex-shrink: 0;
+    }
+
+    .questionnaire-actions-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--token-space-4);
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-6);
+      flex-wrap: wrap;
+    }
+
     .future-multipage-note {
       font-size: var(--token-font-body-b2-size);
       line-height: var(--token-font-body-b2-line);
@@ -1079,6 +1344,64 @@
       <p class="about-report-notice">WebAudX combines an automated check of one page with your answers. It is not a full or independent audit, and reflects the page on the date checked.</p>
     </section>
 
+    <!-- Screen 4: Usability Questionnaire (PRD Screen 4 & Section 6) -->
+    <section id="screen-questions" class="questions-section" style="display: none;">
+      <div class="questions-header">
+        <div class="pill-badge">Step 2 of 3 &bull; Usability Questions</div>
+        <h2 class="questions-title">Usability Questions</h2>
+        <p class="questions-lead">Answer these seven questions based on what a visitor experiences on your webpage.</p>
+      </div>
+
+      <!-- Acceptance Test 5: Unanswered Questions Warning Banner -->
+      <div id="questions-error-box" class="questionnaire-error-box" role="alert">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span id="questions-error-text">Please answer all seven questions before continuing.</span>
+      </div>
+
+      <!-- Feature 3 Confirmation Card (Shown when all 7 answered upon submission) -->
+      <div id="review-confirmation" class="review-confirmation-card" role="status">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <div>
+          <strong>Questions Completed!</strong>
+          <span id="review-confirmation-text">All seven questions have been answered. Ready for Review &amp; Report Generation.</span>
+        </div>
+      </div>
+
+      <!-- 7 Question Cards List Container -->
+      <div id="questions-list" class="questions-list">
+        <!-- Dynamically rendered question cards -->
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="questionnaire-actions-bar">
+        <button type="button" id="back-to-summary-btn" class="btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back to Check Summary</span>
+        </button>
+
+        <button type="button" id="submit-questions-btn" class="btn-submit">
+          <span>Continue to Review</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Required Notes -->
+      <p class="future-multipage-note">Checking multiple pages will come in a future version.</p>
+      <p class="about-report-notice">WebAudX combines an automated check of one page with your answers. It is not a full or independent audit, and reflects the page on the date checked.</p>
+    </section>
+
   </main>
 
   <!-- Footer (PRD Section 10.4) -->
@@ -1089,14 +1412,16 @@
     </div>
   </footer>
 
-  <!-- Include Shared Address Validation Module -->
+  <!-- Include Shared Modules -->
   <script src="src/validate-address.js"></script>
+  <script src="src/questionnaire.js"></script>
 
   <script>
     // Screen Elements
     const screenLanding = document.getElementById('screen-landing');
     const screenProgress = document.getElementById('screen-progress');
     const screenSummary = document.getElementById('screen-summary');
+    const screenQuestions = document.getElementById('screen-questions');
 
     // Landing Screen Form
     const form = document.getElementById('address-form');
@@ -1127,13 +1452,25 @@
     const retryBtn = document.getElementById('retry-btn');
     const continueBtn = document.getElementById('continue-btn');
 
+    // Questionnaire Screen Elements (Feature 3)
+    const questionsList = document.getElementById('questions-list');
+    const questionsErrorBox = document.getElementById('questions-error-box');
+    const questionsErrorText = document.getElementById('questions-error-text');
+    const reviewConfirmation = document.getElementById('review-confirmation');
+    const reviewConfirmationText = document.getElementById('review-confirmation-text');
+    const backToSummaryBtn = document.getElementById('back-to-summary-btn');
+    const submitQuestionsBtn = document.getElementById('submit-questions-btn');
+
     // Application state
     let inspectionData = null;
+    let selectedAnswers = {};
+    let initialSuggestions = {};
 
     function showScreen(screen) {
       screenLanding.style.display = screen === 'landing' ? 'block' : 'none';
       screenProgress.style.display = screen === 'progress' ? 'block' : 'none';
       screenSummary.style.display = screen === 'summary' ? 'block' : 'none';
+      screenQuestions.style.display = screen === 'questions' ? 'block' : 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1161,17 +1498,203 @@
       clearError();
       adjustedNote.style.display = 'none';
       submitBtn.disabled = false;
+      selectedAnswers = {};
+      initialSuggestions = {};
       showScreen('landing');
       input.focus();
     });
 
-    // Continue to Feature 3 (Questionnaire)
+    // Transition from Screen 3 to Screen 4 (Questionnaire)
     continueBtn.addEventListener('click', function() {
-      alert('Inspection completed! Continuing to Feature 3: The 7-Question Usability Questionnaire.');
+      renderQuestionnaire(inspectionData);
+      showScreen('questions');
     });
 
+    // Transition from Screen 4 back to Screen 3
+    backToSummaryBtn.addEventListener('click', function() {
+      showScreen('summary');
+    });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // =========================================================================
+    // Screen 4: Questionnaire Rendering & State Management (Feature 3)
+    // =========================================================================
+    function renderQuestionnaire(data) {
+      questionsErrorBox.style.display = 'none';
+      reviewConfirmation.style.display = 'none';
+
+      // Load initial suggestions for Q3, Q5, Q7 (PRD Section 5.3)
+      if (Object.keys(initialSuggestions).length === 0) {
+        initialSuggestions = window.WebAudXQuestionnaire.getInitialSuggestions(data);
+        // Pre-select suggestions if user has not yet answered
+        for (const [qId, suggestedVal] of Object.entries(initialSuggestions)) {
+          if (!selectedAnswers[qId]) {
+            selectedAnswers[qId] = suggestedVal;
+          }
+        }
+      }
+
+      questionsList.innerHTML = '';
+
+      window.WebAudXQuestionnaire.QUESTIONS.forEach(q => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `question-card-${q.id}`;
+
+        const ev = window.WebAudXQuestionnaire.getQuestionEvidence(q.id, data);
+        const suggestedChoice = initialSuggestions[q.id];
+
+        // 1. Card Header
+        let cardHtml = `
+          <div class="question-card-header">
+            <span class="question-area-badge">${escapeHtml(q.area)}</span>
+            <span class="question-number">Question ${q.id} of 7</span>
+          </div>
+          <h3 class="question-text">${escapeHtml(q.text)}</h3>
+        `;
+
+        // 2. Visibly distinct "Measured" Evidence Box
+        cardHtml += `
+          <div class="evidence-box">
+            <div class="evidence-heading">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span>What we found on the page</span>
+            </div>
+        `;
+
+        if (ev.note) {
+          cardHtml += `<p class="evidence-note">${escapeHtml(ev.note)}</p>`;
+        } else if (ev.items && ev.items.length > 0) {
+          cardHtml += `<ul class="evidence-items-list">`;
+          ev.items.forEach(item => {
+            cardHtml += `
+              <li class="evidence-item-row">
+                <strong class="evidence-item-label">${escapeHtml(item.label)}:</strong>
+                <span>${escapeHtml(item.text)}</span>
+              </li>
+            `;
+          });
+          cardHtml += `</ul>`;
+        }
+        cardHtml += `</div>`;
+
+        // 3. Four Standard Choices Group
+        cardHtml += `<div class="choices-group" role="radiogroup" aria-label="${escapeHtml(q.text)}">`;
+
+        window.WebAudXQuestionnaire.CHOICES.forEach(choice => {
+          const isSelected = selectedAnswers[q.id] === choice;
+          const isSuggested = suggestedChoice === choice;
+          const selectedClass = isSelected ? 'selected' : '';
+
+          cardHtml += `
+            <label class="choice-label ${selectedClass}" data-qid="${q.id}" data-choice="${choice}">
+              <input type="radio" name="question-${q.id}" value="${choice}" ${isSelected ? 'checked' : ''} />
+              <span class="choice-text">${choice}</span>
+              ${isSuggested ? '<span class="suggested-badge">Suggested</span>' : ''}
+            </label>
+          `;
+        });
+
+        cardHtml += `</div>`;
+        card.innerHTML = cardHtml;
+        questionsList.appendChild(card);
+      });
+
+      // Bind click handlers to choices
+      document.querySelectorAll('.choice-label').forEach(label => {
+        label.addEventListener('click', function(e) {
+          e.preventDefault();
+          const qId = parseInt(this.getAttribute('data-qid'), 10);
+          const choice = this.getAttribute('data-choice');
+
+          selectedAnswers[qId] = choice;
+
+          // Update visual selected states for this question
+          const parentGroup = this.closest('.choices-group');
+          parentGroup.querySelectorAll('.choice-label').forEach(lbl => {
+            lbl.classList.remove('selected');
+            const radio = lbl.querySelector('input[type="radio"]');
+            if (radio) radio.checked = false;
+          });
+
+          this.classList.add('selected');
+          const myRadio = this.querySelector('input[type="radio"]');
+          if (myRadio) myRadio.checked = true;
+
+          // Remove error highlight on this card if present
+          const card = document.getElementById(`question-card-${qId}`);
+          if (card) card.classList.remove('has-error');
+
+          // If all 7 are answered, hide the warning banner
+          const val = window.WebAudXQuestionnaire.validateAnswers(selectedAnswers);
+          if (val.valid) {
+            questionsErrorBox.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // Submit Questionnaire (Feature 3 validation)
+    submitQuestionsBtn.addEventListener('click', function() {
+      const val = window.WebAudXQuestionnaire.validateAnswers(selectedAnswers);
+
+      if (!val.valid) {
+        questionsErrorText.textContent = val.error;
+        questionsErrorBox.style.display = 'flex';
+        reviewConfirmation.style.display = 'none';
+
+        // Highlight unanswered cards
+        document.querySelectorAll('.question-card').forEach(card => card.classList.remove('has-error'));
+        val.unanswered.forEach(id => {
+          const card = document.getElementById(`question-card-${id}`);
+          if (card) card.classList.add('has-error');
+        });
+
+        // Scroll to first unanswered question
+        const firstUnansweredCard = document.getElementById(`question-card-${val.unanswered[0]}`);
+        if (firstUnansweredCard) {
+          firstUnansweredCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      // Clear any errors
+      questionsErrorBox.style.display = 'none';
+      document.querySelectorAll('.question-card').forEach(card => card.classList.remove('has-error'));
+
+      // Compute changed suggestions (Acceptance Test 6)
+      const changed = window.WebAudXQuestionnaire.getChangedSuggestions(selectedAnswers, initialSuggestions);
+      
+      // Show confirmation state for Feature 3
+      if (changed.length > 0) {
+        reviewConfirmationText.textContent = `All seven questions have been answered (${changed.length} suggested answer${changed.length > 1 ? 's were' : ' was'} changed). Ready for Review & Report Generation.`;
+      } else {
+        reviewConfirmationText.textContent = `All seven questions have been answered. Ready for Review & Report Generation.`;
+      }
+      reviewConfirmation.style.display = 'flex';
+      reviewConfirmation.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    // =========================================================================
+    // Screen 3: Check Summary Rendering (Feature 2)
+    // =========================================================================
     function renderSummary(data, targetUrl) {
       inspectionData = data;
+      selectedAnswers = {};
+      initialSuggestions = {};
+
       summaryDate.textContent = new Date().toLocaleDateString(undefined, { 
         year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' 
       });
@@ -1257,6 +1780,9 @@
       }));
     }
 
+    // =========================================================================
+    // Screen 1: Address Submission Handler (Feature 1)
+    // =========================================================================
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
       clearError();

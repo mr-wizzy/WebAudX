@@ -38,6 +38,60 @@
     "future_multipage_note": "Checking multiple pages will come in a future version.",
     "about_report": "WebAudX combines an automated check of one page with your answers. It is not a full or independent audit, and reflects the page on the date checked."
   },
+  "questionnaire": {
+    "title": "Usability Questions",
+    "lead": "Answer these seven questions based on what a visitor experiences on your webpage.",
+    "evidence_heading": "What we found on the page",
+    "no_evidence": "No automated evidence needed for this question. Base your answer on your experience using the page.",
+    "suggested_badge": "Suggested",
+    "unanswered_warning": "Please answer all seven questions before continuing.",
+    "continue_to_review": "Continue to Review",
+    "back_to_summary": "Back to Check Summary",
+    "review_confirmation": "All seven questions have been answered. Ready for Review & Report Generation.",
+    "choices": {
+      "yes": "Yes",
+      "partly": "Partly",
+      "no": "No",
+      "not_sure": "Not sure"
+    },
+    "questions": [
+      {
+        "id": 1,
+        "area": "First impression",
+        "text": "Can a first-time visitor quickly understand what this website is about?"
+      },
+      {
+        "id": 2,
+        "area": "Messaging",
+        "text": "Can a visitor understand what is being offered and who it is for?"
+      },
+      {
+        "id": 3,
+        "area": "Navigation",
+        "text": "Can a visitor easily find the information they are looking for?"
+      },
+      {
+        "id": 4,
+        "area": "Visual hierarchy",
+        "text": "Are the most important information and elements easy to notice?"
+      },
+      {
+        "id": 5,
+        "area": "Call to action",
+        "text": "Is it clear what the visitor should do next?"
+      },
+      {
+        "id": 6,
+        "area": "User experience",
+        "text": "Can a visitor use the website without unnecessary confusion?"
+      },
+      {
+        "id": 7,
+        "area": "Mobile experience",
+        "text": "Is the website easy to understand and use on a mobile device?"
+      }
+    ]
+  },
   "account_and_branding": {
     "sign_in_link_expired": "This sign-in link has expired. Request a new one.",
     "logo_too_large": "This logo is larger than 1 MB. Please upload a smaller file.",
