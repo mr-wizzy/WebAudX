@@ -61,9 +61,18 @@ WebAudX/
 │   ├── WebAudX-logo.png                   # Primary brand logo
 │   └── WebAudX-favicon.png                # Brand favicon
 ├── docs/
-│   └── AGENTS.md                          # Engineering and agent specifications
-├── index.html                             # WebAudX landing page
+│   ├── AGENTS.md                          # Engineering and agent specifications
+│   └── copy-library.json                  # Approved plain-English text library
+├── src/
+│   ├── tokens.css                         # Pure CSS tokens (zero hardcoded values)
+│   └── validate-address.js                # Shared safe address validation & SSRF defense
+├── test/
+│   ├── validate-address.test.js           # Acceptance tests 14, 15, 16 & eTLD+1 tests
+│   └── server.test.js                     # Backend API & static route integration tests
+├── index.html                             # WebAudX landing page (Feature 1)
 ├── signup.html                            # Agency sign-in & branding setup screen
+├── server.js                              # Native Node.js backend runtime server
+├── package.json                           # Scripts (npm start, npm test)
 ├── WebAudX_PRD_v1.0.md                    # Product Requirements Document (PRD v1.0)
 ├── .gitignore                             # Ignored files
 └── README.md                              # Project documentation
@@ -73,7 +82,7 @@ WebAudX/
 
 ## 💻 Getting Started Locally
 
-No installation or build step (`npm install` / `build`) is required.
+No external npm packages are needed (zero `npm install` dependencies required).
 
 ### 1. Clone the repository
 ```bash
@@ -81,13 +90,17 @@ git clone https://github.com/mr-wizzy/WebAudX.git
 cd WebAudX
 ```
 
-### 2. Start a local server
-Using Python's built-in server:
+### 2. Run automated acceptance tests
 ```bash
-python -m http.server 3000
+npm test
 ```
 
-### 3. Open in your browser
+### 3. Start the backend runtime server
+```bash
+npm start
+```
+
+### 4. Open in your browser
 * **Landing Page:** [http://localhost:3000/index.html](http://localhost:3000/index.html) (or `http://localhost:3000/`)
 * **Agency Sign-In Screen:** [http://localhost:3000/signup.html](http://localhost:3000/signup.html)
 
@@ -107,3 +120,4 @@ For full product rules and acceptance criteria, please review:
 ## ⚖️ License & Attribution
 
 &copy; 2026 Prosion Technology Limited. All rights reserved. Every generated report carries the attribution **"Generated with WebAudX"**.
+

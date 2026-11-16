@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "status": "approved",
+  "description": "Approved plain-English text library for WebAudX user-facing copy, derived strictly from WebAudX PRD v1.0 Sections 12 and 13.",
+  "address": {
+    "empty": "Please enter the address of the page you want to review.",
+    "wrong_format": "This doesn't look like a web address. Check for typing mistakes, such as yourwebsite.com.",
+    "unsupported_scheme": "WebAudX can only review web pages that start with http:// or https://.",
+    "prohibited_destination": "This address cannot be reviewed.",
+    "prefix_added": "Added secure prefix: [url]"
+  },
+  "inspection": {
+    "address_not_found": "We could not find this website. Check the address and try again.",
+    "too_slow": "The page took too long to respond. It may be slow or temporarily unavailable.",
+    "blocks_automated_checks": "This website does not allow automated checks. You can still answer the questions yourself.",
+    "error_page": "The page could not be loaded (error code [code]). Open the address in your browser to check it.",
+    "file_not_page": "This address leads to a file rather than a web page, so it could not be reviewed.",
+    "too_large": "This page is too large for WebAudX to review.",
+    "redirect_loop": "This address keeps sending us elsewhere, so we could not reach the page.",
+    "very_little_text": "We could read only a small amount of text on this page. Some websites load content in ways WebAudX cannot read, so some results are missing.",
+    "unexpected_error": "Something went wrong while reviewing the page. Please try again in a few minutes."
+  },
+  "account_and_branding": {
+    "sign_in_link_expired": "This sign-in link has expired. Request a new one.",
+    "logo_too_large": "This logo is larger than 1 MB. Please upload a smaller file.",
+    "logo_type_not_allowed": "Please upload a PNG, JPG, or SVG file.",
+    "branding_not_saved": "Your branding could not be saved. Your changes have not been lost. Please try again."
+  },
+  "limits_and_system": {
+    "daily_limit_reached": "You have used your 10 checks for today. You can run another check after [time].",
+    "service_unavailable": "WebAudX is temporarily unavailable. Please try again shortly.",
+    "pdf_failed": "We could not create your PDF. Please try again."
+  },
+  "notices": {
+    "permission_warning": "Please only review web pages you own or have permission to inspect.",
+    "not_full_audit": "WebAudX is a quick clarity and usability review, not a full technical audit.",
+    "watermark": "Generated with WebAudX",
+    "branding_scope": "No account is needed to view or download standard reports. An account is only needed if you want custom agency branding."
+  }
+}

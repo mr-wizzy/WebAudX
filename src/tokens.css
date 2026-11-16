@@ -1,0 +1,167 @@
+/**
+ * WebAudX Design Tokens
+ * Source: assets/WebAudX-design-tokens.tokens.json
+ * Rules:
+ *   1. Only the two fonts in design tokens: Montserrat (headings) & Inter (body)
+ *   2. Radii and containers derived strictly from spacing and stroke scales
+ *   3. No hardcoded styling values
+ */
+
+:root {
+  /* ==========================================================================
+     Colors: Primary
+     ========================================================================== */
+  --token-color-primary-100: #d586fb;
+  --token-color-primary-200: #c04af9;
+  --token-color-primary-300: #ab0df8;
+  --token-color-primary-400: #8306c1; /* Core brand purple */
+  --token-color-primary-500: #5a0484; /* Hover state */
+  --token-color-primary-600: #35024e; /* Active / pressed */
+  --token-color-primary-alpha-10: #5a04841a;
+  --token-color-primary-alpha-50: #5a048480;
+
+  /* ==========================================================================
+     Colors: Secondary
+     ========================================================================== */
+  --token-color-secondary-100: #dfd4e6;
+  --token-color-secondary-200: #bea8ce;
+  --token-color-secondary-300: #9e7db5;
+  --token-color-secondary-400: #7d5698;
+  --token-color-secondary-500: #614376;
+  --token-color-secondary-600: #453054;
+  --token-color-secondary-alpha-10: #7d56981a;
+  --token-color-secondary-alpha-50: #7d569880;
+
+  /* ==========================================================================
+     Colors: Neutral
+     ========================================================================== */
+  --token-color-neutral-100: #ffffff;
+  --token-color-neutral-200: #e8e8e8;
+  --token-color-neutral-300: #d2d2d2;
+  --token-color-neutral-400: #bbbbbb;
+  --token-color-neutral-500: #a4a4a4;
+  --token-color-neutral-600: #8e8e8e;
+  --token-color-neutral-700: #777777;
+  --token-color-neutral-800: #606060;
+  --token-color-neutral-900: #4a4a4a;
+  --token-color-neutral-1000: #333333;
+  --token-color-neutral-alpha-10: #3333331a;
+
+  /* ==========================================================================
+     Colors: Feedback (Red, Yellow, Green)
+     ========================================================================== */
+  --token-color-red-100: #fb3748;
+  --token-color-red-200: #d00416;
+  --token-color-red-alpha-10: #fb37481a;
+
+  --token-color-yellow-100: #ffdb43;
+  --token-color-yellow-200: #dfb400;
+  --token-color-yellow-alpha-10: #ffdb431a;
+
+  --token-color-green-100: #84ebb4;
+  --token-color-green-200: #1fc16b;
+  --token-color-green-alpha-10: #1fc16b1a;
+
+  /* ==========================================================================
+     Spacing Scale
+     ========================================================================== */
+  --token-space-0: 2px;
+  --token-space-1: 4px;
+  --token-space-2: 8px;
+  --token-space-3: 12px;
+  --token-space-4: 16px;
+  --token-space-5: 20px;
+  --token-space-6: 24px;
+  --token-space-7: 32px;
+
+  /* ==========================================================================
+     Stroke Scale
+     ========================================================================== */
+  --token-stroke-0: 1px;
+  --token-stroke-1: 2px;
+  --token-stroke-2: 4px;
+  --token-stroke-3: 6px;
+  --token-stroke-4: 8px;
+  --token-stroke-5: 10px;
+  --token-stroke-6: 12px;
+  --token-stroke-7: 16px;
+
+  /* ==========================================================================
+     Typography: Headings (Montserrat 700)
+     ========================================================================== */
+  --token-font-headings-family: 'Montserrat', sans-serif;
+  --token-font-headings-weight: 700;
+
+  --token-font-headings-h1-size: 138px;
+  --token-font-headings-h1-line: 207px;
+
+  --token-font-headings-h2-size: 98px;
+  --token-font-headings-h2-line: 147px;
+
+  --token-font-headings-h3-size: 70px;
+  --token-font-headings-h3-line: 105px;
+
+  --token-font-headings-h4-size: 50px;
+  --token-font-headings-h4-line: 75px;
+
+  --token-font-headings-h5-size: 36px;
+  --token-font-headings-h5-line: 54px;
+
+  --token-font-headings-h6-size: 26px;
+  --token-font-headings-h6-line: 39px;
+
+  /* ==========================================================================
+     Typography: Body (Inter)
+     ========================================================================== */
+  --token-font-body-family: 'Inter', sans-serif;
+
+  --token-font-body-b1-size: 18px;
+  --token-font-body-b1-line: 27px;
+  --token-font-body-b1-weight: 500;
+
+  --token-font-body-b2-size: 12px;
+  --token-font-body-b2-line: 18px;
+  --token-font-body-b2-weight: 400;
+
+  --token-font-body-b3-size: 8px;
+  --token-font-body-b3-line: 12px;
+  --token-font-body-b3-weight: 400;
+
+  --token-font-body-b4-size: 6px;
+  --token-font-body-b4-line: 9px;
+  --token-font-body-b4-weight: 400;
+
+  /* ==========================================================================
+     Effects (Drop Shadow + Inner Shadow)
+     ========================================================================== */
+  --token-effect-e0: none;
+  --token-effect-e1: 4px 4px 0px 0px #000000, inset 0px 0px 0px 2px #000000;
+  --token-effect-e2: 6px 6px 0px 0px #000000, inset 0px 0px 0px 2px #000000;
+  --token-effect-e3: 8px 8px 0px 0px #000000, inset 0px 0px 0px 2px #000000;
+
+  /* Soft elevation derived from primary colors & spacing */
+  --token-shadow-card: 0 var(--token-space-1) var(--token-space-3) calc(0px - var(--token-stroke-0)) var(--token-color-primary-alpha-10),
+                       0 var(--token-space-5) calc(var(--token-space-7) + var(--token-space-2)) calc(0px - var(--token-space-2)) var(--token-color-primary-alpha-10);
+  --token-shadow-button: 0 var(--token-space-0) var(--token-space-1) var(--token-color-primary-alpha-50);
+  --token-shadow-button-hover: 0 var(--token-space-1) var(--token-space-3) var(--token-color-primary-alpha-50);
+
+  /* ==========================================================================
+     Derived Radii (Strictly derived from Spacing / Stroke tokens)
+     Question 2 requirement: Derive radii strictly from spacing/stroke scales
+     ========================================================================== */
+  --token-radius-none: 0px;
+  --token-radius-xs: var(--token-space-0); /* 2px */
+  --token-radius-sm: var(--token-space-1); /* 4px */
+  --token-radius-md: var(--token-space-2); /* 8px */
+  --token-radius-lg: var(--token-space-4); /* 16px */
+  --token-radius-xl: var(--token-space-5); /* 20px */
+  --token-radius-pill: calc(var(--token-space-7) * 4); /* 128px */
+
+  /* ==========================================================================
+     Derived Container Widths (Strictly derived from Spacing tokens)
+     Question 2 requirement: Derive containers strictly from spacing scales
+     ========================================================================== */
+  --token-container-sm: calc(var(--token-space-7) * 15); /* 480px */
+  --token-container-md: calc(var(--token-space-7) * 21); /* 672px */
+  --token-container-lg: calc(var(--token-space-7) * 30); /* 960px */
+}

@@ -1,0 +1,22 @@
+{
+  "name": "webaudx",
+  "version": "1.0.0",
+  "description": "Plain-English webpage clarity and usability review tool",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "clarity",
+    "usability",
+    "review",
+    "plain-english",
+    "audit"
+  ],
+  "author": "Mr Whizzy, Prosion Technology Limited",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

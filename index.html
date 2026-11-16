@@ -6,84 +6,19 @@
   <title>WebAudX — Plain-English Webpage Clarity Reviews</title>
   <link rel="icon" type="image/png" href="assets/WebAudX-favicon.png" />
 
-  <!-- Fonts from WebAudX Design Tokens: Montserrat (Headings) and Inter (Body) -->
+  <!-- Question 1: Only the two fonts in design tokens: Montserrat (headings) & Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+  <!-- Design tokens stylesheet (zero hardcoded values) -->
+  <link rel="stylesheet" href="src/tokens.css" />
 
   <style>
     /*
-     * WebAudX Design Tokens (mapped from assets/WebAudX-design-tokens.tokens.json)
+     * Component Styles for Feature 1 (Address Input & Scope Presentation)
+     * Rule: All styling values MUST use design system tokens from src/tokens.css
      */
-    :root {
-      /* Colors: Primary */
-      --color-primary-100: #d586fb;
-      --color-primary-200: #c04af9;
-      --color-primary-300: #ab0df8;
-      --color-primary-400: #8306c1; /* Core brand color */
-      --color-primary-500: #5a0484; /* Hover state */
-      --color-primary-600: #35024e; /* Active state */
-      --color-primary-alpha-10: rgba(90, 4, 132, 0.1);
-      --color-primary-alpha-50: rgba(90, 4, 132, 0.5);
-
-      /* Colors: Secondary */
-      --color-secondary-100: #dfd4e6;
-      --color-secondary-200: #bea8ce;
-      --color-secondary-300: #9e7db5;
-      --color-secondary-400: #7d5698;
-      --color-secondary-500: #614376;
-      --color-secondary-600: #453054;
-      --color-secondary-alpha-10: rgba(125, 86, 152, 0.1);
-
-      /* Colors: Neutral */
-      --color-neutral-100: #ffffff;
-      --color-neutral-200: #e8e8e8;
-      --color-neutral-300: #d2d2d2;
-      --color-neutral-400: #bbbbbb;
-      --color-neutral-500: #a4a4a4;
-      --color-neutral-600: #8e8e8e;
-      --color-neutral-700: #777777;
-      --color-neutral-800: #606060;
-      --color-neutral-900: #4a4a4a;
-      --color-neutral-1000: #333333;
-
-      /* Colors: Feedback */
-      --color-red-100: #fb3748;
-      --color-red-200: #d00416;
-      --color-red-alpha-10: rgba(251, 55, 72, 0.1);
-      --color-green-100: #84ebb4;
-      --color-green-200: #1fc16b;
-      --color-green-alpha-10: rgba(31, 193, 107, 0.1);
-      --color-yellow-100: #ffdb43;
-      --color-yellow-200: #dfb400;
-
-      /* Spacing Scale */
-      --space-0: 2px;
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 20px;
-      --space-6: 24px;
-      --space-7: 32px;
-      --space-8: 48px;
-      --space-9: 64px;
-
-      /* Typography */
-      --font-family-headings: 'Montserrat', -apple-system, sans-serif;
-      --font-family-body: 'Inter', -apple-system, sans-serif;
-
-      /* Semantic Mappings */
-      --bg-page: #faf8fc;
-      --bg-card: var(--color-neutral-100);
-      --text-heading: var(--color-neutral-1000);
-      --text-body: var(--color-neutral-900);
-      --text-muted: var(--color-neutral-800);
-      --text-subtle: var(--color-neutral-700);
-      --border-card: var(--color-secondary-100);
-      --border-input: var(--color-neutral-300);
-      --ring-focus: rgba(131, 6, 193, 0.2);
-    }
 
     * {
       box-sizing: border-box;
@@ -92,33 +27,32 @@
     }
 
     body {
-      font-family: var(--font-family-body);
-      background-color: var(--bg-page);
-      background-image: 
-        radial-gradient(circle at 50% 0%, var(--color-secondary-100) 0%, transparent 45%),
-        radial-gradient(circle at 100% 100%, var(--color-primary-alpha-10) 0%, transparent 35%);
+      font-family: var(--token-font-body-family);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      font-weight: var(--token-font-body-b1-weight);
+      background-color: var(--token-color-neutral-100);
+      background-image: radial-gradient(circle at 50% 0%, var(--token-color-secondary-100) 0%, transparent 60%);
       background-repeat: no-repeat;
-      color: var(--text-body);
+      color: var(--token-color-neutral-900);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
 
     .container {
       width: 100%;
-      max-width: 960px;
+      max-width: var(--token-container-lg);
       margin: 0 auto;
-      padding: 0 var(--space-4);
+      padding: 0 var(--token-space-4);
     }
 
-    /* Top Navigation */
+    /* Sticky Navigation */
     header {
-      padding: var(--space-5) 0;
-      border-bottom: 1px solid rgba(223, 212, 230, 0.6);
-      background: rgba(250, 248, 252, 0.85);
-      backdrop-filter: blur(8px);
+      padding: var(--token-space-4) 0;
+      border-bottom: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      background: var(--token-color-neutral-100);
       position: sticky;
       top: 0;
       z-index: 50;
@@ -128,7 +62,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: var(--space-4);
+      gap: var(--token-space-4);
     }
 
     .brand-link {
@@ -138,303 +72,247 @@
     }
 
     .brand-logo {
-      height: 38px;
+      height: calc(var(--token-space-7) + var(--token-space-2));
       width: auto;
-      max-width: 180px;
       object-fit: contain;
     }
 
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
-
     .btn-ghost {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-muted);
+      font-family: var(--token-font-body-family);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      font-weight: var(--token-font-body-b1-weight);
+      color: var(--token-color-neutral-800);
       text-decoration: none;
-      padding: var(--space-2) var(--space-3);
-      border-radius: var(--space-2);
+      padding: var(--token-space-2) var(--token-space-3);
+      border-radius: var(--token-radius-md);
       transition: all 0.15s ease;
     }
 
     .btn-ghost:hover {
-      color: var(--color-primary-400);
-      background: var(--color-primary-alpha-10);
+      color: var(--token-color-primary-400);
+      background: var(--token-color-primary-alpha-10);
     }
 
     /* Hero Section */
     .hero {
       text-align: center;
-      padding: var(--space-8) 0 var(--space-6);
+      padding: var(--token-space-7) 0 var(--token-space-6);
     }
 
-    .badge-pill {
+    .pill-badge {
       display: inline-flex;
       align-items: center;
-      gap: var(--space-1);
-      background: var(--color-primary-alpha-10);
-      color: var(--color-primary-400);
-      font-size: 11px;
-      font-weight: 700;
-      padding: var(--space-1) var(--space-3);
-      border-radius: 100px;
-      margin-bottom: var(--space-3);
-      letter-spacing: 0.4px;
+      gap: var(--token-space-1);
+      background: var(--token-color-primary-alpha-10);
+      color: var(--token-color-primary-400);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      font-weight: var(--token-font-headings-weight);
+      padding: var(--token-space-1) var(--token-space-3);
+      border-radius: var(--token-radius-pill);
+      margin-bottom: var(--token-space-3);
       text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
     }
 
     h1 {
-      font-family: var(--font-family-headings);
-      font-size: 38px;
-      line-height: 1.25;
-      font-weight: 800;
-      color: var(--text-heading);
-      letter-spacing: -0.025em;
-      margin-bottom: var(--space-3);
-      max-width: 780px;
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-headings-h5-size);
+      line-height: var(--token-font-headings-h5-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-3);
+      max-width: var(--token-container-md);
       margin-left: auto;
       margin-right: auto;
     }
 
-    @media (max-width: 640px) {
-      h1 {
-        font-size: 28px;
-        line-height: 1.3;
-      }
-    }
-
     .hero-lead {
-      font-size: 17px;
-      line-height: 26px;
-      color: var(--text-muted);
-      max-width: 620px;
-      margin: 0 auto var(--space-6);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      color: var(--token-color-neutral-800);
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-6);
     }
 
-    /* Core Input Card (PRD Section 4 & Section 14) */
+    /* Address Input Card (Feature 1 core) */
     .input-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 20px;
-      box-shadow: 
-        0 4px 6px -1px rgba(90, 4, 132, 0.04),
-        0 20px 40px -8px rgba(90, 4, 132, 0.09);
-      padding: var(--space-6) var(--space-6);
-      max-width: 680px;
-      margin: 0 auto var(--space-8);
+      background: var(--token-color-neutral-100);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-xl);
+      box-shadow: var(--token-shadow-card);
+      padding: var(--token-space-6);
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-7);
       text-align: left;
-    }
-
-    @media (max-width: 640px) {
-      .input-card {
-        padding: var(--space-5) var(--space-4);
-      }
     }
 
     .form-label {
       display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-heading);
-      margin-bottom: var(--space-2);
+      font-family: var(--token-font-body-family);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      font-weight: var(--token-font-body-b1-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-2);
     }
 
-    .input-group {
+    .input-row {
       display: flex;
-      gap: var(--space-2);
-      position: relative;
+      gap: var(--token-space-2);
     }
 
-    @media (max-width: 540px) {
-      .input-group {
+    @media (max-width: 640px) {
+      .input-row {
         flex-direction: column;
       }
     }
 
     .url-input {
       flex: 1;
-      padding: 14px var(--space-4);
-      font-family: var(--font-family-body);
-      font-size: 15px;
-      border: 1.5px solid var(--border-input);
-      border-radius: var(--space-3);
-      color: var(--text-heading);
-      background: #ffffff;
+      padding: var(--token-space-3) var(--token-space-4);
+      font-family: var(--token-font-body-family);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      border: var(--token-stroke-0) solid var(--token-color-neutral-300);
+      border-radius: var(--token-radius-md);
+      color: var(--token-color-neutral-1000);
+      background: var(--token-color-neutral-100);
       outline: none;
       transition: all 0.15s ease;
     }
 
     .url-input:focus {
-      border-color: var(--color-primary-400);
-      box-shadow: 0 0 0 3px var(--ring-focus);
+      border-color: var(--token-color-primary-400);
+      box-shadow: 0 0 0 var(--token-space-1) var(--token-color-primary-alpha-10);
     }
 
     .url-input.has-error {
-      border-color: var(--color-red-100);
-      background-color: var(--color-red-alpha-10);
+      border-color: var(--token-color-red-100);
+      background-color: var(--token-color-red-alpha-10);
     }
 
     .btn-submit {
-      background: var(--color-primary-400);
-      color: #ffffff;
+      background: var(--token-color-primary-400);
+      color: var(--token-color-neutral-100);
       border: none;
-      border-radius: var(--space-3);
-      padding: 14px var(--space-6);
-      font-family: var(--font-family-body);
-      font-size: 15px;
-      font-weight: 600;
+      border-radius: var(--token-radius-md);
+      padding: var(--token-space-3) var(--token-space-6);
+      font-family: var(--token-font-body-family);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      font-weight: var(--token-font-body-b1-weight);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: var(--space-2);
+      gap: var(--token-space-2);
       transition: all 0.15s ease;
       white-space: nowrap;
-      box-shadow: 0 2px 4px rgba(131, 6, 193, 0.25);
+      box-shadow: var(--token-shadow-button);
     }
 
     .btn-submit:hover {
-      background: var(--color-primary-500);
-      box-shadow: 0 4px 12px rgba(90, 4, 132, 0.35);
-      transform: translateY(-1px);
+      background: var(--token-color-primary-500);
+      box-shadow: var(--token-shadow-button-hover);
     }
 
     .btn-submit:active {
-      background: var(--color-primary-600);
-      transform: translateY(0);
+      background: var(--token-color-primary-600);
     }
 
     .btn-submit:disabled {
       opacity: 0.65;
       cursor: not-allowed;
-      transform: none;
     }
 
-    /* Adjusted URL Feedback (PRD Section 4) */
+    /* Auto-prefix feedback badge */
     .adjusted-badge {
       display: none;
       align-items: center;
-      gap: var(--space-2);
-      font-size: 12.5px;
-      color: var(--color-secondary-600);
-      background: var(--color-secondary-alpha-10);
-      border: 1px solid var(--color-secondary-100);
-      border-radius: var(--space-2);
-      padding: var(--space-2) var(--space-3);
-      margin-top: var(--space-2);
+      gap: var(--token-space-2);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-secondary-600);
+      background: var(--token-color-secondary-alpha-10);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-sm);
+      padding: var(--token-space-2) var(--token-space-3);
+      margin-top: var(--token-space-2);
     }
 
     .adjusted-badge span {
-      font-weight: 600;
-      color: var(--color-primary-500);
+      font-weight: var(--token-font-body-b1-weight);
+      color: var(--token-color-primary-500);
     }
 
-    /* Error Message Box (PRD Section 13) */
+    /* Plain-English Error Banner */
     .error-box {
       display: none;
       align-items: flex-start;
-      gap: var(--space-2);
-      background: var(--color-red-alpha-10);
-      border: 1px solid var(--color-red-100);
-      border-radius: var(--space-2);
-      padding: var(--space-2) var(--space-3);
-      margin-top: var(--space-2);
-      font-size: 13px;
-      color: var(--color-red-200);
-      font-weight: 500;
+      gap: var(--token-space-2);
+      background: var(--token-color-red-alpha-10);
+      border: var(--token-stroke-0) solid var(--token-color-red-100);
+      border-radius: var(--token-radius-sm);
+      padding: var(--token-space-2) var(--token-space-3);
+      margin-top: var(--token-space-2);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-red-200);
+      font-weight: var(--token-font-body-b1-weight);
     }
 
     .error-box svg {
       flex-shrink: 0;
-      margin-top: 2px;
+      margin-top: var(--token-space-0);
     }
 
-    /* Safety & Permissions Note (PRD Section 11 & Rule 5) */
+    /* Permission & Safety Notice (PRD Section 11) */
     .card-footer-note {
       display: flex;
       align-items: center;
-      gap: var(--space-2);
-      font-size: 12px;
-      color: var(--text-subtle);
-      margin-top: var(--space-3);
+      gap: var(--token-space-2);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-700);
+      margin-top: var(--token-space-3);
     }
 
     .card-footer-note svg {
-      color: var(--color-primary-400);
+      color: var(--token-color-primary-400);
       flex-shrink: 0;
     }
 
-    /* Progress Simulation Screen (PRD Journey Step 4) */
-    .progress-state {
-      display: none;
-      text-align: center;
-      padding: var(--space-5) var(--space-2);
-    }
-
-    .spinner {
-      width: 44px;
-      height: 44px;
-      border: 3.5px solid var(--color-primary-alpha-10);
-      border-top-color: var(--color-primary-400);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto var(--space-3);
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .progress-title {
-      font-family: var(--font-family-headings);
-      font-size: 19px;
-      font-weight: 700;
-      color: var(--text-heading);
-      margin-bottom: var(--space-1);
-    }
-
-    .progress-desc {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: var(--space-4);
-    }
-
-    .progress-url {
-      font-weight: 600;
-      color: var(--color-primary-500);
-    }
-
-    /* What WebAudX Checks vs Does Not Check (PRD Journey Step 1 & Acceptance Test 1) */
+    /* Scope Explanation Section (Acceptance Test 1) */
     .comparison-section {
-      margin-bottom: var(--space-9);
+      margin-bottom: var(--token-space-7);
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: var(--space-6);
+      margin-bottom: var(--token-space-6);
     }
 
     .section-title {
-      font-family: var(--font-family-headings);
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--text-heading);
-      letter-spacing: -0.02em;
-      margin-bottom: var(--space-1);
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-headings-h6-size);
+      line-height: var(--token-font-headings-h6-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-1);
     }
 
     .section-lead {
-      font-size: 15px;
-      color: var(--text-muted);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      color: var(--token-color-neutral-800);
     }
 
     .cards-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: var(--space-5);
+      gap: var(--token-space-5);
     }
 
     @media (max-width: 720px) {
@@ -444,256 +322,135 @@
     }
 
     .feature-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 16px;
-      padding: var(--space-6);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+      background: var(--token-color-neutral-100);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-lg);
+      padding: var(--token-space-6);
     }
 
     .card-title-wrap {
       display: flex;
       align-items: center;
-      gap: var(--space-2);
-      margin-bottom: var(--space-4);
+      gap: var(--token-space-2);
+      margin-bottom: var(--token-space-4);
     }
 
     .card-icon-pill {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
+      width: var(--token-space-6);
+      height: var(--token-space-6);
+      border-radius: var(--token-radius-pill);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
-      font-weight: bold;
+      font-size: var(--token-font-body-b2-size);
+      font-weight: var(--token-font-headings-weight);
     }
 
     .card-icon-pill.check {
-      background: var(--color-green-alpha-10);
-      color: var(--color-green-200);
+      background: var(--token-color-green-alpha-10);
+      color: var(--token-color-green-200);
     }
 
     .card-icon-pill.cross {
-      background: var(--color-secondary-alpha-10);
-      color: var(--color-secondary-600);
+      background: var(--token-color-secondary-alpha-10);
+      color: var(--token-color-secondary-600);
     }
 
     .card-heading {
-      font-family: var(--font-family-headings);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-heading);
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
     }
 
     .feature-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: var(--space-3);
+      gap: var(--token-space-3);
     }
 
     .feature-item {
       display: flex;
       align-items: flex-start;
-      gap: var(--space-2);
-      font-size: 14px;
-      line-height: 20px;
-      color: var(--text-muted);
+      gap: var(--token-space-2);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-800);
     }
 
     .feature-dot {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
+      width: var(--token-space-4);
+      height: var(--token-space-4);
+      border-radius: var(--token-radius-pill);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      margin-top: 1px;
-      font-size: 11px;
-      font-weight: 700;
+      margin-top: var(--token-space-0);
+      font-size: var(--token-font-body-b3-size);
+      font-weight: var(--token-font-headings-weight);
     }
 
     .feature-dot.check {
-      background: var(--color-green-alpha-10);
-      color: var(--color-green-200);
+      background: var(--token-color-green-alpha-10);
+      color: var(--token-color-green-200);
     }
 
     .feature-dot.cross {
-      background: var(--color-secondary-alpha-10);
-      color: var(--color-secondary-500);
-    }
-
-    /* How It Works (The 3-Step Journey) */
-    .steps-section {
-      background: var(--color-neutral-100);
-      border: 1px solid var(--border-card);
-      border-radius: 20px;
-      padding: var(--space-7) var(--space-6);
-      margin-bottom: var(--space-9);
-    }
-
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-6);
-      margin-top: var(--space-6);
-    }
-
-    @media (max-width: 768px) {
-      .steps-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-5);
-      }
-    }
-
-    .step-box {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-
-    .step-num {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--space-2);
-      background: var(--color-primary-alpha-10);
-      color: var(--color-primary-400);
-      font-family: var(--font-family-headings);
-      font-weight: 700;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .step-title {
-      font-family: var(--font-family-headings);
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-heading);
-    }
-
-    .step-text {
-      font-size: 13.5px;
-      line-height: 20px;
-      color: var(--text-muted);
-    }
-
-    /* Limits and Transparency Note (PRD Section 11) */
-    .trust-banner {
-      background: var(--color-primary-alpha-10);
-      border: 1px solid var(--color-secondary-100);
-      border-radius: 16px;
-      padding: var(--space-5) var(--space-6);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-4);
-      margin-bottom: var(--space-8);
-    }
-
-    @media (max-width: 640px) {
-      .trust-banner {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-
-    .trust-text h4 {
-      font-family: var(--font-family-headings);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text-heading);
-      margin-bottom: var(--space-1);
-    }
-
-    .trust-text p {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .btn-agency {
-      background: #ffffff;
-      border: 1.5px solid var(--color-primary-400);
-      color: var(--color-primary-400);
-      padding: var(--space-2) var(--space-4);
-      border-radius: var(--space-2);
-      font-size: 13px;
-      font-weight: 600;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: all 0.15s ease;
-    }
-
-    .btn-agency:hover {
-      background: var(--color-primary-400);
-      color: #ffffff;
+      background: var(--token-color-secondary-alpha-10);
+      color: var(--token-color-secondary-500);
     }
 
     /* Footer (PRD Section 10.4) */
     footer {
-      border-top: 1px solid var(--border-card);
-      padding: var(--space-6) 0 var(--space-7);
+      border-top: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      padding: var(--token-space-6) 0;
       text-align: center;
       margin-top: auto;
-      font-size: 13px;
-      color: var(--text-subtle);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-700);
     }
 
     .footer-watermark {
-      font-weight: 600;
-      color: var(--color-primary-400);
-      margin-bottom: var(--space-1);
+      font-weight: var(--token-font-body-b1-weight);
+      color: var(--token-color-primary-400);
+      margin-bottom: var(--token-space-1);
     }
 
-    .footer-links {
-      margin-top: var(--space-2);
-      display: flex;
-      justify-content: center;
-      gap: var(--space-4);
-    }
-
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-    }
-
-    .footer-links a:hover {
-      color: var(--color-primary-400);
-    }
-
-    /* Quick Test Bar for Acceptance Verification */
+    /* Simulation & Acceptance Test Tooling Bar */
     .demo-bar {
-      margin-top: var(--space-6);
-      padding: var(--space-2) var(--space-4);
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px dashed var(--color-secondary-200);
-      border-radius: var(--space-3);
+      margin-top: var(--token-space-4);
+      padding: var(--token-space-2) var(--token-space-3);
+      background: var(--token-color-neutral-100);
+      border: var(--token-stroke-0) dashed var(--token-color-secondary-200);
+      border-radius: var(--token-radius-md);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: var(--space-2);
-      font-size: 11px;
-      color: var(--text-subtle);
+      gap: var(--token-space-2);
+      font-size: var(--token-font-body-b3-size);
+      color: var(--token-color-neutral-700);
       flex-wrap: wrap;
     }
 
     .demo-bar button {
       background: none;
-      border: 1px solid var(--color-secondary-200);
-      color: var(--color-primary-400);
-      font-size: 11px;
-      font-weight: 600;
-      padding: var(--space-1) var(--space-2);
-      border-radius: var(--space-1);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-200);
+      color: var(--token-color-primary-400);
+      font-family: var(--token-font-body-family);
+      font-size: var(--token-font-body-b3-size);
+      font-weight: var(--token-font-body-b1-weight);
+      padding: var(--token-space-1) var(--token-space-2);
+      border-radius: var(--token-radius-sm);
       cursor: pointer;
     }
 
     .demo-bar button:hover {
-      background: var(--color-primary-alpha-10);
-      border-color: var(--color-primary-400);
+      background: var(--token-color-primary-alpha-10);
+      border-color: var(--token-color-primary-400);
     }
   </style>
 </head>
@@ -705,7 +462,7 @@
       <a href="index.html" class="brand-link">
         <img src="assets/WebAudX-logo.png" alt="WebAudX Logo" class="brand-logo" />
       </a>
-      <div class="nav-actions">
+      <div>
         <a href="signup.html" class="btn-ghost">Agency Sign In</a>
       </div>
     </div>
@@ -716,88 +473,71 @@
 
     <!-- Hero Section -->
     <section class="hero">
-      <div class="badge-pill">Single-Page Clarity Review</div>
+      <div class="pill-badge">Single-Page Clarity Review</div>
       <h1>Review the clarity and usability of your webpage</h1>
       <p class="hero-lead">
         WebAudX runs an automated check of what is on your page, asks seven quick questions about what a visitor sees, and produces a plain-English clarity report.
       </p>
 
-      <!-- Core Review Input Card -->
+      <!-- Feature 1: Core Address Input Card -->
       <div class="input-card">
-        
-        <!-- Input Form State -->
-        <div id="form-block">
-          <form id="audit-form" novalidate>
-            <label for="address-input" class="form-label">
-              Enter the webpage address to review
-            </label>
+        <form id="address-form" novalidate>
+          <label for="address-input" class="form-label">
+            Enter the webpage address to review
+          </label>
 
-            <div class="input-group">
-              <input 
-                type="text" 
-                id="address-input" 
-                name="url" 
-                class="url-input" 
-                placeholder="example.com or https://example.com" 
-                autocomplete="off" 
-                spellcheck="false"
-                required 
-              />
-              <button type="submit" id="submit-btn" class="btn-submit">
-                <span>Start Review</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </button>
-            </div>
-
-            <!-- Adjusted Address Note (PRD Section 4) -->
-            <div id="adjusted-note" class="adjusted-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
+          <div class="input-row">
+            <input 
+              type="text" 
+              id="address-input" 
+              name="address" 
+              class="url-input" 
+              placeholder="example.com or https://example.com" 
+              autocomplete="off" 
+              spellcheck="false"
+              required 
+            />
+            <button type="submit" id="submit-btn" class="btn-submit">
+              <span>Start Review</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
-              <div>Added secure prefix: <span id="adjusted-url"></span></div>
-            </div>
-
-            <!-- Error Message Box (PRD Section 13 Plain English copy) -->
-            <div id="error-box" class="error-box" role="alert">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-              <span id="error-message"></span>
-            </div>
-
-            <!-- Permission & Safety Notice (PRD Section 11 & Security Rules) -->
-            <div class="card-footer-note">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-              </svg>
-              <span>Please only review web pages you own or have permission to inspect.</span>
-            </div>
-          </form>
-        </div>
-
-        <!-- Simulated Progress State (PRD Journey Step 4) -->
-        <div id="progress-block" class="progress-state">
-          <div class="spinner"></div>
-          <h2 class="progress-title">Reviewing your webpage...</h2>
-          <p class="progress-desc">
-            Checking 13 essentials on <span id="progress-url" class="progress-url"></span>
-          </p>
-          <div style="font-size: 13px; color: var(--text-subtle);">
-            Reading page delivered &bull; Following redirects &bull; Testing links
+            </button>
           </div>
-        </div>
 
+          <!-- Acceptance Test 15: Adjusted URL Note -->
+          <div id="adjusted-note" class="adjusted-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <div>Added secure prefix: <span id="adjusted-url"></span></div>
+          </div>
+
+          <!-- Acceptance Tests 14 & 16: Error Message Box from copy-library.json -->
+          <div id="error-box" class="error-box" role="alert">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span id="error-text"></span>
+          </div>
+
+          <!-- PRD Section 11: Safety & Permissions Warning -->
+          <div class="card-footer-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>Please only review web pages you own or have permission to inspect.</span>
+          </div>
+        </form>
       </div>
     </section>
 
-    <!-- Scope Section: What WebAudX Checks & Does Not Check (PRD Section 3.1 & Acceptance Test 1) -->
+    <!-- Scope Explanation (Acceptance Test 1) -->
     <section class="comparison-section">
       <div class="section-header">
         <h2 class="section-title">Clear expectations from the start</h2>
@@ -821,7 +561,6 @@
               <span><strong>Clarity &amp; structure:</strong> Inspects title, search summary, and headings.</span>
             </li>
             <li class="feature-item">
-              <li class="feature-item">
               <span class="feature-dot check">✓</span>
               <span><strong>Readable content:</strong> Measures readable words and image descriptions.</span>
             </li>
@@ -853,11 +592,11 @@
             </li>
             <li class="feature-item">
               <span class="feature-dot cross">✕</span>
-              <span><strong>No forms or logins:</strong> We do not submit forms, log in, or interact with page elements.</span>
+              <span><strong>No forms or logins:</strong> We do not submit forms or attempt to log into accounts.</span>
             </li>
             <li class="feature-item">
               <span class="feature-dot cross">✕</span>
-              <span><strong>No arbitrary scores:</strong> We provide findings and practical next steps, not letter grades or scores.</span>
+              <span><strong>No arbitrary scores:</strong> We provide findings and practical next steps, not letter grades.</span>
             </li>
             <li class="feature-item">
               <span class="feature-dot cross">✕</span>
@@ -876,51 +615,6 @@
       </div>
     </section>
 
-    <!-- How it Works Flow -->
-    <section class="steps-section">
-      <div class="section-header" style="margin-bottom: 0;">
-        <h2 class="section-title">How your review works</h2>
-        <p class="section-lead">A simple, transparent flow from address to plain-English report.</p>
-      </div>
-
-      <div class="steps-grid">
-        <div class="step-box">
-          <div class="step-num">1</div>
-          <h3 class="step-title">Automated check</h3>
-          <p class="step-text">
-            WebAudX reads the delivered webpage, measures 13 key items, and flags any broken internal links.
-          </p>
-        </div>
-
-        <div class="step-box">
-          <div class="step-num">2</div>
-          <h3 class="step-title">Seven simple questions</h3>
-          <p class="step-text">
-            You answer seven plain-English questions about clarity, navigation, and usability, guided by what we found.
-          </p>
-        </div>
-
-        <div class="step-box">
-          <div class="step-num">3</div>
-          <h3 class="step-title">Plain-English report</h3>
-          <p class="step-text">
-            Get an instant report showing what is working and what to improve first, with free PDF download.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Trust, Limits & Agency Callout -->
-    <section class="trust-banner">
-      <div class="trust-text">
-        <h4>Free for everyone &bull; 10 checks per day</h4>
-        <p>No account or credit card needed to review a page and download your PDF report.</p>
-      </div>
-      <div>
-        <a href="signup.html" class="btn-agency">Agency Branding Options &rarr;</a>
-      </div>
-    </section>
-
   </main>
 
   <!-- Footer (PRD Section 10.4) -->
@@ -928,201 +622,126 @@
     <div class="container">
       <p class="footer-watermark">Generated with WebAudX</p>
       <p>Plain-English webpage clarity and usability reviews &bull; Not a full website audit</p>
-      <div class="footer-links">
-        <a href="signup.html">Agency Branding</a>
-        <a href="signup.html">Sign In</a>
-      </div>
 
-      <!-- Acceptance Test Demo Bar -->
+      <!-- Acceptance Test Scenarios Bar -->
       <div class="demo-bar">
-        <span>Test PRD Acceptance Scenarios:</span>
-        <button type="button" id="test-empty">Empty address</button>
-        <button type="button" id="test-noprefix">No prefix (example.com)</button>
-        <button type="button" id="test-scheme">Wrong scheme (ftp://)</button>
-        <button type="button" id="test-private">Private IP (127.0.0.1)</button>
-        <button type="button" id="test-valid">Valid address</button>
-        <button type="button" id="test-reset">Reset</button>
+        <span>Test Feature 1 Acceptance Scenarios:</span>
+        <button type="button" id="btn-empty">Empty Address</button>
+        <button type="button" id="btn-noprefix">No prefix (example.com)</button>
+        <button type="button" id="btn-scheme">Wrong scheme (ftp://)</button>
+        <button type="button" id="btn-private">Private IP (127.0.0.1)</button>
+        <button type="button" id="btn-valid">Valid URL</button>
+        <button type="button" id="btn-reset">Reset</button>
       </div>
     </div>
   </footer>
 
-  <!-- Address Validation & Interaction Script -->
+  <!-- Include Shared Address Validation Module -->
+  <script src="src/validate-address.js"></script>
+
   <script>
-    const auditForm = document.getElementById('audit-form');
-    const addressInput = document.getElementById('address-input');
+    const form = document.getElementById('address-form');
+    const input = document.getElementById('address-input');
     const errorBox = document.getElementById('error-box');
-    const errorMessage = document.getElementById('error-message');
+    const errorText = document.getElementById('error-text');
     const adjustedNote = document.getElementById('adjusted-note');
     const adjustedUrl = document.getElementById('adjusted-url');
     const submitBtn = document.getElementById('submit-btn');
-    const formBlock = document.getElementById('form-block');
-    const progressBlock = document.getElementById('progress-block');
-    const progressUrl = document.getElementById('progress-url');
-
-    // Test buttons
-    const testEmpty = document.getElementById('test-empty');
-    const testNoprefix = document.getElementById('test-noprefix');
-    const testScheme = document.getElementById('test-scheme');
-    const testPrivate = document.getElementById('test-private');
-    const testValid = document.getElementById('test-valid');
-    const testReset = document.getElementById('test-reset');
 
     function showError(msg) {
-      errorMessage.textContent = msg;
+      errorText.textContent = msg;
       errorBox.style.display = 'flex';
-      addressInput.classList.add('has-error');
+      input.classList.add('has-error');
       adjustedNote.style.display = 'none';
     }
 
     function clearError() {
       errorBox.style.display = 'none';
-      errorMessage.textContent = '';
-      addressInput.classList.remove('has-error');
+      errorText.textContent = '';
+      input.classList.remove('has-error');
     }
 
-    // Prohibited destinations check (PRD Section 11 & Security Rules Section 3)
-    function isPrivateOrLocal(hostname) {
-      const h = hostname.toLowerCase();
-      if (h === 'localhost' || h.endsWith('.localhost') || h.endsWith('.local') || h.endsWith('.internal')) {
-        return true;
-      }
-      // IPv4 private/loopback/link-local patterns
-      if (/^127\./.test(h) || /^10\./.test(h) || /^192\.168\./.test(h) || /^169\.254\./.test(h)) {
-        return true;
-      }
-      if (/^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(h)) {
-        return true;
-      }
-      // IPv6 loopback
-      if (h === '::1' || h === '[::1]') {
-        return true;
-      }
-      return false;
-    }
-
-    function validateAddress(rawInput) {
-      clearError();
-      const trimmed = rawInput.trim();
-
-      // PRD Section 13: Empty address
-      if (!trimmed) {
-        return { valid: false, error: "Please enter the address of the page you want to review." };
-      }
-
-      // Check scheme
-      let finalUrl = trimmed;
-      let addedPrefix = false;
-
-      if (!/^https?:\/\//i.test(trimmed)) {
-        // Does it look like another scheme (e.g., ftp://, mailto:, file:)?
-        if (/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(trimmed)) {
-          // PRD Section 13: Not http or https
-          return { valid: false, error: "WebAudX can only review web pages that start with http:// or https://." };
-        }
-        // PRD Section 4: Addresses without https:// are accepted and prefix is added automatically
-        finalUrl = 'https://' + trimmed;
-        addedPrefix = true;
-      }
-
-      // Parse as URL
-      let parsed;
-      try {
-        parsed = new URL(finalUrl);
-      } catch (e) {
-        // PRD Section 13: Wrong format
-        return { valid: false, error: "This doesn't look like a web address. Check for typing mistakes, such as yourwebsite.com." };
-      }
-
-      // Must be http or https
-      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
-        return { valid: false, error: "WebAudX can only review web pages that start with http:// or https://." };
-      }
-
-      // Must have valid domain
-      if (!parsed.hostname || !parsed.hostname.includes('.') && parsed.hostname !== 'localhost') {
-        return { valid: false, error: "This doesn't look like a web address. Check for typing mistakes, such as yourwebsite.com." };
-      }
-
-      // PRD Section 11 & 13: Private or local address
-      if (isPrivateOrLocal(parsed.hostname)) {
-        return { valid: false, error: "This address cannot be reviewed." };
-      }
-
-      return { valid: true, url: finalUrl, addedPrefix: addedPrefix };
-    }
-
-    // Real-time input cleaning
-    addressInput.addEventListener('input', function() {
+    input.addEventListener('input', function() {
       clearError();
       adjustedNote.style.display = 'none';
     });
 
-    // Form submission
-    auditForm.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
-      const result = validateAddress(addressInput.value);
+      clearError();
+      adjustedNote.style.display = 'none';
+
+      const raw = input.value;
+
+      // Try validating via backend API first, with fallback to local module
+      let result;
+      try {
+        const response = await fetch('/api/validate-address', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ address: raw })
+        });
+        if (response.ok) {
+          result = await response.json();
+        } else {
+          result = window.WebAudXAddress.validateAddress(raw);
+        }
+      } catch (err) {
+        result = window.WebAudXAddress.validateAddress(raw);
+      }
 
       if (!result.valid) {
         showError(result.error);
-        addressInput.focus();
+        input.focus();
         return;
       }
 
-      // Show adjusted URL note if prefix was added
       if (result.addedPrefix) {
         adjustedUrl.textContent = result.url;
         adjustedNote.style.display = 'flex';
       }
 
-      // Progress screen
       submitBtn.disabled = true;
-      submitBtn.querySelector('span').textContent = 'Starting...';
-
-      setTimeout(function() {
-        formBlock.style.display = 'none';
-        progressUrl.textContent = result.url;
-        progressBlock.style.display = 'block';
-
-        // In the full application, this transitions to the check progress & questionnaire screen
-      }, 450);
+      submitBtn.querySelector('span').textContent = 'Address Verified';
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.querySelector('span').textContent = 'Start Review';
+      }, 1500);
     });
 
-    // Test scenario controls
-    testEmpty.addEventListener('click', function() {
-      addressInput.value = '';
-      auditForm.dispatchEvent(new Event('submit'));
+    // Test Scenario Buttons
+    document.getElementById('btn-empty').addEventListener('click', () => {
+      input.value = '';
+      form.dispatchEvent(new Event('submit'));
     });
 
-    testNoprefix.addEventListener('click', function() {
-      addressInput.value = 'example.com';
-      auditForm.dispatchEvent(new Event('submit'));
+    document.getElementById('btn-noprefix').addEventListener('click', () => {
+      input.value = 'example.com';
+      form.dispatchEvent(new Event('submit'));
     });
 
-    testScheme.addEventListener('click', function() {
-      addressInput.value = 'ftp://files.example.com';
-      auditForm.dispatchEvent(new Event('submit'));
+    document.getElementById('btn-scheme').addEventListener('click', () => {
+      input.value = 'ftp://files.example.com';
+      form.dispatchEvent(new Event('submit'));
     });
 
-    testPrivate.addEventListener('click', function() {
-      addressInput.value = 'http://127.0.0.1:8080';
-      auditForm.dispatchEvent(new Event('submit'));
+    document.getElementById('btn-private').addEventListener('click', () => {
+      input.value = 'http://127.0.0.1';
+      form.dispatchEvent(new Event('submit'));
     });
 
-    testValid.addEventListener('click', function() {
-      addressInput.value = 'https://example.com';
-      auditForm.dispatchEvent(new Event('submit'));
+    document.getElementById('btn-valid').addEventListener('click', () => {
+      input.value = 'https://example.com';
+      form.dispatchEvent(new Event('submit'));
     });
 
-    testReset.addEventListener('click', function() {
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      input.value = '';
       clearError();
       adjustedNote.style.display = 'none';
-      addressInput.value = '';
-      progressBlock.style.display = 'none';
-      formBlock.style.display = 'block';
       submitBtn.disabled = false;
       submitBtn.querySelector('span').textContent = 'Start Review';
     });
   </script>
 </body>
 </html>
-
