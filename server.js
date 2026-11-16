@@ -10,6 +10,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { validateAddress } = require('./src/validate-address.js');
+const { inspectWebpage } = require('./src/inspect-page.js');
 
 const PORT = process.env.PORT || 3000;
 const ROOT_DIR = __dirname;
@@ -103,6 +104,31 @@ const server = http.createServer((req, res) => {
         sendJson(res, 200, result);
       } catch (e) {
         sendJson(res, 400, { valid: false, error: "Invalid JSON request payload." });
+      }
+    });
+  }
+
+  // 4. API: Webpage Inspection Endpoint (Feature 2)
+  if (req.method === 'POST' && pathname === '/api/inspect') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+      if (body.length > 10240) { // Limit request body to 10 KB
+        res.writeHead(413, { 'Content-Type': 'text/plain' });
+        res.end('Payload Too Large');
+        req.destroy();
+      }
+    });
+
+    return req.on('end', async () => {
+      try {
+        const payload = JSON.parse(body || '{}');
+        const targetUrl = payload.url || payload.address;
+        const sampleLinks = payload.sampleLinks !== false;
+        const result = await inspectWebpage(targetUrl, sampleLinks);
+        sendJson(res, 200, result);
+      } catch (e) {
+        sendJson(res, 500, { success: false, error: e.message || 'Inspection failed' });
       }
     });
   }

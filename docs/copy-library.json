@@ -20,6 +20,24 @@
     "very_little_text": "We could read only a small amount of text on this page. Some websites load content in ways WebAudX cannot read, so some results are missing.",
     "unexpected_error": "Something went wrong while reviewing the page. Please try again in a few minutes."
   },
+  "progress": {
+    "title": "Checking your webpage...",
+    "connecting": "Connecting securely...",
+    "reading": "Reading webpage content...",
+    "sampling": "Checking internal links and usability elements...",
+    "hint": "This usually takes just a few seconds."
+  },
+  "summary": {
+    "title": "Check Summary",
+    "lead": "Here is what our automated check measured on your webpage before you answer the questions.",
+    "complete_label": "Check complete",
+    "limited_label": "Limited check",
+    "not_completed_label": "Check not completed",
+    "continue_to_questions": "Continue to Questions",
+    "check_another_page": "Check another page",
+    "future_multipage_note": "Checking multiple pages will come in a future version.",
+    "about_report": "WebAudX combines an automated check of one page with your answers. It is not a full or independent audit, and reflects the page on the date checked."
+  },
   "account_and_branding": {
     "sign_in_link_expired": "This sign-in link has expired. Request a new one.",
     "logo_too_large": "This logo is larger than 1 MB. Please upload a smaller file.",

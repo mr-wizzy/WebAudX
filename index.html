@@ -16,8 +16,8 @@
 
   <style>
     /*
-     * Component Styles for Feature 1 (Address Input & Scope Presentation)
-     * Rule: All styling values MUST use design system tokens from src/tokens.css
+     * WebAudX Component Styles
+     * Rules: All styling values MUST use design system tokens from src/tokens.css
      */
 
     * {
@@ -94,7 +94,9 @@
       background: var(--token-color-primary-alpha-10);
     }
 
-    /* Hero Section */
+    /* ==========================================================================
+       Screen 1: Landing Page Styles
+       ========================================================================== */
     .hero {
       text-align: center;
       padding: var(--token-space-7) 0 var(--token-space-6);
@@ -225,6 +227,29 @@
     .btn-submit:disabled {
       opacity: 0.65;
       cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--token-color-primary-400);
+      border: var(--token-stroke-0) solid var(--token-color-primary-400);
+      border-radius: var(--token-radius-md);
+      padding: var(--token-space-3) var(--token-space-5);
+      font-family: var(--token-font-body-family);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      font-weight: var(--token-font-body-b1-weight);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--token-space-2);
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--token-color-primary-alpha-10);
     }
 
     /* Auto-prefix feedback badge */
@@ -403,6 +428,370 @@
       color: var(--token-color-secondary-500);
     }
 
+    /* ==========================================================================
+       Screen 2: Check Progress Styles (PRD Screen 2)
+       ========================================================================== */
+    .progress-section {
+      text-align: center;
+      padding: var(--token-space-7) 0 var(--token-space-6);
+    }
+
+    .progress-card {
+      background: var(--token-color-neutral-100);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-xl);
+      box-shadow: var(--token-shadow-card);
+      padding: var(--token-space-7) var(--token-space-6);
+      max-width: var(--token-container-md);
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .progress-title {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-headings-h5-size);
+      line-height: var(--token-font-headings-h5-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-2);
+    }
+
+    .progress-url {
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      color: var(--token-color-neutral-800);
+      margin-bottom: var(--token-space-5);
+      word-break: break-all;
+    }
+
+    .progress-track {
+      height: var(--token-space-2);
+      background: var(--token-color-secondary-100);
+      border-radius: var(--token-radius-pill);
+      overflow: hidden;
+      margin: 0 auto var(--token-space-5);
+      max-width: var(--token-container-sm);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--token-color-primary-400);
+      border-radius: var(--token-radius-pill);
+      width: 25%;
+      transition: width 0.4s ease;
+    }
+
+    .progress-stages {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--token-space-3);
+      max-width: var(--token-container-sm);
+      margin: 0 auto var(--token-space-5);
+      text-align: left;
+    }
+
+    .progress-stage {
+      display: flex;
+      align-items: center;
+      gap: var(--token-space-3);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-700);
+    }
+
+    .progress-stage.active {
+      color: var(--token-color-primary-400);
+      font-weight: var(--token-font-body-b1-weight);
+    }
+
+    .progress-stage.done {
+      color: var(--token-color-green-200);
+      font-weight: var(--token-font-body-b1-weight);
+    }
+
+    .stage-dot {
+      width: var(--token-space-5);
+      height: var(--token-space-5);
+      border-radius: var(--token-radius-pill);
+      background: var(--token-color-secondary-100);
+      color: var(--token-color-neutral-800);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--token-font-body-b3-size);
+      font-weight: var(--token-font-headings-weight);
+      flex-shrink: 0;
+    }
+
+    .progress-stage.active .stage-dot {
+      background: var(--token-color-primary-alpha-10);
+      color: var(--token-color-primary-400);
+      border: var(--token-stroke-0) solid var(--token-color-primary-400);
+    }
+
+    .progress-stage.done .stage-dot {
+      background: var(--token-color-green-alpha-10);
+      color: var(--token-color-green-200);
+    }
+
+    .progress-hint {
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-700);
+    }
+
+    /* ==========================================================================
+       Screen 3: Check Summary Styles (PRD Screen 3)
+       ========================================================================== */
+    .summary-section {
+      padding: var(--token-space-7) 0 var(--token-space-7);
+    }
+
+    .summary-header {
+      margin-bottom: var(--token-space-6);
+      text-align: center;
+    }
+
+    .summary-title {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-headings-h5-size);
+      line-height: var(--token-font-headings-h5-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-2);
+    }
+
+    .summary-lead {
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      color: var(--token-color-neutral-800);
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-3);
+    }
+
+    .summary-meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--token-space-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--token-space-4);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-700);
+    }
+
+    .outcome-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--token-space-1);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      font-weight: var(--token-font-headings-weight);
+      padding: var(--token-space-1) var(--token-space-3);
+      border-radius: var(--token-radius-pill);
+      text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
+    }
+
+    .outcome-pill.complete {
+      background: var(--token-color-green-alpha-10);
+      color: var(--token-color-green-200);
+      border: var(--token-stroke-0) solid var(--token-color-green-100);
+    }
+
+    .outcome-pill.limited {
+      background: var(--token-color-yellow-alpha-10);
+      color: var(--token-color-yellow-200);
+      border: var(--token-stroke-0) solid var(--token-color-yellow-100);
+    }
+
+    .outcome-pill.not-completed {
+      background: var(--token-color-red-alpha-10);
+      color: var(--token-color-red-200);
+      border: var(--token-stroke-0) solid var(--token-color-red-100);
+    }
+
+    .notice-card {
+      border-radius: var(--token-radius-lg);
+      padding: var(--token-space-4) var(--token-space-5);
+      margin: 0 auto var(--token-space-6);
+      max-width: var(--token-container-md);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--token-space-3);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      text-align: left;
+    }
+
+    .notice-card.limited-banner {
+      background: var(--token-color-yellow-alpha-10);
+      border: var(--token-stroke-0) solid var(--token-color-yellow-100);
+      color: var(--token-color-neutral-1000);
+    }
+
+    .notice-card.error-banner {
+      background: var(--token-color-red-alpha-10);
+      border: var(--token-stroke-0) solid var(--token-color-red-100);
+      color: var(--token-color-red-200);
+    }
+
+    .notice-card svg {
+      flex-shrink: 0;
+      margin-top: var(--token-space-0);
+    }
+
+    .measurements-container {
+      background: var(--token-color-neutral-100);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-xl);
+      box-shadow: var(--token-shadow-card);
+      padding: var(--token-space-6);
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-6);
+      text-align: left;
+    }
+
+    .measurements-title-wrap {
+      margin-bottom: var(--token-space-4);
+      padding-bottom: var(--token-space-3);
+      border-bottom: var(--token-stroke-0) solid var(--token-color-secondary-100);
+    }
+
+    .measurements-title {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-headings-h6-size);
+      line-height: var(--token-font-headings-h6-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-1);
+    }
+
+    .measurements-lead {
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-800);
+    }
+
+    .measurements-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .measurement-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--token-space-4);
+      padding: var(--token-space-4) 0;
+      border-bottom: var(--token-stroke-0) solid var(--token-color-secondary-100);
+    }
+
+    .measurement-row:last-child {
+      border-bottom: none;
+    }
+
+    @media (max-width: 640px) {
+      .measurement-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--token-space-2);
+      }
+    }
+
+    .measurement-info {
+      flex: 1;
+    }
+
+    .measurement-name-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--token-space-2);
+      margin-bottom: var(--token-space-1);
+    }
+
+    .measurement-num {
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      color: var(--token-color-neutral-600);
+      font-weight: var(--token-font-body-b1-weight);
+    }
+
+    .measurement-name {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+    }
+
+    .measurement-desc {
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-800);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--token-space-1);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      font-weight: var(--token-font-headings-weight);
+      padding: var(--token-space-1) var(--token-space-3);
+      border-radius: var(--token-radius-pill);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .status-badge.good {
+      background: var(--token-color-green-alpha-10);
+      color: var(--token-color-green-200);
+    }
+
+    .status-badge.needs-attention {
+      background: var(--token-color-yellow-alpha-10);
+      color: var(--token-color-yellow-200);
+    }
+
+    .status-badge.could-not-check {
+      background: var(--token-color-secondary-alpha-10);
+      color: var(--token-color-secondary-600);
+    }
+
+    .summary-actions-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--token-space-4);
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-6);
+      flex-wrap: wrap;
+    }
+
+    .future-multipage-note {
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-700);
+      text-align: center;
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-3);
+    }
+
+    .about-report-notice {
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-700);
+      text-align: center;
+      max-width: var(--token-container-md);
+      margin: 0 auto;
+      border-top: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      padding-top: var(--token-space-3);
+    }
+
     /* Footer (PRD Section 10.4) */
     footer {
       border-top: var(--token-stroke-0) solid var(--token-color-secondary-100);
@@ -438,148 +827,256 @@
   <!-- Main Content -->
   <main class="container">
 
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="pill-badge">Single-Page Clarity Review</div>
-      <h1>Review the clarity and usability of your webpage</h1>
-      <p class="hero-lead">
-        WebAudX runs an automated check of what is on your page, asks seven quick questions about what a visitor sees, and produces a plain-English clarity report.
-      </p>
+    <!-- Screen 1: Landing Page (PRD Screen 1) -->
+    <div id="screen-landing">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="pill-badge">Single-Page Clarity Review</div>
+        <h1>Review the clarity and usability of your webpage</h1>
+        <p class="hero-lead">
+          WebAudX runs an automated check of what is on your page, asks seven quick questions about what a visitor sees, and produces a plain-English clarity report.
+        </p>
 
-      <!-- Feature 1: Core Address Input Card -->
-      <div class="input-card">
-        <form id="address-form" novalidate>
-          <label for="address-input" class="form-label">
-            Enter the webpage address to review
-          </label>
+        <!-- Feature 1: Core Address Input Card -->
+        <div class="input-card">
+          <form id="address-form" novalidate>
+            <label for="address-input" class="form-label">
+              Enter the webpage address to review
+            </label>
 
-          <div class="input-row">
-            <input 
-              type="text" 
-              id="address-input" 
-              name="address" 
-              class="url-input" 
-              placeholder="example.com or https://example.com" 
-              autocomplete="off" 
-              spellcheck="false"
-              required 
-            />
-            <button type="submit" id="submit-btn" class="btn-submit">
-              <span>Start Review</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
+            <div class="input-row">
+              <input 
+                type="text" 
+                id="address-input" 
+                name="address" 
+                class="url-input" 
+                placeholder="example.com or https://example.com" 
+                autocomplete="off" 
+                spellcheck="false"
+                required 
+              />
+              <button type="submit" id="submit-btn" class="btn-submit">
+                <span>Start Review</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Acceptance Test 15: Adjusted URL Note -->
+            <div id="adjusted-note" class="adjusted-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
-            </button>
+              <div>Added secure prefix: <span id="adjusted-url"></span></div>
+            </div>
+
+            <!-- Acceptance Tests 14 & 16: Error Message Box from copy-library.json -->
+            <div id="error-box" class="error-box" role="alert">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span id="error-text"></span>
+            </div>
+
+            <!-- PRD Section 11: Safety & Permissions Warning -->
+            <div class="card-footer-note">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span>Please only review web pages you own or have permission to inspect.</span>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Scope Explanation (Acceptance Test 1) -->
+      <section class="comparison-section">
+        <div class="section-header">
+          <h2 class="section-title">Clear expectations from the start</h2>
+          <p class="section-lead">WebAudX is a fast clarity review, not a full technical audit.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- What we check -->
+          <div class="feature-card">
+            <div class="card-title-wrap">
+              <span class="card-icon-pill check">✓</span>
+              <h3 class="card-heading">What WebAudX checks</h3>
+            </div>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <span class="feature-dot check">✓</span>
+                <span><strong>Connection &amp; loading:</strong> Confirms the page loads over a secure connection.</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-dot check">✓</span>
+                <span><strong>Clarity &amp; structure:</strong> Inspects title, search summary, and headings.</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-dot check">✓</span>
+                <span><strong>Readable content:</strong> Measures readable words and image descriptions.</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-dot check">✓</span>
+                <span><strong>Navigation &amp; links:</strong> Checks menus, internal links, and samples broken links.</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-dot check">✓</span>
+                <span><strong>Clear next steps:</strong> Looks for action buttons and ways to contact the website.</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-dot check">✓</span>
+                <span><strong>Mobile display setting:</strong> Checks whether the page sizes properly on phones.</span>
+              </li>
+            </ul>
           </div>
 
-          <!-- Acceptance Test 15: Adjusted URL Note -->
-          <div id="adjusted-note" class="adjusted-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            <div>Added secure prefix: <span id="adjusted-url"></span></div>
+          <!-- What we do not check -->
+          <div class="feature-card">
+            <div class="card-title-wrap">
+              <span class="card-icon-pill cross">✕</span>
+              <h3 class="card-heading">What WebAudX does not do</h3>
+            </div>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <span class="feature-dot cross">✕</span>
+                <span><strong>No script execution:</strong> We read the page as delivered and do not run page scripts.</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-dot cross">✕</span>
+                <span><strong>No forms or logins:</strong> We do not submit forms or attempt to log into accounts.</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-dot cross">✕</span>
+                <span><strong>No arbitrary scores:</strong> We provide findings and practical next steps, not letter grades.</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-dot cross">✕</span>
+                <span><strong>No multi-page crawl:</strong> Reviews focus strictly on the single webpage address you provide.</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-dot cross">✕</span>
+                <span><strong>No subjective taste audits:</strong> We do not judge design artistry or brand tone.</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-dot cross">✕</span>
+                <span><strong>Not a full audit:</strong> It is a helpful check of clarity and usability basics.</span>
+              </li>
+            </ul>
           </div>
+        </div>
+      </section>
+    </div>
 
-          <!-- Acceptance Tests 14 & 16: Error Message Box from copy-library.json -->
-          <div id="error-box" class="error-box" role="alert">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-            <span id="error-text"></span>
-          </div>
+    <!-- Screen 2: Check Progress (PRD Screen 2) -->
+    <section id="screen-progress" class="progress-section" style="display: none;" aria-live="polite">
+      <div class="progress-card">
+        <div class="pill-badge">Automated Check</div>
+        <h2 class="progress-title">Checking your webpage...</h2>
+        <p id="progress-url" class="progress-url"></p>
 
-          <!-- PRD Section 11: Safety & Permissions Warning -->
-          <div class="card-footer-note">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            <span>Please only review web pages you own or have permission to inspect.</span>
-          </div>
-        </form>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+
+        <ul class="progress-stages">
+          <li id="stage-1" class="progress-stage active">
+            <span class="stage-dot">1</span>
+            <span>Connecting securely to the webpage</span>
+          </li>
+          <li id="stage-2" class="progress-stage">
+            <span class="stage-dot">2</span>
+            <span>Reading delivered webpage content</span>
+          </li>
+          <li id="stage-3" class="progress-stage">
+            <span class="stage-dot">3</span>
+            <span>Checking links and usability elements</span>
+          </li>
+        </ul>
+
+        <p class="progress-hint">This usually takes just a few seconds.</p>
       </div>
     </section>
 
-    <!-- Scope Explanation (Acceptance Test 1) -->
-    <section class="comparison-section">
-      <div class="section-header">
-        <h2 class="section-title">Clear expectations from the start</h2>
-        <p class="section-lead">WebAudX is a fast clarity review, not a full technical audit.</p>
-      </div>
-
-      <div class="cards-grid">
-        <!-- What we check -->
-        <div class="feature-card">
-          <div class="card-title-wrap">
-            <span class="card-icon-pill check">✓</span>
-            <h3 class="card-heading">What WebAudX checks</h3>
-          </div>
-          <ul class="feature-list">
-            <li class="feature-item">
-              <span class="feature-dot check">✓</span>
-              <span><strong>Connection &amp; loading:</strong> Confirms the page loads over a secure connection.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-dot check">✓</span>
-              <span><strong>Clarity &amp; structure:</strong> Inspects title, search summary, and headings.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-dot check">✓</span>
-              <span><strong>Readable content:</strong> Measures readable words and image descriptions.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-dot check">✓</span>
-              <span><strong>Navigation &amp; links:</strong> Checks menus, internal links, and samples broken links.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-dot check">✓</span>
-              <span><strong>Clear next steps:</strong> Looks for action buttons and ways to contact the website.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-dot check">✓</span>
-              <span><strong>Mobile display setting:</strong> Checks whether the page sizes properly on phones.</span>
-            </li>
-          </ul>
+    <!-- Screen 3: Check Summary (PRD Screen 3) -->
+    <section id="screen-summary" class="summary-section" style="display: none;">
+      <div class="summary-header">
+        <div class="summary-meta-bar">
+          <span id="outcome-pill" class="outcome-pill complete">Check complete</span>
+          <span id="summary-date"></span>
         </div>
-
-        <!-- What we do not check -->
-        <div class="feature-card">
-          <div class="card-title-wrap">
-            <span class="card-icon-pill cross">✕</span>
-            <h3 class="card-heading">What WebAudX does not do</h3>
-          </div>
-          <ul class="feature-list">
-            <li class="feature-item">
-              <span class="feature-dot cross">✕</span>
-              <span><strong>No script execution:</strong> We read the page as delivered and do not run page scripts.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-dot cross">✕</span>
-              <span><strong>No forms or logins:</strong> We do not submit forms or attempt to log into accounts.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-dot cross">✕</span>
-              <span><strong>No arbitrary scores:</strong> We provide findings and practical next steps, not letter grades.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-dot cross">✕</span>
-              <span><strong>No multi-page crawl:</strong> Reviews focus strictly on the single webpage address you provide.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-dot cross">✕</span>
-              <span><strong>No subjective taste audits:</strong> We do not judge design artistry or brand tone.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-dot cross">✕</span>
-              <span><strong>Not a full audit:</strong> It is a helpful check of clarity and usability basics.</span>
-            </li>
-          </ul>
+        <h2 class="summary-title">Check Summary</h2>
+        <p class="summary-lead">Here is what our automated check measured on your webpage before you answer the questions.</p>
+        <div class="summary-meta-bar">
+          <span>Reviewed address: <strong id="summary-address"></strong></span>
+          <span id="summary-redirect-wrap" style="display: none;"> &bull; Redirected to: <strong id="summary-redirect"></strong></span>
         </div>
       </div>
+
+      <!-- Limited content warning banner (PRD Section 5.4 & Section 13) -->
+      <div id="limited-banner" class="notice-card limited-banner" style="display: none;" role="alert">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <div>
+          <strong>Limited check:</strong> We could read only a small amount of text on this page. Some websites load content in ways WebAudX cannot read, so some results are missing.
+        </div>
+      </div>
+
+      <!-- Incomplete check error banner (PRD Section 13 & Acceptance Test 19) -->
+      <div id="error-banner" class="notice-card error-banner" style="display: none;" role="alert">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <div>
+          <strong>Check not completed:</strong> <span id="error-banner-message"></span>
+          <div style="margin-top: var(--token-space-1);">The check could not be completed automatically. You can still continue to answer the questions yourself, or check a different address.</div>
+        </div>
+      </div>
+
+      <!-- 13 Measurements List Container -->
+      <div class="measurements-container">
+        <div class="measurements-title-wrap">
+          <h3 class="measurements-title">Automated Check Results</h3>
+          <p class="measurements-lead">13 usability basics measured from the delivered webpage.</p>
+        </div>
+        <ul id="measurements-list" class="measurements-list">
+          <!-- Dynamically populated rows -->
+        </ul>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="summary-actions-bar">
+        <button type="button" id="retry-btn" class="btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span>Check another page</span>
+        </button>
+
+        <button type="button" id="continue-btn" class="btn-submit">
+          <span>Continue to Questions</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Acceptance Test Requirement & PRD Section 8 Note -->
+      <p class="future-multipage-note">Checking multiple pages will come in a future version.</p>
+      <p class="about-report-notice">WebAudX combines an automated check of one page with your answers. It is not a full or independent audit, and reflects the page on the date checked.</p>
     </section>
 
   </main>
@@ -596,6 +1093,12 @@
   <script src="src/validate-address.js"></script>
 
   <script>
+    // Screen Elements
+    const screenLanding = document.getElementById('screen-landing');
+    const screenProgress = document.getElementById('screen-progress');
+    const screenSummary = document.getElementById('screen-summary');
+
+    // Landing Screen Form
     const form = document.getElementById('address-form');
     const input = document.getElementById('address-input');
     const errorBox = document.getElementById('error-box');
@@ -603,6 +1106,36 @@
     const adjustedNote = document.getElementById('adjusted-note');
     const adjustedUrl = document.getElementById('adjusted-url');
     const submitBtn = document.getElementById('submit-btn');
+
+    // Progress Screen Elements
+    const progressUrl = document.getElementById('progress-url');
+    const progressFill = document.getElementById('progress-fill');
+    const stage1 = document.getElementById('stage-1');
+    const stage2 = document.getElementById('stage-2');
+    const stage3 = document.getElementById('stage-3');
+
+    // Summary Screen Elements
+    const outcomePill = document.getElementById('outcome-pill');
+    const summaryDate = document.getElementById('summary-date');
+    const summaryAddress = document.getElementById('summary-address');
+    const summaryRedirectWrap = document.getElementById('summary-redirect-wrap');
+    const summaryRedirect = document.getElementById('summary-redirect');
+    const limitedBanner = document.getElementById('limited-banner');
+    const errorBanner = document.getElementById('error-banner');
+    const errorBannerMessage = document.getElementById('error-banner-message');
+    const measurementsList = document.getElementById('measurements-list');
+    const retryBtn = document.getElementById('retry-btn');
+    const continueBtn = document.getElementById('continue-btn');
+
+    // Application state
+    let inspectionData = null;
+
+    function showScreen(screen) {
+      screenLanding.style.display = screen === 'landing' ? 'block' : 'none';
+      screenProgress.style.display = screen === 'progress' ? 'block' : 'none';
+      screenSummary.style.display = screen === 'summary' ? 'block' : 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     function showError(msg) {
       errorText.textContent = msg;
@@ -622,6 +1155,108 @@
       adjustedNote.style.display = 'none';
     });
 
+    // Reset back to Landing Screen
+    retryBtn.addEventListener('click', function() {
+      input.value = '';
+      clearError();
+      adjustedNote.style.display = 'none';
+      submitBtn.disabled = false;
+      showScreen('landing');
+      input.focus();
+    });
+
+    // Continue to Feature 3 (Questionnaire)
+    continueBtn.addEventListener('click', function() {
+      alert('Inspection completed! Continuing to Feature 3: The 7-Question Usability Questionnaire.');
+    });
+
+    function renderSummary(data, targetUrl) {
+      inspectionData = data;
+      summaryDate.textContent = new Date().toLocaleDateString(undefined, { 
+        year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+      });
+      summaryAddress.textContent = targetUrl;
+
+      // Handle redirect indication
+      if (data.url && data.url !== targetUrl) {
+        summaryRedirect.textContent = data.url;
+        summaryRedirectWrap.style.display = 'inline';
+      } else {
+        summaryRedirectWrap.style.display = 'none';
+      }
+
+      // Handle Outcome Status
+      outcomePill.className = 'outcome-pill';
+      if (data.overallStatus === 'Complete') {
+        outcomePill.classList.add('complete');
+        outcomePill.textContent = 'Check complete';
+        limitedBanner.style.display = 'none';
+        errorBanner.style.display = 'none';
+      } else if (data.overallStatus === 'Limited') {
+        outcomePill.classList.add('limited');
+        outcomePill.textContent = 'Limited check';
+        limitedBanner.style.display = 'flex';
+        errorBanner.style.display = 'none';
+      } else {
+        outcomePill.classList.add('not-completed');
+        outcomePill.textContent = 'Check not completed';
+        limitedBanner.style.display = 'none';
+        errorBannerMessage.textContent = data.error || 'The check could not be completed.';
+        errorBanner.style.display = 'flex';
+      }
+
+      // Render 13 Measurements
+      measurementsList.innerHTML = '';
+      const items = data.measurements || getDefaultEmptyMeasurements();
+
+      items.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'measurement-row';
+
+        let badgeClass = 'could-not-check';
+        let badgeIcon = '—';
+        if (item.status === 'Good') {
+          badgeClass = 'good';
+          badgeIcon = '✓';
+        } else if (item.status === 'Needs attention') {
+          badgeClass = 'needs-attention';
+          badgeIcon = '!';
+        }
+
+        li.innerHTML = `
+          <div class="measurement-info">
+            <div class="measurement-name-wrap">
+              <span class="measurement-num">${item.id}.</span>
+              <h4 class="measurement-name">${item.name}</h4>
+            </div>
+            <p class="measurement-desc">${item.explanation}</p>
+          </div>
+          <span class="status-badge ${badgeClass}">
+            <span>${badgeIcon}</span>
+            <span>${item.status}</span>
+          </span>
+        `;
+        measurementsList.appendChild(li);
+      });
+
+      showScreen('summary');
+    }
+
+    function getDefaultEmptyMeasurements() {
+      const names = [
+        'Secure connection', 'Page loads', 'Page title', 'Search summary',
+        'Main heading', 'Heading structure', 'Readable text', 'Navigation menu',
+        'Internal links', 'Action links and buttons', 'Ways to contact',
+        'Mobile display setting', 'Image descriptions'
+      ];
+      return names.map((name, idx) => ({
+        id: idx + 1,
+        name: name,
+        status: 'Could not check',
+        explanation: 'Could not check because the automated check could not reach the page.'
+      }));
+    }
+
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
       clearError();
@@ -629,8 +1264,8 @@
 
       const raw = input.value;
 
-      // Try validating via backend API first, with fallback to local module
-      let result;
+      // Step 1: Validate address format and SSRF defense
+      let valResult;
       try {
         const response = await fetch('/api/validate-address', {
           method: 'POST',
@@ -638,31 +1273,82 @@
           body: JSON.stringify({ address: raw })
         });
         if (response.ok) {
-          result = await response.json();
+          valResult = await response.json();
         } else {
-          result = window.WebAudXAddress.validateAddress(raw);
+          valResult = window.WebAudXAddress.validateAddress(raw);
         }
       } catch (err) {
-        result = window.WebAudXAddress.validateAddress(raw);
+        valResult = window.WebAudXAddress.validateAddress(raw);
       }
 
-      if (!result.valid) {
-        showError(result.error);
+      if (!valResult.valid) {
+        showError(valResult.error);
         input.focus();
         return;
       }
 
-      if (result.addedPrefix) {
-        adjustedUrl.textContent = result.url;
+      const targetUrl = valResult.url;
+
+      if (valResult.addedPrefix) {
+        adjustedUrl.textContent = targetUrl;
         adjustedNote.style.display = 'flex';
       }
 
-      submitBtn.disabled = true;
-      submitBtn.querySelector('span').textContent = 'Address Verified';
-      setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.querySelector('span').textContent = 'Start Review';
+      // Step 2: Show Screen 2: Check Progress
+      progressUrl.textContent = targetUrl;
+      progressFill.style.width = '25%';
+      stage1.className = 'progress-stage active';
+      stage2.className = 'progress-stage';
+      stage3.className = 'progress-stage';
+      showScreen('progress');
+
+      // Stage progression simulation
+      const stepTimer1 = setTimeout(() => {
+        progressFill.style.width = '55%';
+        stage1.className = 'progress-stage done';
+        stage2.className = 'progress-stage active';
+      }, 700);
+
+      const stepTimer2 = setTimeout(() => {
+        progressFill.style.width = '85%';
+        stage2.className = 'progress-stage done';
+        stage3.className = 'progress-stage active';
       }, 1500);
+
+      // Step 3: Fetch inspection result from backend
+      try {
+        const inspectRes = await fetch('/api/inspect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: targetUrl })
+        });
+
+        clearTimeout(stepTimer1);
+        clearTimeout(stepTimer2);
+
+        stage1.className = 'progress-stage done';
+        stage2.className = 'progress-stage done';
+        stage3.className = 'progress-stage done';
+        progressFill.style.width = '100%';
+
+        const inspectData = await inspectRes.json();
+        setTimeout(() => {
+          renderSummary(inspectData, targetUrl);
+        }, 400);
+
+      } catch (err) {
+        clearTimeout(stepTimer1);
+        clearTimeout(stepTimer2);
+        progressFill.style.width = '100%';
+
+        setTimeout(() => {
+          renderSummary({
+            success: false,
+            overallStatus: 'Not completed',
+            error: 'Something went wrong while reviewing the page. Please try again in a few minutes.'
+          }, targetUrl);
+        }, 400);
+      }
     });
   </script>
 </body>
