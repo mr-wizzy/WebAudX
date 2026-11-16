@@ -419,39 +419,6 @@
       color: var(--token-color-primary-400);
       margin-bottom: var(--token-space-1);
     }
-
-    /* Simulation & Acceptance Test Tooling Bar */
-    .demo-bar {
-      margin-top: var(--token-space-4);
-      padding: var(--token-space-2) var(--token-space-3);
-      background: var(--token-color-neutral-100);
-      border: var(--token-stroke-0) dashed var(--token-color-secondary-200);
-      border-radius: var(--token-radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--token-space-2);
-      font-size: var(--token-font-body-b3-size);
-      color: var(--token-color-neutral-700);
-      flex-wrap: wrap;
-    }
-
-    .demo-bar button {
-      background: none;
-      border: var(--token-stroke-0) solid var(--token-color-secondary-200);
-      color: var(--token-color-primary-400);
-      font-family: var(--token-font-body-family);
-      font-size: var(--token-font-body-b3-size);
-      font-weight: var(--token-font-body-b1-weight);
-      padding: var(--token-space-1) var(--token-space-2);
-      border-radius: var(--token-radius-sm);
-      cursor: pointer;
-    }
-
-    .demo-bar button:hover {
-      background: var(--token-color-primary-alpha-10);
-      border-color: var(--token-color-primary-400);
-    }
   </style>
 </head>
 <body>
@@ -622,17 +589,6 @@
     <div class="container">
       <p class="footer-watermark">Generated with WebAudX</p>
       <p>Plain-English webpage clarity and usability reviews &bull; Not a full website audit</p>
-
-      <!-- Acceptance Test Scenarios Bar -->
-      <div class="demo-bar">
-        <span>Test Feature 1 Acceptance Scenarios:</span>
-        <button type="button" id="btn-empty">Empty Address</button>
-        <button type="button" id="btn-noprefix">No prefix (example.com)</button>
-        <button type="button" id="btn-scheme">Wrong scheme (ftp://)</button>
-        <button type="button" id="btn-private">Private IP (127.0.0.1)</button>
-        <button type="button" id="btn-valid">Valid URL</button>
-        <button type="button" id="btn-reset">Reset</button>
-      </div>
     </div>
   </footer>
 
@@ -707,40 +663,6 @@
         submitBtn.disabled = false;
         submitBtn.querySelector('span').textContent = 'Start Review';
       }, 1500);
-    });
-
-    // Test Scenario Buttons
-    document.getElementById('btn-empty').addEventListener('click', () => {
-      input.value = '';
-      form.dispatchEvent(new Event('submit'));
-    });
-
-    document.getElementById('btn-noprefix').addEventListener('click', () => {
-      input.value = 'example.com';
-      form.dispatchEvent(new Event('submit'));
-    });
-
-    document.getElementById('btn-scheme').addEventListener('click', () => {
-      input.value = 'ftp://files.example.com';
-      form.dispatchEvent(new Event('submit'));
-    });
-
-    document.getElementById('btn-private').addEventListener('click', () => {
-      input.value = 'http://127.0.0.1';
-      form.dispatchEvent(new Event('submit'));
-    });
-
-    document.getElementById('btn-valid').addEventListener('click', () => {
-      input.value = 'https://example.com';
-      form.dispatchEvent(new Event('submit'));
-    });
-
-    document.getElementById('btn-reset').addEventListener('click', () => {
-      input.value = '';
-      clearError();
-      adjustedNote.style.display = 'none';
-      submitBtn.disabled = false;
-      submitBtn.querySelector('span').textContent = 'Start Review';
     });
   </script>
 </body>
