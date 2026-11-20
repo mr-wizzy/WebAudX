@@ -198,10 +198,12 @@ async function checkLinkLive(url) {
       const req = client.request(url, {
         method: 'HEAD',
         headers: { 'User-Agent': USER_AGENT },
-        timeout: REQUEST_TIMEOUT_MS
+        timeout: 5000
       }, (res) => {
-        // Any 2xx or 3xx status is good; 4xx or 5xx is broken
-        resolve(res.statusCode >= 200 && res.statusCode < 400);
+        const isLive = res.statusCode >= 200 && res.statusCode < 400;
+        res.resume();
+        req.destroy();
+        resolve(isLive);
       });
 
       req.on('timeout', () => {

@@ -33,7 +33,10 @@ function sendJson(res, statusCode, data) {
   res.writeHead(statusCode, {
     'Content-Type': 'application/json; charset=UTF-8',
     'Content-Length': Buffer.byteLength(json),
-    'X-Content-Type-Options': 'nosniff'
+    'X-Content-Type-Options': 'nosniff',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type'
   });
   res.end(json);
 }
@@ -69,6 +72,17 @@ function serveStatic(req, res, filePath) {
 const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = parsedUrl.pathname;
+
+  // CORS Preflight
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Max-Age': '86400'
+    });
+    return res.end();
+  }
 
   // 1. API: Health Check
   if (req.method === 'GET' && pathname === '/api/health') {
@@ -124,10 +138,13 @@ const server = http.createServer((req, res) => {
       try {
         const payload = JSON.parse(body || '{}');
         const targetUrl = payload.url || payload.address;
+        console.log(`[Inspection API] Starting inspection for: ${targetUrl}`);
         const sampleLinks = payload.sampleLinks !== false;
         const result = await inspectWebpage(targetUrl, sampleLinks);
+        console.log(`[Inspection API] Completed: ${targetUrl} (Status: ${result.overallStatus}, Success: ${result.success})`);
         sendJson(res, 200, result);
       } catch (e) {
+        console.error(`[Inspection API Error]`, e);
         sendJson(res, 500, { success: false, error: e.message || 'Inspection failed' });
       }
     });

@@ -1857,21 +1857,41 @@
         stage3.className = 'progress-stage done';
         progressFill.style.width = '100%';
 
-        const inspectData = await inspectRes.json();
+        let inspectData;
+        if (inspectRes.ok) {
+          inspectData = await inspectRes.json();
+        } else {
+          try {
+            inspectData = await inspectRes.json();
+          } catch {
+            inspectData = {
+              success: false,
+              overallStatus: 'Not completed',
+              error: 'Something went wrong while reviewing the page. Please try again in a few minutes.'
+            };
+          }
+        }
+
         setTimeout(() => {
           renderSummary(inspectData, targetUrl);
         }, 400);
 
       } catch (err) {
+        console.error('Inspection fetch error:', err);
         clearTimeout(stepTimer1);
         clearTimeout(stepTimer2);
         progressFill.style.width = '100%';
+
+        let errorMsg = 'Something went wrong while reviewing the page. Please try again in a few minutes.';
+        if (window.location.protocol === 'file:') {
+          errorMsg = 'WebAudX cannot connect to the inspection server from a local file. Please open http://localhost:3000 in your browser.';
+        }
 
         setTimeout(() => {
           renderSummary({
             success: false,
             overallStatus: 'Not completed',
-            error: 'Something went wrong while reviewing the page. Please try again in a few minutes.'
+            error: errorMsg
           }, targetUrl);
         }, 400);
       }
