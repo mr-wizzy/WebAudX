@@ -647,9 +647,24 @@
         </div>
         <h2 class="success-title">Check your email</h2>
         <p class="success-text">
-          We sent a secure sign-in link to <span id="submitted-email" class="success-email"></span>. 
-          Click the link in the message to sign in and set up your branding.
+          We generated a secure sign-in link for <span id="submitted-email" class="success-email"></span>. 
+          Click the link below or check your messages to sign in and set up your agency branding:
         </p>
+
+        <!-- Direct Instant Sign-in Action Button -->
+        <div id="magic-link-container" style="margin: var(--token-space-4) 0;">
+          <a href="#" id="magic-link-action-btn" class="btn-primary" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: var(--token-space-2);">
+            <span>Click to sign in with your link</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <p style="font-size: var(--token-font-body-b3-size); line-height: var(--token-font-body-b3-line); color: var(--token-color-neutral-600); margin-top: var(--token-space-2); text-align: center;">
+            This single-use link is valid for 15 minutes.
+          </p>
+        </div>
+
         <div class="success-actions">
           <button type="button" id="resend-btn" class="btn-secondary">
             Send another link
@@ -815,7 +830,7 @@
       emailHint.style.display = 'none';
     }
 
-    signupForm.addEventListener('submit', function (e) {
+    signupForm.addEventListener('submit', async function (e) {
       e.preventDefault();
       hideAlert();
       clearFieldError();
@@ -837,13 +852,32 @@
       submitBtn.disabled = true;
       submitBtn.querySelector('span').textContent = 'Sending link...';
 
-      setTimeout(function() {
+      try {
+        const res = await fetch('/api/auth/magic-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        });
+        const data = await res.json();
         submitBtn.disabled = false;
         submitBtn.querySelector('span').textContent = 'Send sign-in link';
-        submittedEmail.textContent = email;
-        formView.style.display = 'none';
-        successView.style.display = 'block';
-      }, 500);
+
+        if (data.success) {
+          submittedEmail.textContent = email;
+          const magicLinkActionBtn = document.getElementById('magic-link-action-btn');
+          if (magicLinkActionBtn) {
+            magicLinkActionBtn.href = data.devLink || ('signup.html?token=' + encodeURIComponent(data.token));
+          }
+          formView.style.display = 'none';
+          successView.style.display = 'block';
+        } else {
+          showAlert(data.error || 'Could not send sign-in link. Please try again.');
+        }
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.querySelector('span').textContent = 'Send sign-in link';
+        showAlert('Could not send sign-in link. Please try again.');
+      }
     });
 
     changeEmailBtn.addEventListener('click', function () {
@@ -854,14 +888,33 @@
       emailInput.focus();
     });
 
-    resendBtn.addEventListener('click', function () {
+    resendBtn.addEventListener('click', async function () {
       resendBtn.disabled = true;
       resendBtn.textContent = 'Sending...';
-      setTimeout(function() {
+      const email = submittedEmail.textContent.trim();
+      try {
+        const res = await fetch('/api/auth/magic-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        });
+        const data = await res.json();
         resendBtn.disabled = false;
         resendBtn.textContent = 'Send another link';
-        showAlert('A fresh sign-in link was sent to ' + submittedEmail.textContent + '.', 'info');
-      }, 500);
+        if (data.success) {
+          const magicLinkActionBtn = document.getElementById('magic-link-action-btn');
+          if (magicLinkActionBtn) {
+            magicLinkActionBtn.href = data.devLink || ('signup.html?token=' + encodeURIComponent(data.token));
+          }
+          showAlert('A fresh sign-in link was generated for ' + email + '.', 'info');
+        } else {
+          showAlert(data.error || 'Could not send sign-in link. Please try again.');
+        }
+      } catch (err) {
+        resendBtn.disabled = false;
+        resendBtn.textContent = 'Send another link';
+        showAlert('Could not send sign-in link. Please try again.');
+      }
     });
 
     emailInput.addEventListener('input', clearFieldError);

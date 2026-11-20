@@ -230,11 +230,14 @@ const server = http.createServer((req, res) => {
       try {
         const payload = JSON.parse(body || '{}');
         const link = accountStore.createMagicLink(payload.email);
-        console.log(`[Auth API] Magic link generated for ${link.email}: ${link.devLink}`);
+        const host = req.headers.host || 'localhost:3000';
+        const dynamicDevLink = `http://${host}/signup.html?token=${link.token}`;
+        console.log(`[Auth API] Magic link generated for ${link.email}: ${dynamicDevLink}`);
         sendJson(res, 200, {
           success: true,
           message: 'Sign-in link sent.',
-          devLink: link.devLink // available for test and dev inspection
+          token: link.token,
+          devLink: dynamicDevLink
         });
       } catch (e) {
         sendJson(res, 400, { success: false, error: e.message });
