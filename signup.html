@@ -394,6 +394,149 @@
       font-weight: var(--token-font-body-b1-weight);
       color: var(--token-color-primary-400);
     }
+
+    /* ==========================================================================
+       Screen 7: Account & Branding Styles (PRD Screen 7 & Section 10)
+       ========================================================================== */
+    .branding-view {
+      display: none;
+    }
+
+    .preview-card {
+      background: var(--token-color-neutral-200);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-200);
+      border-radius: var(--token-radius-lg);
+      padding: var(--token-space-4);
+      margin-bottom: var(--token-space-5);
+      text-align: left;
+    }
+
+    .preview-badge {
+      display: inline-block;
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      font-weight: var(--token-font-headings-weight);
+      text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
+      color: var(--token-color-primary-400);
+      background: var(--token-color-primary-alpha-10);
+      padding: var(--token-space-0) var(--token-space-2);
+      border-radius: var(--token-radius-pill);
+      margin-bottom: var(--token-space-2);
+    }
+
+    .preview-header-box {
+      background: var(--token-color-neutral-100);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-md);
+      padding: var(--token-space-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--token-space-3);
+      flex-wrap: wrap;
+    }
+
+    .preview-logo-img {
+      max-height: var(--token-space-6);
+      width: auto;
+      object-fit: contain;
+    }
+
+    .preview-text-block {
+      text-align: right;
+    }
+
+    .preview-title {
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+    }
+
+    .preview-prepared-by {
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      color: var(--token-color-primary-400);
+      font-weight: var(--token-font-body-b1-weight);
+    }
+
+    .color-picker-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--token-space-2);
+    }
+
+    .color-swatch-input {
+      width: var(--token-space-6);
+      height: var(--token-space-6);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-200);
+      border-radius: var(--token-radius-md);
+      padding: 0;
+      cursor: pointer;
+      background: none;
+    }
+
+    .font-select {
+      width: 100%;
+      height: var(--token-space-7);
+      padding: 0 var(--token-space-3);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-200);
+      border-radius: var(--token-radius-md);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      font-family: var(--token-font-body-family);
+      color: var(--token-color-neutral-1000);
+      background-color: var(--token-color-neutral-100);
+    }
+
+    .logo-upload-dropzone {
+      border: var(--token-stroke-0) dashed var(--token-color-secondary-200);
+      border-radius: var(--token-radius-md);
+      padding: var(--token-space-4);
+      text-align: center;
+      background: var(--token-color-neutral-200);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .logo-upload-dropzone:hover {
+      border-color: var(--token-color-primary-400);
+      background: var(--token-color-primary-alpha-10);
+    }
+
+    .logo-preview-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--token-space-2);
+      padding: var(--token-space-2);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-200);
+      border-radius: var(--token-radius-md);
+      margin-top: var(--token-space-2);
+      background: var(--token-color-neutral-100);
+    }
+
+    .char-counter {
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      color: var(--token-color-neutral-600);
+      text-align: right;
+      margin-top: var(--token-space-0);
+    }
+
+    .account-meta-box {
+      border-top: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      padding-top: var(--token-space-4);
+      margin-top: var(--token-space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--token-space-2);
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      color: var(--token-color-neutral-700);
+      text-align: left;
+    }
   </style>
 </head>
 <body>
@@ -517,6 +660,110 @@
         </div>
       </div>
 
+
+      <!-- State 3: Authenticated Agency Branding Editor (Screen 7) -->
+      <div id="branding-view" class="branding-view">
+        <!-- Live Preview Panel -->
+        <div class="preview-card">
+          <span class="preview-badge">Live Report Header Preview</span>
+          <div class="preview-header-box" id="preview-header-box">
+            <div>
+              <img src="assets/WebAudX-logo.png" id="preview-logo-img" alt="Logo Preview" class="preview-logo-img" />
+            </div>
+            <div class="preview-text-block">
+              <div class="preview-title" id="preview-title-text">Webpage Usability Report</div>
+              <div class="preview-prepared-by" id="preview-prepared-by">Prepared by Your Agency</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branding Settings Form -->
+        <form id="branding-form" novalidate>
+          <!-- Agency Name -->
+          <div class="form-group">
+            <label for="agency-name-input">Agency name</label>
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="agency-name-input" 
+                name="agencyName" 
+                placeholder="e.g. Acme UX Studio" 
+                maxlength="60" 
+                required 
+              />
+            </div>
+            <div id="agency-name-counter" class="char-counter">0 / 60 characters</div>
+            <div class="field-hint">Shown as "Prepared by [name]" on reports and PDFs.</div>
+          </div>
+
+          <!-- Agency Logo Upload -->
+          <div class="form-group">
+            <label>Agency logo</label>
+            <div class="logo-upload-dropzone" id="logo-dropzone">
+              <p style="font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line); color: var(--token-color-neutral-800); margin-bottom: var(--token-space-1);">
+                <strong>Click to choose logo</strong> or drag file here
+              </p>
+              <p style="font-size: var(--token-font-body-b3-size); line-height: var(--token-font-body-b3-line); color: var(--token-color-neutral-600); margin: 0;">
+                PNG, JPG, or SVG under 1 MB. Shown in report header.
+              </p>
+              <input type="file" id="logo-file-input" accept=".png,.jpg,.jpeg,.svg" style="display: none;" />
+            </div>
+            <div id="logo-preview-wrap" class="logo-preview-box" style="display: none;">
+              <span id="logo-filename" style="font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line); color: var(--token-color-neutral-800);"></span>
+              <button type="button" id="remove-logo-btn" class="btn-secondary" style="height: var(--token-space-5); padding: 0 var(--token-space-2); font-size: var(--token-font-body-b3-size); line-height: var(--token-font-body-b3-line);">Remove</button>
+            </div>
+          </div>
+
+          <!-- Brand Accent Colour -->
+          <div class="form-group">
+            <label for="brand-color-picker">Brand accent colour</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="brand-color-picker" value="#8306c1" class="color-swatch-input" />
+              <div class="input-wrapper" style="flex: 1;">
+                <input type="text" id="brand-color-hex" value="#8306c1" maxlength="7" placeholder="#8306c1" />
+              </div>
+            </div>
+            <div class="field-hint">One colour used for headings, badges, and accents.</div>
+          </div>
+
+          <!-- Font Selection -->
+          <div class="form-group">
+            <label for="font-select">Brand font</label>
+            <select id="font-select" class="font-select">
+              <option value="Inter" selected>Inter (Clean & Modern)</option>
+              <option value="Montserrat">Montserrat (Geometric & Bold)</option>
+              <option value="Roboto">Roboto (Friendly & Versatile)</option>
+              <option value="Lato">Lato (Warm & Professional)</option>
+              <option value="Open Sans">Open Sans (Neutral & Legible)</option>
+            </select>
+            <div class="field-hint">One of five approved fonts for reports and PDFs.</div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="save-branding-btn" class="btn-primary">
+            <span>Save Branding</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Account Info & Actions -->
+        <div class="account-meta-box">
+          <div>Signed in as: <strong id="active-user-email"></strong></div>
+          <div style="display: flex; gap: var(--token-space-2); margin-top: var(--token-space-2); flex-wrap: wrap;">
+            <a href="index.html" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; height: var(--token-space-6); font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line);">
+              View Your Report
+            </a>
+            <button type="button" id="signout-btn" class="btn-secondary" style="height: var(--token-space-6); font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line);">
+              Sign out
+            </button>
+            <button type="button" id="delete-account-btn" class="btn-secondary" style="color: var(--token-color-red-100); border-color: var(--token-color-red-100); height: var(--token-space-6); font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line);">
+              Delete account &amp; data
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!-- Project Footer (PRD Section 10.4) -->
@@ -526,6 +773,7 @@
     </footer>
   </div>
 
+  <script src="src/branding.js"></script>
   <script>
     const formView = document.getElementById('form-view');
     const successView = document.getElementById('success-view');
@@ -617,6 +865,257 @@
     });
 
     emailInput.addEventListener('input', clearFieldError);
+
+    // Screen 7 Elements
+    const brandingView = document.getElementById('branding-view');
+    const brandingForm = document.getElementById('branding-form');
+    const agencyNameInput = document.getElementById('agency-name-input');
+    const agencyNameCounter = document.getElementById('agency-name-counter');
+    const logoDropzone = document.getElementById('logo-dropzone');
+    const logoFileInput = document.getElementById('logo-file-input');
+    const logoPreviewWrap = document.getElementById('logo-preview-wrap');
+    const logoFilename = document.getElementById('logo-filename');
+    const removeLogoBtn = document.getElementById('remove-logo-btn');
+    const brandColorPicker = document.getElementById('brand-color-picker');
+    const brandColorHex = document.getElementById('brand-color-hex');
+    const fontSelect = document.getElementById('font-select');
+    const saveBrandingBtn = document.getElementById('save-branding-btn');
+    const previewHeaderBox = document.getElementById('preview-header-box');
+    const previewLogoImg = document.getElementById('preview-logo-img');
+    const previewPreparedBy = document.getElementById('preview-prepared-by');
+    const activeUserEmail = document.getElementById('active-user-email');
+    const signoutBtn = document.getElementById('signout-btn');
+    const deleteAccountBtn = document.getElementById('delete-account-btn');
+
+    let currentLogoData = null;
+    let currentSessionToken = localStorage.getItem('webaudx_session') || null;
+
+    // Check URL for magic link token (?token=...)
+    async function checkUrlAuthToken() {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      if (token) {
+        try {
+          showAlert('Verifying your sign-in link...', 'info');
+          const res = await fetch('/api/auth/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: token })
+          });
+          const data = await res.json();
+          if (data.success && data.sessionToken) {
+            currentSessionToken = data.sessionToken;
+            localStorage.setItem('webaudx_session', currentSessionToken);
+            // Clean token from URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            hideAlert();
+            loadBrandingView(data);
+            return;
+          } else {
+            showAlert(data.error || 'This sign-in link has expired. Request a new one.');
+          }
+        } catch (e) {
+          showAlert('This sign-in link has expired. Request a new one.');
+        }
+      }
+
+      // Check existing active session
+      if (currentSessionToken) {
+        try {
+          const res = await fetch('/api/account/branding', {
+            headers: { 'Authorization': 'Bearer ' + currentSessionToken }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            loadBrandingView(data);
+          } else {
+            localStorage.removeItem('webaudx_session');
+            currentSessionToken = null;
+          }
+        } catch (e) {
+          // Keep form view
+        }
+      }
+    }
+
+    function loadBrandingView(data) {
+      formView.style.display = 'none';
+      successView.style.display = 'none';
+      brandingView.style.display = 'block';
+
+      document.getElementById('view-heading').textContent = 'Agency Branding Settings';
+      activeUserEmail.textContent = data.email || '';
+
+      const b = data.branding || {};
+      agencyNameInput.value = b.agencyName || '';
+      agencyNameCounter.textContent = (b.agencyName || '').length + ' / 60 characters';
+      brandColorPicker.value = b.brandColor || '#8306c1';
+      brandColorHex.value = b.brandColor || '#8306c1';
+      fontSelect.value = b.font || 'Inter';
+
+      if (b.logo) {
+        currentLogoData = b.logo;
+        previewLogoImg.src = b.logo;
+        logoFilename.textContent = 'Current agency logo active';
+        logoPreviewWrap.style.display = 'flex';
+      }
+
+      updateLivePreview();
+    }
+
+    function updateLivePreview() {
+      const name = agencyNameInput.value.trim();
+      previewPreparedBy.textContent = name ? ('Prepared by ' + name) : 'Prepared by Your Agency';
+      const color = brandColorHex.value.trim() || '#8306c1';
+      previewPreparedBy.style.color = color;
+      previewHeaderBox.style.borderTopColor = color;
+      previewHeaderBox.style.fontFamily = fontSelect.value + ', sans-serif';
+    }
+
+    // Live sync inputs
+    agencyNameInput.addEventListener('input', function() {
+      agencyNameCounter.textContent = this.value.length + ' / 60 characters';
+      updateLivePreview();
+    });
+
+    brandColorPicker.addEventListener('input', function() {
+      brandColorHex.value = this.value;
+      updateLivePreview();
+    });
+
+    brandColorHex.addEventListener('input', function() {
+      if (/^#[0-9a-fA-F]{6}$/.test(this.value)) {
+        brandColorPicker.value = this.value;
+      }
+      updateLivePreview();
+    });
+
+    fontSelect.addEventListener('change', updateLivePreview);
+
+    // File Drop & Select
+    logoDropzone.addEventListener('click', () => logoFileInput.click());
+    logoFileInput.addEventListener('change', function(e) {
+      if (this.files && this.files[0]) {
+        handleLogoFile(this.files[0]);
+      }
+    });
+
+    function handleLogoFile(file) {
+      if (file.size > 1048576) {
+        showAlert('This logo is larger than 1 MB. Please upload a smaller file.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const raw = evt.target.result;
+        // Client-side validation if WebAudXBranding is loaded
+        if (window.WebAudXBranding) {
+          const val = window.WebAudXBranding.validateLogo(raw, file.name);
+          if (!val.valid) {
+            showAlert(val.error);
+            return;
+          }
+          currentLogoData = val.dataUri;
+        } else {
+          currentLogoData = raw;
+        }
+
+        previewLogoImg.src = currentLogoData;
+        logoFilename.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+        logoPreviewWrap.style.display = 'flex';
+        hideAlert();
+        updateLivePreview();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    removeLogoBtn.addEventListener('click', function() {
+      currentLogoData = null;
+      logoFileInput.value = '';
+      logoPreviewWrap.style.display = 'none';
+      previewLogoImg.src = 'assets/WebAudX-logo.png';
+      updateLivePreview();
+    });
+
+    // Save Branding
+    brandingForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      hideAlert();
+
+      const payload = {
+        agencyName: agencyNameInput.value.trim(),
+        brandColor: brandColorHex.value.trim(),
+        font: fontSelect.value,
+        logo: currentLogoData
+      };
+
+      saveBrandingBtn.disabled = true;
+      saveBrandingBtn.querySelector('span').textContent = 'Saving...';
+
+      try {
+        const res = await fetch('/api/account/branding', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + currentSessionToken
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        saveBrandingBtn.disabled = false;
+        saveBrandingBtn.querySelector('span').textContent = 'Save Branding';
+
+        if (data.success) {
+          showAlert('Your branding has been saved. Your reports and PDFs will now use this branding.', 'info');
+        } else {
+          showAlert(data.error || 'Your branding could not be saved. Your changes have not been lost. Please try again.');
+        }
+      } catch (err) {
+        saveBrandingBtn.disabled = false;
+        saveBrandingBtn.querySelector('span').textContent = 'Save Branding';
+        showAlert('Your branding could not be saved. Your changes have not been lost. Please try again.');
+      }
+    });
+
+    // Sign out
+    signoutBtn.addEventListener('click', async function() {
+      if (currentSessionToken) {
+        await fetch('/api/auth/logout', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + currentSessionToken }
+        });
+      }
+      localStorage.removeItem('webaudx_session');
+      currentSessionToken = null;
+      window.location.reload();
+    });
+
+    // Delete Account (Acceptance Test 25)
+    deleteAccountBtn.addEventListener('click', async function() {
+      const confirmDelete = window.confirm('Are you sure you want to delete your account? All your branding settings and reports will be permanently removed.');
+      if (!confirmDelete) return;
+
+      try {
+        const res = await fetch('/api/account', {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + currentSessionToken }
+        });
+        if (res.ok) {
+          localStorage.removeItem('webaudx_session');
+          currentSessionToken = null;
+          alert('Your account and branding data have been permanently deleted.');
+          window.location.href = 'index.html';
+        }
+      } catch (e) {
+        showAlert('Could not delete account. Please try again.');
+      }
+    });
+
+    // Initialize check
+    checkUrlAuthToken();
+
   </script>
 </body>
 </html>

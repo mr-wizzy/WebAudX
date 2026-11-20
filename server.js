@@ -11,6 +11,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { validateAddress } = require('./src/validate-address.js');
 const { inspectWebpage } = require('./src/inspect-page.js');
+const accountStore = require('./src/account-store.js');
+const brandingValidator = require('./src/branding.js');
+const rateLimiter = require('./src/rate-limiter.js');
 
 const PORT = process.env.PORT || 3000;
 const ROOT_DIR = __dirname;
@@ -42,9 +45,16 @@ function sendJson(res, statusCode, data) {
 }
 
 function serveStatic(req, res, filePath) {
-  // Prevent directory traversal
+  // Prevent directory traversal and block private data directories
   const safePath = path.normalize(filePath);
-  if (!safePath.startsWith(ROOT_DIR)) {
+  const relPath = path.relative(ROOT_DIR, safePath);
+  if (
+    !safePath.startsWith(ROOT_DIR) ||
+    relPath.startsWith('data') ||
+    relPath.startsWith('.agent') ||
+    relPath.startsWith('.git') ||
+    safePath.includes('accounts.json')
+  ) {
     res.writeHead(403, { 'Content-Type': 'text/plain; charset=UTF-8' });
     return res.end('Access Denied');
   }
@@ -67,6 +77,19 @@ function serveStatic(req, res, filePath) {
     const stream = fs.createReadStream(safePath);
     stream.pipe(res);
   });
+}
+
+function getSessionToken(req) {
+  const authHeader = req.headers['authorization'];
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    return authHeader.substring(7).trim();
+  }
+  const cookieHeader = req.headers['cookie'];
+  if (cookieHeader) {
+    const match = cookieHeader.match(/session_token=([a-f0-9]{64})/i);
+    if (match) return match[1];
+  }
+  return null;
 }
 
 const server = http.createServer((req, res) => {
@@ -122,7 +145,7 @@ const server = http.createServer((req, res) => {
     });
   }
 
-  // 4. API: Webpage Inspection Endpoint (Feature 2)
+  // 4. API: Webpage Inspection Endpoint (Feature 2 & Feature 7 Rate Limiting)
   if (req.method === 'POST' && pathname === '/api/inspect') {
     let body = '';
     req.on('data', chunk => {
@@ -138,16 +161,181 @@ const server = http.createServer((req, res) => {
       try {
         const payload = JSON.parse(body || '{}');
         const targetUrl = payload.url || payload.address;
-        console.log(`[Inspection API] Starting inspection for: ${targetUrl}`);
+
+        // Rate limiting check (PRD Section 11 & Acceptance Test 21, 22)
+        const sessionToken = getSessionToken(req);
+        const account = sessionToken ? accountStore.getAccountBySession(sessionToken) : null;
+        const rawIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
+        let clientIp = typeof rawIp === 'string' ? rawIp.split(',')[0].trim() : '127.0.0.1';
+        if (clientIp.startsWith('::ffff:')) {
+          clientIp = clientIp.substring(7);
+        }
+        const identifier = account ? (`account:${account.id}`) : (`ip:${clientIp}`);
+
+        const limitStatus = rateLimiter.checkLimit(identifier);
+        if (!limitStatus.allowed) {
+          res.setHeader('Retry-After', String(limitStatus.retryAfterSeconds));
+          return sendJson(res, 429, {
+            success: false,
+            error: limitStatus.message,
+            code: 'RATE_LIMIT_EXCEEDED',
+            retryAfterSeconds: limitStatus.retryAfterSeconds,
+            formattedTime: limitStatus.formattedTime,
+            overallStatus: 'Not completed'
+          });
+        }
+
+        console.log(`[Inspection API] Starting inspection for: ${targetUrl} [${identifier}]`);
         const sampleLinks = payload.sampleLinks !== false;
         const result = await inspectWebpage(targetUrl, sampleLinks);
         console.log(`[Inspection API] Completed: ${targetUrl} (Status: ${result.overallStatus}, Success: ${result.success})`);
+
+        // Acceptance Test 22: A check counts once WebAudX has contacted the page.
+        // Rejected addresses and unreachable pages do not count.
+        if (result.success || result.overallStatus === 'Complete' || result.overallStatus === 'Limited') {
+          rateLimiter.recordCheck(identifier);
+        }
+
         sendJson(res, 200, result);
       } catch (e) {
         console.error(`[Inspection API Error]`, e);
         sendJson(res, 500, { success: false, error: e.message || 'Inspection failed' });
       }
     });
+  }
+
+  // 4b. API: Query Rate Limit (Feature 7)
+  if (req.method === 'GET' && pathname === '/api/rate-limit') {
+    const sessionToken = getSessionToken(req);
+    const account = sessionToken ? accountStore.getAccountBySession(sessionToken) : null;
+    const rawIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
+    let clientIp = typeof rawIp === 'string' ? rawIp.split(',')[0].trim() : '127.0.0.1';
+    if (clientIp.startsWith('::ffff:')) {
+      clientIp = clientIp.substring(7);
+    }
+    const identifier = account ? (`account:${account.id}`) : (`ip:${clientIp}`);
+
+    const status = rateLimiter.checkLimit(identifier);
+    return sendJson(res, 200, status);
+  }
+
+  // 5. API: Request Magic Link (Feature 6 & Acceptance Test 3)
+  if (req.method === 'POST' && pathname === '/api/auth/magic-link') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+      if (body.length > 10240) { req.destroy(); }
+    });
+    return req.on('end', () => {
+      try {
+        const payload = JSON.parse(body || '{}');
+        const link = accountStore.createMagicLink(payload.email);
+        console.log(`[Auth API] Magic link generated for ${link.email}: ${link.devLink}`);
+        sendJson(res, 200, {
+          success: true,
+          message: 'Sign-in link sent.',
+          devLink: link.devLink // available for test and dev inspection
+        });
+      } catch (e) {
+        sendJson(res, 400, { success: false, error: e.message });
+      }
+    });
+  }
+
+  // 6. API: Verify Magic Link (Feature 6 & Acceptance Test 3)
+  if (req.method === 'POST' && pathname === '/api/auth/verify') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+      if (body.length > 10240) { req.destroy(); }
+    });
+    return req.on('end', () => {
+      try {
+        const payload = JSON.parse(body || '{}');
+        const authResult = accountStore.verifyMagicLink(payload.token);
+        res.setHeader('Set-Cookie', `session_token=${authResult.sessionToken}; HttpOnly; SameSite=Strict; Path=/; Max-Age=2592000`);
+        sendJson(res, 200, {
+          success: true,
+          sessionToken: authResult.sessionToken,
+          accountId: authResult.accountId,
+          email: authResult.email,
+          branding: authResult.branding
+        });
+      } catch (e) {
+        sendJson(res, 400, { success: false, error: e.message });
+      }
+    });
+  }
+
+  // 7. API: Get Account Branding (Feature 6 & Acceptance Test 24 Data Isolation)
+  if (req.method === 'GET' && pathname === '/api/account/branding') {
+    const sessionToken = getSessionToken(req);
+    const account = accountStore.getAccountBySession(sessionToken);
+    if (!account) {
+      return sendJson(res, 401, { success: false, error: 'Please sign in to view your branding.' });
+    }
+    return sendJson(res, 200, {
+      success: true,
+      accountId: account.id,
+      email: account.email,
+      branding: account.branding
+    });
+  }
+
+  // 8. API: Update Account Branding (Feature 6 & Acceptance Test 4, 23)
+  if (req.method === 'POST' && pathname === '/api/account/branding') {
+    const sessionToken = getSessionToken(req);
+    const account = accountStore.getAccountBySession(sessionToken);
+    if (!account) {
+      return sendJson(res, 401, { success: false, error: 'Please sign in to update your branding.' });
+    }
+
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+      if (body.length > 2097152) { // 2 MB limit to accommodate 1 MB base64 logo
+        res.writeHead(413, { 'Content-Type': 'text/plain' });
+        res.end('Payload Too Large');
+        req.destroy();
+      }
+    });
+
+    return req.on('end', () => {
+      try {
+        const payload = JSON.parse(body || '{}');
+        const updatedBranding = accountStore.updateAccountBranding(account.id, payload);
+        sendJson(res, 200, {
+          success: true,
+          branding: updatedBranding
+        });
+      } catch (e) {
+        sendJson(res, 400, { success: false, error: e.message });
+      }
+    });
+  }
+
+  // 9. API: Delete Account & Data (Feature 6 & Acceptance Test 25 Deletion within 30 days)
+  if (req.method === 'DELETE' && pathname === '/api/account') {
+    const sessionToken = getSessionToken(req);
+    const account = accountStore.getAccountBySession(sessionToken);
+    if (!account) {
+      return sendJson(res, 401, { success: false, error: 'Please sign in to delete your account.' });
+    }
+
+    accountStore.deleteAccount(account.id);
+    res.setHeader('Set-Cookie', 'session_token=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0');
+    return sendJson(res, 200, {
+      success: true,
+      message: 'Account and branding data permanently deleted.'
+    });
+  }
+
+  // 10. API: Logout
+  if (req.method === 'POST' && pathname === '/api/auth/logout') {
+    const sessionToken = getSessionToken(req);
+    accountStore.invalidateSession(sessionToken);
+    res.setHeader('Set-Cookie', 'session_token=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0');
+    return sendJson(res, 200, { success: true });
   }
 
   // 4. Static Asset Routing

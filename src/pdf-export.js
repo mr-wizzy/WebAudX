@@ -55,7 +55,14 @@
    * 3. Repeating branded footer with logo and custom web development contact (08168076603) appears on each printed page.
    * 4. Page breaks are handled cleanly without splitting findings across pages.
    */
-  function getPrintStyles() {
+  function getPrintStyles(customBranding) {
+    const fontFamily = (customBranding && customBranding.font)
+      ? `'${customBranding.font}', sans-serif`
+      : `'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+    const brandColor = (customBranding && customBranding.brandColor)
+      ? customBranding.brandColor
+      : '#8306c1';
+
     return `
       @page {
         size: A4 portrait;
@@ -89,7 +96,7 @@
         body {
           background: #ffffff !important;
           color: #17171d !important;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          font-family: ${fontFamily} !important;
           font-size: 10pt !important;
           line-height: 1.4 !important;
           margin: 0 !important;
@@ -110,7 +117,7 @@
           display: flex !important;
           align-items: center;
           justify-content: space-between;
-          border-bottom: 2px solid #8306c1;
+          border-bottom: 2px solid ${brandColor};
           padding-bottom: 8pt;
           margin-bottom: 12pt;
         }
@@ -187,7 +194,7 @@
 
         .pdf-footer-watermark {
           font-weight: 700;
-          color: #8306c1;
+          color: ${brandColor};
         }
 
         .pdf-footer-contact-side {
@@ -201,7 +208,7 @@
 
         .pdf-footer-phone-number {
           font-weight: 700;
-          color: #8306c1;
+          color: ${brandColor};
         }
       }
     `;
@@ -215,15 +222,15 @@
    * - Contact for custom web development with phone: 08168076603
    */
   function buildPdfFooterHtml(customBranding) {
-    const logoSrc = (customBranding && customBranding.logo) ? customBranding.logo : PDF_CONFIG.logoSrc;
     const watermark = PDF_CONFIG.watermark;
     const contactText = PDF_CONFIG.contactText;
+    const brandColor = (customBranding && customBranding.brandColor) || '#8306c1';
 
     return `
       <div class="pdf-print-page-footer" id="pdf-branded-footer">
         <div class="pdf-footer-brand-side">
-          <img src="${escapeHtml(logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" class="pdf-footer-logo" />
-          <span class="pdf-footer-watermark">${escapeHtml(watermark)}</span>
+          <img src="${escapeHtml(PDF_CONFIG.logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" class="pdf-footer-logo" />
+          <span class="pdf-footer-watermark" style="color: ${escapeHtml(brandColor)};">${escapeHtml(watermark)}</span>
         </div>
         <div class="pdf-footer-contact-side">
           <span class="pdf-footer-contact-text">${escapeHtml(contactText)}</span>
@@ -236,7 +243,7 @@
    * Builds the clean PDF page header HTML.
    * Replaces top navigation with a professional audit report title bar.
    */
-  function buildPdfHeaderHtml(report) {
+  function buildPdfHeaderHtml(report, customBranding) {
     const submittedAddress = (report && report.sections && report.sections.pageReviewed)
       ? report.sections.pageReviewed.submittedAddress
       : 'Webpage Review';
@@ -244,13 +251,26 @@
       ? report.sections.pageReviewed.formattedDate
       : new Date().toLocaleDateString();
 
+    const headerLogo = (customBranding && customBranding.logo)
+      ? customBranding.logo
+      : PDF_CONFIG.logoSrc;
+    const headerLogoAlt = (customBranding && customBranding.agencyName)
+      ? (customBranding.agencyName + ' Logo')
+      : PDF_CONFIG.logoAlt;
+
+    const brandColor = (customBranding && customBranding.brandColor) || '#8306c1';
+    const preparedByHtml = (customBranding && customBranding.agencyName)
+      ? `<div style="font-size: 8.5pt; font-weight: 600; color: ${escapeHtml(brandColor)};">Prepared by ${escapeHtml(customBranding.agencyName)}</div>`
+      : '';
+
     return `
-      <div class="pdf-print-header" id="pdf-branded-header">
+      <div class="pdf-print-header" id="pdf-branded-header" style="border-bottom-color: ${escapeHtml(brandColor)};">
         <div>
-          <img src="${escapeHtml(PDF_CONFIG.logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" />
+          <img src="${escapeHtml(headerLogo)}" alt="${escapeHtml(headerLogoAlt)}" />
         </div>
         <div class="pdf-print-header-meta">
           <div><strong>Webpage Usability Report</strong></div>
+          ${preparedByHtml}
           <div>${escapeHtml(submittedAddress)} &bull; ${escapeHtml(formattedDate)}</div>
         </div>
       </div>
@@ -271,7 +291,8 @@
     }
 
     const s = report.sections;
-    const headerHtml = buildPdfHeaderHtml(report);
+    const brandColor = (customBranding && customBranding.brandColor) || '#8306c1';
+    const headerHtml = buildPdfHeaderHtml(report, customBranding);
     const footerHtml = buildPdfFooterHtml(customBranding);
 
     // Build 13 Measurements table/list
@@ -366,7 +387,7 @@
   <meta charset="UTF-8">
   <title>WebAudX Report - ${escapeHtml(s.pageReviewed.submittedAddress)}</title>
   <style>
-    ${getPrintStyles()}
+    ${getPrintStyles(customBranding)}
   </style>
 </head>
 <body>
@@ -395,7 +416,7 @@
     <!-- Section 3: Summary -->
     <div class="report-card">
       <h3 style="font-size: 11pt; color: #17171d; margin: 0 0 4pt 0;">3. Summary</h3>
-      <p style="font-size: 9.5pt; color: #17171d; background: #fbf5fe; border-left: 2px solid #8306c1; padding: 6pt 8pt; margin: 0;">
+      <p style="font-size: 9.5pt; color: #17171d; background: #fbf5fe; border-left: 2px solid ${escapeHtml(brandColor)}; padding: 6pt 8pt; margin: 0;">
         ${escapeHtml(s.summary)}
       </p>
     </div>
@@ -458,7 +479,16 @@
       return generatePrintableHtml(report, customBranding);
     }
 
-    // Ensure the dedicated printable footer and header exist in the DOM
+    const brandColor = (customBranding && customBranding.brandColor) || '#8306c1';
+    const headerLogo = (customBranding && customBranding.logo) || PDF_CONFIG.logoSrc;
+    const headerLogoAlt = (customBranding && customBranding.agencyName)
+      ? (customBranding.agencyName + ' Logo')
+      : PDF_CONFIG.logoAlt;
+    const preparedByHtml = (customBranding && customBranding.agencyName)
+      ? `<div style="font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line); font-weight: 600; color: ${escapeHtml(brandColor)};">Prepared by ${escapeHtml(customBranding.agencyName)}</div>`
+      : '';
+
+    // Ensure the dedicated printable header exists in the DOM
     let headerEl = document.getElementById('pdf-branded-header');
     if (!headerEl) {
       headerEl = document.createElement('div');
@@ -469,16 +499,19 @@
         screenReport.insertBefore(headerEl, screenReport.firstChild);
       }
     }
+    headerEl.style.borderBottomColor = brandColor;
     headerEl.innerHTML = `
       <div>
-        <img src="${escapeHtml(PDF_CONFIG.logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" style="max-height: 28pt; width: auto;" />
+        <img src="${escapeHtml(headerLogo)}" alt="${escapeHtml(headerLogoAlt)}" style="max-height: 28pt; width: auto;" />
       </div>
       <div style="text-align: right; font-size: var(--token-font-body-b3-size); line-height: var(--token-font-body-b3-line); color: var(--token-color-neutral-700);">
         <div><strong>Webpage Usability Report</strong></div>
+        ${preparedByHtml}
         <div>${escapeHtml(report.sections.pageReviewed.submittedAddress)} &bull; ${escapeHtml(report.sections.pageReviewed.formattedDate)}</div>
       </div>
     `;
 
+    // Ensure the dedicated printable footer exists in the DOM
     let footerEl = document.getElementById('pdf-branded-footer');
     if (!footerEl) {
       footerEl = document.createElement('div');
@@ -488,8 +521,8 @@
     }
     footerEl.innerHTML = `
       <div style="display: flex; align-items: center; gap: var(--token-space-2);">
-        <img src="${escapeHtml((customBranding && customBranding.logo) || PDF_CONFIG.logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" class="pdf-footer-logo" style="max-height: 18pt; width: auto;" />
-        <span class="pdf-footer-watermark" style="font-weight: 700; color: var(--token-color-primary-400);">${escapeHtml(PDF_CONFIG.watermark)}</span>
+        <img src="${escapeHtml(PDF_CONFIG.logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" class="pdf-footer-logo" style="max-height: 18pt; width: auto;" />
+        <span class="pdf-footer-watermark" style="font-weight: 700; color: ${escapeHtml(brandColor)};">${escapeHtml(PDF_CONFIG.watermark)}</span>
       </div>
       <div style="text-align: right;">
         <span style="color: var(--token-color-neutral-1000);">${escapeHtml(PDF_CONFIG.contactText)}</span>

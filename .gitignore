@@ -11,3 +11,7 @@ $RECYCLE.BIN/
 tmp/
 temp/
 
+# Application runtime database
+data/*.json
+
+

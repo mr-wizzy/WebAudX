@@ -107,4 +107,132 @@ test('Server API Integration Tests', async (t) => {
     assert.ok(res.headers['content-type'].includes('text/html'));
     assert.ok(res.body.includes('WebAudX'));
   });
+
+  await t.test('Security: Direct file access to /data/ and private dirs returns 403 Forbidden', async () => {
+    const res = await request('GET', '/data/accounts.json');
+    assert.equal(res.statusCode, 403, 'Must return 403 Forbidden for /data/ files');
+    assert.equal(res.body, 'Access Denied');
+  });
+
+  await t.test('Auth & Branding Endpoints Integration Flow', async () => {
+    // 1. Request magic link
+    const linkRes = await request('POST', '/api/auth/magic-link', JSON.stringify({ email: 'http-test@agency.com' }));
+    assert.equal(linkRes.statusCode, 200);
+    const linkJson = JSON.parse(linkRes.body);
+    assert.equal(linkJson.success, true);
+    assert.ok(linkJson.devLink.includes('token='));
+
+    // Extract token
+    const token = new URL(linkJson.devLink).searchParams.get('token');
+
+    // 2. Verify magic link
+    const verifyRes = await request('POST', '/api/auth/verify', JSON.stringify({ token }));
+    assert.equal(verifyRes.statusCode, 200);
+    const verifyJson = JSON.parse(verifyRes.body);
+    assert.equal(verifyJson.success, true);
+    const sessionToken = verifyJson.sessionToken;
+
+    // 3. Update branding via session
+    const updateRes = await new Promise((resolve, reject) => {
+      const payload = JSON.stringify({
+        agencyName: 'HTTP Test Agency',
+        brandColor: '#5a0484',
+        font: 'Montserrat'
+      });
+      const req = http.request({
+        hostname: '127.0.0.1',
+        port: TEST_PORT,
+        path: '/api/account/branding',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload),
+          'Authorization': `Bearer ${sessionToken}`
+        }
+      }, res => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => resolve({ statusCode: res.statusCode, body: JSON.parse(data) }));
+      });
+      req.on('error', reject);
+      req.write(payload);
+      req.end();
+    });
+
+    assert.equal(updateRes.statusCode, 200);
+    assert.equal(updateRes.body.branding.agencyName, 'HTTP Test Agency');
+
+    // 4. Retrieve branding
+    const getRes = await new Promise((resolve, reject) => {
+      const req = http.request({
+        hostname: '127.0.0.1',
+        port: TEST_PORT,
+        path: '/api/account/branding',
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${sessionToken}`
+        }
+      }, res => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => resolve({ statusCode: res.statusCode, body: JSON.parse(data) }));
+      });
+      req.on('error', reject);
+      req.end();
+    });
+
+    assert.equal(getRes.statusCode, 200);
+    assert.equal(getRes.body.branding.agencyName, 'HTTP Test Agency');
+
+    // 5. Delete account
+    const deleteRes = await new Promise((resolve, reject) => {
+      const req = http.request({
+        hostname: '127.0.0.1',
+        port: TEST_PORT,
+        path: '/api/account',
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${sessionToken}`
+        }
+      }, res => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => resolve({ statusCode: res.statusCode, body: JSON.parse(data) }));
+      });
+      req.on('error', reject);
+      req.end();
+    });
+
+    assert.equal(deleteRes.statusCode, 200);
+    assert.equal(deleteRes.body.success, true);
+  });
+
+  await t.test('Rate limiting endpoint and enforcement via HTTP (Feature 7)', async () => {
+    const rateLimiter = require('../src/rate-limiter.js');
+    rateLimiter._reset();
+
+    // 1. Query rate limit
+    const res = await request('GET', '/api/rate-limit');
+    assert.equal(res.statusCode, 200);
+    const json = JSON.parse(res.body);
+    assert.equal(json.allowed, true);
+    assert.equal(json.remaining, 10);
+
+    // 2. Consume 10 checks for test IP
+    const testIp = '127.0.0.1';
+    for (let i = 0; i < 10; i++) {
+      rateLimiter.recordCheck(`ip:${testIp}`);
+    }
+
+    // 3. 11th inspect call must return 429 Too Many Requests
+    const inspectRes = await request('POST', '/api/inspect', JSON.stringify({ url: 'https://example.com' }));
+    assert.equal(inspectRes.statusCode, 429);
+    assert.ok(inspectRes.headers['retry-after']);
+    const inspectJson = JSON.parse(inspectRes.body);
+    assert.equal(inspectJson.code, 'RATE_LIMIT_EXCEEDED');
+    assert.ok(inspectJson.error.includes('You have used your 10 checks for today.'));
+
+    // Reset so other tests aren't affected
+    rateLimiter._reset();
+  });
 });
