@@ -1405,6 +1405,150 @@
       color: var(--token-color-neutral-600);
       font-style: italic;
     }
+
+    /* ==========================================================================
+       Print & PDF Export Styles (PRD Section 9 & User Direction)
+       ========================================================================== */
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 16mm 14mm;
+    }
+
+    /* By default hide print-only header and footer on screen */
+    .pdf-print-header,
+    .pdf-print-page-footer {
+      display: none;
+    }
+
+    @media print {
+      /* 1. Strictly exclude top site navigation header and generic app footer */
+      header,
+      footer,
+      .brand-link,
+      .btn-ghost,
+      .report-toolbar,
+      .questionnaire-actions-bar,
+      .review-actions-bar,
+      .btn-submit,
+      .btn-secondary,
+      #screen-landing,
+      #screen-progress,
+      #screen-summary,
+      #screen-questions,
+      #screen-review,
+      .no-print {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      body {
+        background: var(--token-color-neutral-100) !important;
+        color: var(--token-color-neutral-1000) !important;
+        font-family: var(--token-font-body-family) !important;
+        font-size: var(--token-font-body-b2-size) !important;
+        line-height: var(--token-font-body-b2-line) !important;
+        margin: 0 !important;
+        padding: 0 0 var(--token-space-7) 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      #screen-report,
+      .report-section {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .report-card {
+        box-shadow: none !important;
+        border: var(--token-stroke-0) solid var(--token-color-secondary-200) !important;
+        border-radius: var(--token-radius-md) !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-bottom: var(--token-space-3) !important;
+        padding: var(--token-space-4) !important;
+      }
+
+      .finding-item-box {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      /* Print Header */
+      .pdf-print-header {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: var(--token-stroke-1) solid var(--token-color-primary-400);
+        padding-bottom: var(--token-space-2);
+        margin-bottom: var(--token-space-4);
+      }
+
+      .pdf-print-header img {
+        max-height: var(--token-space-6);
+        width: auto;
+      }
+
+      .pdf-print-header-meta {
+        text-align: right;
+        font-size: var(--token-font-body-b3-size);
+        line-height: var(--token-font-body-b3-line);
+        color: var(--token-color-neutral-700);
+      }
+
+      /* Branded Footer for every printed page */
+      .pdf-print-page-footer {
+        display: flex !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: var(--token-space-6) !important;
+        border-top: var(--token-stroke-0) solid var(--token-color-secondary-200) !important;
+        background: var(--token-color-neutral-100) !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: var(--token-space-1) 0 0 0 !important;
+        font-size: var(--token-font-body-b3-size) !important;
+        line-height: var(--token-font-body-b3-line) !important;
+        color: var(--token-color-neutral-800) !important;
+        z-index: 99999 !important;
+      }
+
+      .pdf-footer-brand-side {
+        display: flex;
+        align-items: center;
+        gap: var(--token-space-2);
+      }
+
+      .pdf-footer-logo {
+        max-height: var(--token-space-4);
+        width: auto;
+      }
+
+      .pdf-footer-watermark {
+        font-weight: var(--token-font-headings-weight);
+        color: var(--token-color-primary-400);
+      }
+
+      .pdf-footer-contact-side {
+        text-align: right;
+      }
+
+      .pdf-footer-contact-text {
+        color: var(--token-color-neutral-1000);
+        font-weight: var(--token-font-body-b1-weight);
+      }
+
+      .pdf-footer-phone-number {
+        font-weight: var(--token-font-headings-weight);
+        color: var(--token-color-primary-400);
+      }
+    }
   </style>
 </head>
 <body>
@@ -1771,6 +1915,16 @@
 
     <!-- Screen 6: Report Screen (PRD Screen 6 & Section 8) -->
     <section id="screen-report" class="report-section" style="display: none;">
+      <!-- Dedicated Print Report Header (Excludes Website Nav Header in Print/PDF) -->
+      <div id="pdf-branded-header" class="pdf-print-header">
+        <div>
+          <img src="assets/WebAudX-logo.png" alt="WebAudX Logo" style="max-height: var(--token-space-6); width: auto;" />
+        </div>
+        <div class="pdf-print-header-meta">
+          <div><strong>Webpage Usability Report</strong></div>
+          <div id="pdf-header-meta-text">Single-Page Clarity Review</div>
+        </div>
+      </div>
       <div class="report-header">
         <div class="pill-badge">WebAudX Clarity Report</div>
         <h2 class="report-main-title">Webpage Usability Report</h2>
@@ -1948,6 +2102,7 @@
   <script src="src/validate-address.js"></script>
   <script src="src/questionnaire.js"></script>
   <script src="src/report-engine.js"></script>
+  <script src="src/pdf-export.js"></script>
 
   <script>
     // Screen Elements
@@ -2522,7 +2677,16 @@
     // =========================================================================
     // Screen 6: Report Screen Rendering (Feature 4 & PRD Section 8)
     // =========================================================================
+    let currentReportData = null;
+
     function renderReportScreen(report) {
+      currentReportData = report;
+
+      // Update dedicated print header text
+      const pdfHeaderMeta = document.getElementById('pdf-header-meta-text');
+      if (pdfHeaderMeta && report.sections && report.sections.pageReviewed) {
+        pdfHeaderMeta.textContent = report.sections.pageReviewed.submittedAddress + ' • ' + report.sections.pageReviewed.formattedDate;
+      }
       const s = report.sections;
 
       // Section 1: Page Reviewed
@@ -2689,12 +2853,16 @@
     reportRestartBtn.addEventListener('click', restartReview);
     reportRestartBtnBottom.addEventListener('click', restartReview);
 
-    reportDownloadPdfBtn.addEventListener('click', function() {
-      window.print();
-    });
-    reportDownloadPdfBtnBottom.addEventListener('click', function() {
-      window.print();
-    });
+    function handlePdfExport() {
+      if (window.WebAudXPDFExport && currentReportData) {
+        window.WebAudXPDFExport.exportPdf(currentReportData);
+      } else {
+        window.print();
+      }
+    }
+
+    reportDownloadPdfBtn.addEventListener('click', handlePdfExport);
+    reportDownloadPdfBtnBottom.addEventListener('click', handlePdfExport);
   </script>
 </body>
 </html>

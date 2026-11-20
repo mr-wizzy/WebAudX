@@ -284,5 +284,12 @@
         }
       }
     }
+  },
+  "pdf": {
+    "watermark": "Generated with WebAudX",
+    "contact_developer": "For custom web development, contact: 08168076603",
+    "phone_number": "08168076603",
+    "download_button": "Download PDF",
+    "report_header_subtitle": "Single-Page Clarity & Usability Evaluation"
   }
 }
