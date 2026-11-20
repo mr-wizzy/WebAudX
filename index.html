@@ -1073,6 +1073,338 @@
       color: var(--token-color-primary-400);
       margin-bottom: var(--token-space-1);
     }
+
+    /* ==========================================================================
+       Screen 5: Review Screen Styles (PRD Screen 5)
+       ========================================================================== */
+    .review-section {
+      padding: var(--token-space-7) 0 var(--token-space-7);
+    }
+
+    .review-header {
+      text-align: center;
+      margin-bottom: var(--token-space-6);
+    }
+
+    .review-title {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-headings-h5-size);
+      line-height: var(--token-font-headings-h5-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-2);
+    }
+
+    .review-lead {
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      color: var(--token-color-neutral-800);
+      max-width: var(--token-container-md);
+      margin: 0 auto;
+    }
+
+    .review-card-container {
+      max-width: var(--token-container-md);
+      margin: 0 auto var(--token-space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--token-space-4);
+    }
+
+    .review-item-card {
+      background: var(--token-color-neutral-100);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-xl);
+      box-shadow: var(--token-shadow-card);
+      padding: var(--token-space-5);
+      text-align: left;
+    }
+
+    .review-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--token-space-2);
+      margin-bottom: var(--token-space-2);
+      flex-wrap: wrap;
+    }
+
+    .review-item-title {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-2);
+    }
+
+    .badge-user-answer {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--token-space-1);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-primary-400);
+      background: var(--token-color-primary-alpha-10);
+      border: var(--token-stroke-0) solid var(--token-color-primary-400);
+      padding: var(--token-space-0) var(--token-space-2);
+      border-radius: var(--token-radius-pill);
+    }
+
+    .badge-tag-user {
+      font-size: var(--token-font-body-b4-size);
+      line-height: var(--token-font-body-b4-line);
+      text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
+      background: var(--token-color-primary-400);
+      color: var(--token-color-neutral-100);
+      padding: var(--token-space-0) var(--token-space-1);
+      border-radius: var(--token-radius-sm);
+      display: inline-block;
+    }
+
+    .badge-tag-measured {
+      font-size: var(--token-font-body-b4-size);
+      line-height: var(--token-font-body-b4-line);
+      text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
+      background: var(--token-color-neutral-700);
+      color: var(--token-color-neutral-100);
+      padding: var(--token-space-0) var(--token-space-1);
+      border-radius: var(--token-radius-sm);
+      display: inline-block;
+    }
+
+    .review-changed-banner {
+      background: var(--token-color-amber-alpha-10);
+      border: var(--token-stroke-0) solid var(--token-color-amber-100);
+      border-radius: var(--token-radius-lg);
+      padding: var(--token-space-4);
+      margin: 0 auto var(--token-space-4);
+      max-width: var(--token-container-md);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-1000);
+      text-align: left;
+    }
+
+    .review-actions-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--token-space-3);
+      max-width: var(--token-container-md);
+      margin: var(--token-space-6) auto 0;
+      flex-wrap: wrap;
+    }
+
+    /* ==========================================================================
+       Screen 6: Report Screen Styles (PRD Screen 6 & Section 8)
+       ========================================================================== */
+    .report-section {
+      padding: var(--token-space-7) 0 var(--token-space-7);
+    }
+
+    .report-header {
+      text-align: center;
+      margin-bottom: var(--token-space-6);
+    }
+
+    .report-main-title {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-headings-h5-size);
+      line-height: var(--token-font-headings-h5-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-2);
+    }
+
+    .report-lead {
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      color: var(--token-color-neutral-800);
+      max-width: var(--token-container-md);
+      margin: 0 auto;
+    }
+
+    .report-toolbar {
+      display: flex;
+      justify-content: center;
+      gap: var(--token-space-3);
+      margin-bottom: var(--token-space-6);
+      flex-wrap: wrap;
+    }
+
+    .report-container {
+      max-width: var(--token-container-md);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--token-space-6);
+    }
+
+    .report-card {
+      background: var(--token-color-neutral-100);
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-xl);
+      box-shadow: var(--token-shadow-card);
+      padding: var(--token-space-6);
+      text-align: left;
+    }
+
+    .report-section-heading {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-headings-h6-size);
+      line-height: var(--token-font-headings-h6-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+      margin-bottom: var(--token-space-3);
+      display: flex;
+      align-items: center;
+      gap: var(--token-space-2);
+    }
+
+    .report-section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      font-weight: var(--token-font-headings-weight);
+      background: var(--token-color-primary-alpha-10);
+      color: var(--token-color-primary-400);
+      width: var(--token-space-5);
+      height: var(--token-space-5);
+      border-radius: var(--token-radius-pill);
+    }
+
+    .report-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--token-space-3);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+    }
+
+    .report-meta-item strong {
+      display: block;
+      color: var(--token-color-neutral-600);
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
+      margin-bottom: var(--token-space-0);
+    }
+
+    .report-summary-text {
+      font-size: var(--token-font-body-b1-size);
+      line-height: var(--token-font-body-b1-line);
+      color: var(--token-color-neutral-1000);
+      background: var(--token-color-secondary-alpha-10);
+      border-left: var(--token-stroke-1) solid var(--token-color-primary-400);
+      border-radius: var(--token-radius-md);
+      padding: var(--token-space-4);
+      margin: 0;
+    }
+
+    .findings-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--token-space-4);
+    }
+
+    .finding-item-box {
+      border: var(--token-stroke-0) solid var(--token-color-secondary-100);
+      border-radius: var(--token-radius-lg);
+      padding: var(--token-space-4);
+      background: var(--token-color-neutral-200);
+    }
+
+    .finding-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--token-space-2);
+      flex-wrap: wrap;
+      gap: var(--token-space-1);
+    }
+
+    .finding-area-name {
+      font-family: var(--token-font-headings-family);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      font-weight: var(--token-font-headings-weight);
+      color: var(--token-color-neutral-1000);
+    }
+
+    .finding-text {
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-800);
+      margin-bottom: var(--token-space-2);
+    }
+
+    .finding-recommendation-box {
+      background: var(--token-color-primary-alpha-10);
+      border-left: var(--token-stroke-1) solid var(--token-color-primary-400);
+      border-radius: var(--token-radius-sm);
+      padding: var(--token-space-3);
+      margin-top: var(--token-space-2);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-1000);
+    }
+
+    .finding-recommendation-box strong {
+      display: block;
+      color: var(--token-color-primary-500);
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
+      margin-bottom: var(--token-space-0);
+    }
+
+    .finding-checkmethod-box {
+      background: var(--token-color-amber-alpha-10);
+      border-left: var(--token-stroke-1) solid var(--token-color-amber-100);
+      border-radius: var(--token-radius-sm);
+      padding: var(--token-space-3);
+      margin-top: var(--token-space-2);
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-1000);
+    }
+
+    .finding-checkmethod-box strong {
+      display: block;
+      color: var(--token-color-amber-100);
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      text-transform: uppercase;
+      letter-spacing: var(--token-stroke-0);
+      margin-bottom: var(--token-space-0);
+    }
+
+    .finding-supporting-line {
+      display: flex;
+      align-items: center;
+      gap: var(--token-space-2);
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      color: var(--token-color-neutral-700);
+      margin-top: var(--token-space-2);
+      padding-top: var(--token-space-2);
+      border-top: var(--token-stroke-0) dashed var(--token-color-secondary-200);
+    }
+
+    .empty-section-notice {
+      font-size: var(--token-font-body-b2-size);
+      line-height: var(--token-font-body-b2-line);
+      color: var(--token-color-neutral-600);
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -1402,6 +1734,206 @@
       <p class="about-report-notice">WebAudX combines an automated check of one page with your answers. It is not a full or independent audit, and reflects the page on the date checked.</p>
     </section>
 
+
+    <!-- Screen 5: Review Screen (PRD Screen 5 & Section 14) -->
+    <section id="screen-review" class="review-section" style="display: none;">
+      <div class="review-header">
+        <div class="pill-badge">Step 3 of 3 &bull; Review Answers</div>
+        <h2 class="review-title">Review Your Answers</h2>
+        <p class="review-lead">Please check your answers before creating the report. You can change any answer at this stage.</p>
+      </div>
+
+      <div id="review-changed-alert" class="review-changed-banner" style="display: none;">
+        <strong>Suggested answers were changed:</strong>
+        <ul id="review-changed-list" style="margin: var(--token-space-1) 0 0 var(--token-space-4); padding: 0;"></ul>
+      </div>
+
+      <div id="review-items-list" class="review-card-container">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div class="review-actions-bar">
+        <button type="button" id="review-edit-answers-btn" class="btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Edit Answers</span>
+        </button>
+
+        <button type="button" id="review-generate-report-btn" class="btn-submit">
+          <span>Generate Report</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Screen 6: Report Screen (PRD Screen 6 & Section 8) -->
+    <section id="screen-report" class="report-section" style="display: none;">
+      <div class="report-header">
+        <div class="pill-badge">WebAudX Clarity Report</div>
+        <h2 class="report-main-title">Webpage Usability Report</h2>
+        <p class="report-lead">A plain-English evaluation of webpage clarity and usability.</p>
+      </div>
+
+      <!-- Top Actions Toolbar -->
+      <div class="report-toolbar">
+        <button type="button" id="report-download-pdf-btn" class="btn-submit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download PDF</span>
+        </button>
+
+        <a href="signup.html" id="report-brand-btn" class="btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+          <span>Brand this report</span>
+        </a>
+
+        <button type="button" id="report-restart-btn" class="btn-ghost">
+          <span>Review another page</span>
+        </button>
+      </div>
+
+      <!-- 10 Sections in Exact Required Order -->
+      <div class="report-container">
+        <!-- Section 1: Page Reviewed -->
+        <div class="report-card" id="rep-sec-1">
+          <h3 class="report-section-heading">
+            <span class="report-section-number">1</span>
+            <span>Page Reviewed</span>
+          </h3>
+          <div class="report-meta-grid">
+            <div class="report-meta-item">
+              <strong>Reviewed Address</strong>
+              <span id="rep-page-address"></span>
+            </div>
+            <div class="report-meta-item" id="rep-redirect-wrap" style="display: none;">
+              <strong>Final Address</strong>
+              <span id="rep-page-redirect"></span>
+            </div>
+            <div class="report-meta-item">
+              <strong>Date and Time</strong>
+              <span id="rep-page-date"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Check Status -->
+        <div class="report-card" id="rep-sec-2">
+          <h3 class="report-section-heading">
+            <span class="report-section-number">2</span>
+            <span>Check Status</span>
+          </h3>
+          <div id="rep-status-content"></div>
+        </div>
+
+        <!-- Section 3: Summary -->
+        <div class="report-card" id="rep-sec-3">
+          <h3 class="report-section-heading">
+            <span class="report-section-number">3</span>
+            <span>Summary</span>
+          </h3>
+          <p id="rep-summary-text" class="report-summary-text"></p>
+        </div>
+
+        <!-- Section 4: Check Results (13 Measurements) -->
+        <div class="report-card" id="rep-sec-4">
+          <h3 class="report-section-heading">
+            <span class="report-section-number">4</span>
+            <span>Check Results</span>
+          </h3>
+          <p style="font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line); color: var(--token-color-neutral-700); margin-bottom: var(--token-space-3);">
+            <span class="badge-tag-measured">Measured</span> 13 usability basics measured from the delivered webpage.
+          </p>
+          <ul id="rep-check-results-list" class="measurements-list"></ul>
+        </div>
+
+        <!-- Section 5: What is working -->
+        <div class="report-card" id="rep-sec-5">
+          <h3 class="report-section-heading">
+            <span class="report-section-number">5</span>
+            <span>What Is Working</span>
+          </h3>
+          <div id="rep-what-is-working-list" class="findings-list"></div>
+        </div>
+
+        <!-- Section 6: Areas to improve -->
+        <div class="report-card" id="rep-sec-6">
+          <h3 class="report-section-heading">
+            <span class="report-section-number">6</span>
+            <span>Areas to Improve</span>
+          </h3>
+          <div id="rep-areas-to-improve-list" class="findings-list"></div>
+        </div>
+
+        <!-- Section 7: Needs further review -->
+        <div class="report-card" id="rep-sec-7">
+          <h3 class="report-section-heading">
+            <span class="report-section-number">7</span>
+            <span>Needs Further Review</span>
+          </h3>
+          <div id="rep-needs-further-review-list" class="findings-list"></div>
+        </div>
+
+        <!-- Section 8: Changed suggestions -->
+        <div class="report-card" id="rep-sec-8">
+          <h3 class="report-section-heading">
+            <span class="report-section-number">8</span>
+            <span>Changed Suggestions</span>
+          </h3>
+          <div id="rep-changed-suggestions-list"></div>
+        </div>
+
+        <!-- Section 9: Multi-page checking note -->
+        <div class="report-card" id="rep-sec-9" style="background: var(--token-color-secondary-alpha-10);">
+          <h3 class="report-section-heading">
+            <span class="report-section-number">9</span>
+            <span>Multi-Page Checking</span>
+          </h3>
+          <p style="font-size: var(--token-font-body-b1-size); line-height: var(--token-font-body-b1-line); color: var(--token-color-neutral-800); margin: 0;">
+            Checking multiple pages will come in a future version.
+          </p>
+        </div>
+
+        <!-- Section 10: About this report -->
+        <div class="report-card" id="rep-sec-10">
+          <h3 class="report-section-heading">
+            <span class="report-section-number">10</span>
+            <span>About This Report</span>
+          </h3>
+          <p style="font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line); color: var(--token-color-neutral-700); margin: 0;">
+            About this report: It combines an automated check of one page with the user's answers. It is not a full or independent audit, and it reflects the page on the date shown.
+          </p>
+        </div>
+      </div>
+
+      <!-- Bottom Actions Toolbar -->
+      <div class="report-toolbar" style="margin-top: var(--token-space-6);">
+        <button type="button" id="report-download-pdf-btn-bottom" class="btn-submit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download PDF</span>
+        </button>
+
+        <a href="signup.html" id="report-brand-btn-bottom" class="btn-secondary">
+          <span>Brand this report</span>
+        </a>
+
+        <button type="button" id="report-restart-btn-bottom" class="btn-ghost">
+          <span>Review another page</span>
+        </button>
+      </div>
+    </section>
   </main>
 
   <!-- Footer (PRD Section 10.4) -->
@@ -1415,6 +1947,7 @@
   <!-- Include Shared Modules -->
   <script src="src/validate-address.js"></script>
   <script src="src/questionnaire.js"></script>
+  <script src="src/report-engine.js"></script>
 
   <script>
     // Screen Elements
@@ -1422,6 +1955,33 @@
     const screenProgress = document.getElementById('screen-progress');
     const screenSummary = document.getElementById('screen-summary');
     const screenQuestions = document.getElementById('screen-questions');
+    const screenReview = document.getElementById('screen-review');
+    const screenReport = document.getElementById('screen-report');
+
+    // Review Screen Elements (Feature 4)
+    const reviewItemsList = document.getElementById('review-items-list');
+    const reviewChangedAlert = document.getElementById('review-changed-alert');
+    const reviewChangedList = document.getElementById('review-changed-list');
+    const reviewEditAnswersBtn = document.getElementById('review-edit-answers-btn');
+    const reviewGenerateReportBtn = document.getElementById('review-generate-report-btn');
+
+    // Report Screen Elements (Feature 4)
+    const repPageAddress = document.getElementById('rep-page-address');
+    const repRedirectWrap = document.getElementById('rep-redirect-wrap');
+    const repPageRedirect = document.getElementById('rep-page-redirect');
+    const repPageDate = document.getElementById('rep-page-date');
+    const repStatusContent = document.getElementById('rep-status-content');
+    const repSummaryText = document.getElementById('rep-summary-text');
+    const repCheckResultsList = document.getElementById('rep-check-results-list');
+    const repWhatIsWorkingList = document.getElementById('rep-what-is-working-list');
+    const repAreasToImproveList = document.getElementById('rep-areas-to-improve-list');
+    const repNeedsFurtherReviewList = document.getElementById('rep-needs-further-review-list');
+    const repChangedSuggestionsList = document.getElementById('rep-changed-suggestions-list');
+
+    const reportDownloadPdfBtn = document.getElementById('report-download-pdf-btn');
+    const reportDownloadPdfBtnBottom = document.getElementById('report-download-pdf-btn-bottom');
+    const reportRestartBtn = document.getElementById('report-restart-btn');
+    const reportRestartBtnBottom = document.getElementById('report-restart-btn-bottom');
 
     // Landing Screen Form
     const form = document.getElementById('address-form');
@@ -1471,6 +2031,8 @@
       screenProgress.style.display = screen === 'progress' ? 'block' : 'none';
       screenSummary.style.display = screen === 'summary' ? 'block' : 'none';
       screenQuestions.style.display = screen === 'questions' ? 'block' : 'none';
+      screenReview.style.display = screen === 'review' ? 'block' : 'none';
+      screenReport.style.display = screen === 'report' ? 'block' : 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1674,17 +2236,9 @@
       questionsErrorBox.style.display = 'none';
       document.querySelectorAll('.question-card').forEach(card => card.classList.remove('has-error'));
 
-      // Compute changed suggestions (Acceptance Test 6)
-      const changed = window.WebAudXQuestionnaire.getChangedSuggestions(selectedAnswers, initialSuggestions);
-      
-      // Show confirmation state for Feature 3
-      if (changed.length > 0) {
-        reviewConfirmationText.textContent = `All seven questions have been answered (${changed.length} suggested answer${changed.length > 1 ? 's were' : ' was'} changed). Ready for Review & Report Generation.`;
-      } else {
-        reviewConfirmationText.textContent = `All seven questions have been answered. Ready for Review & Report Generation.`;
-      }
-      reviewConfirmation.style.display = 'flex';
-      reviewConfirmation.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Transition to Screen 5: Review Screen (Feature 4)
+      renderReviewScreen(inspectionData, selectedAnswers, initialSuggestions);
+      showScreen('review');
     });
 
     // =========================================================================
@@ -1895,6 +2449,251 @@
           }, targetUrl);
         }, 400);
       }
+    });
+
+    // =========================================================================
+    // Screen 5: Review Screen Rendering (Feature 4)
+    // =========================================================================
+    function renderReviewScreen(data, answers, suggestions) {
+      reviewItemsList.innerHTML = '';
+
+      // Check changed suggestions
+      const changed = window.WebAudXQuestionnaire.getChangedSuggestions(answers, suggestions);
+      if (changed.length > 0) {
+        reviewChangedList.innerHTML = '';
+        changed.forEach(item => {
+          const li = document.createElement('li');
+          li.style.marginTop = 'var(--token-space-0)';
+          li.innerHTML = '<strong>' + escapeHtml(item.area) + ':</strong> WebAudX suggested <em>' + escapeHtml(item.suggested) + '</em>, and you chose <strong>' + escapeHtml(item.userChoice) + '</strong>.';
+          reviewChangedList.appendChild(li);
+        });
+        reviewChangedAlert.style.display = 'block';
+      } else {
+        reviewChangedAlert.style.display = 'none';
+      }
+
+      // Render 7 questions review cards
+      window.WebAudXQuestionnaire.QUESTIONS.forEach(q => {
+        const userChoice = answers[q.id] || 'Not answered';
+        const card = document.createElement('div');
+        card.className = 'review-item-card';
+
+        const ev = window.WebAudXQuestionnaire.getQuestionEvidence(q.id, data);
+        let evidenceSummary = '';
+        if (ev.items && ev.items.length > 0) {
+          evidenceSummary = ev.items.map(it => escapeHtml(it.label) + ': ' + escapeHtml(it.text)).join(' &bull; ');
+        } else if (ev.note) {
+          evidenceSummary = escapeHtml(ev.note);
+        }
+
+        card.innerHTML = `
+          <div class="review-item-header">
+            <span class="question-area-badge">${escapeHtml(q.area)}</span>
+            <div class="badges-row">
+              <span class="badge-user-answer">
+                <span class="badge-tag-user">Your answer</span>
+                <span>${escapeHtml(userChoice)}</span>
+              </span>
+            </div>
+          </div>
+          <div class="review-item-title">${escapeHtml(q.text)}</div>
+          ${evidenceSummary ? `
+            <div style="font-size: var(--token-font-body-b3-size); line-height: var(--token-font-body-b3-line); color: var(--token-color-neutral-700); margin-top: var(--token-space-2);">
+              <span class="badge-tag-measured">Measured</span> ${evidenceSummary}
+            </div>
+          ` : ''}
+        `;
+
+        reviewItemsList.appendChild(card);
+      });
+    }
+
+    // Review Screen Actions
+    reviewEditAnswersBtn.addEventListener('click', function() {
+      showScreen('questions');
+    });
+
+    reviewGenerateReportBtn.addEventListener('click', function() {
+      const report = window.WebAudXReportEngine.assembleReport(inspectionData, selectedAnswers, initialSuggestions);
+      renderReportScreen(report);
+      showScreen('report');
+    });
+
+    // =========================================================================
+    // Screen 6: Report Screen Rendering (Feature 4 & PRD Section 8)
+    // =========================================================================
+    function renderReportScreen(report) {
+      const s = report.sections;
+
+      // Section 1: Page Reviewed
+      repPageAddress.textContent = s.pageReviewed.submittedAddress;
+      if (s.pageReviewed.redirected) {
+        repPageRedirect.textContent = s.pageReviewed.finalAddress;
+        repRedirectWrap.style.display = 'block';
+      } else {
+        repRedirectWrap.style.display = 'none';
+      }
+      repPageDate.textContent = s.pageReviewed.formattedDate;
+
+      // Section 2: Check Status
+      let statusClass = 'good';
+      if (s.checkStatus.status === 'Limited') statusClass = 'needs-attention';
+      else if (s.checkStatus.status === 'Not completed') statusClass = 'could-not-check';
+
+      repStatusContent.innerHTML = `
+        <div style="display: flex; align-items: center; gap: var(--token-space-2); margin-bottom: var(--token-space-2);">
+          <span class="measurement-badge ${statusClass}">${escapeHtml(s.checkStatus.status)}</span>
+        </div>
+        ${s.checkStatus.reason ? `<p style="font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line); color: var(--token-color-neutral-800); margin: 0;">${escapeHtml(s.checkStatus.reason)}</p>` : ''}
+      `;
+
+      // Section 3: Summary
+      repSummaryText.textContent = s.summary;
+
+      // Section 4: Check Results (13 measurements)
+      repCheckResultsList.innerHTML = '';
+      (s.checkResults || []).forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'measurement-row';
+
+        let bClass = 'could-not-check';
+        let bIcon = '—';
+        if (item.status === 'Good') {
+          bClass = 'good';
+          bIcon = '✓';
+        } else if (item.status === 'Needs attention') {
+          bClass = 'needs-attention';
+          bIcon = '!';
+        }
+
+        li.innerHTML = `
+          <div class="measurement-info">
+            <span class="measurement-name">${item.id}. ${escapeHtml(item.name)}</span>
+            <span class="measurement-explanation">${escapeHtml(item.explanation || '')}</span>
+          </div>
+          <span class="measurement-badge ${bClass}" aria-label="${item.status}">
+            ${bIcon} ${escapeHtml(item.status)}
+          </span>
+        `;
+        repCheckResultsList.appendChild(li);
+      });
+
+      // Helper to render findings box
+      function renderFindingCard(item, type) {
+        const box = document.createElement('div');
+        box.className = 'finding-item-box';
+
+        let inner = `
+          <div class="finding-item-header">
+            <span class="finding-area-name">${escapeHtml(item.area)}</span>
+            <span class="badge-user-answer">
+              <span class="badge-tag-user">Your answer</span>
+              <span>${escapeHtml(item.answer)}</span>
+            </span>
+          </div>
+          <p class="finding-text">${escapeHtml(item.finding)}</p>
+        `;
+
+        if (type === 'improve' && item.recommendation) {
+          inner += `
+            <div class="finding-recommendation-box">
+              <strong>Practical next step</strong>
+              <span>${escapeHtml(item.recommendation)}</span>
+            </div>
+          `;
+        } else if (type === 'review' && item.checkMethod) {
+          inner += `
+            <div class="finding-checkmethod-box">
+              <strong>How to check this</strong>
+              <span>${escapeHtml(item.checkMethod)}</span>
+            </div>
+          `;
+        }
+
+        if (item.supportingCheck) {
+          inner += `
+            <div class="finding-supporting-line">
+              <span class="badge-tag-measured">Measured</span>
+              <span>${escapeHtml(item.supportingCheck)}</span>
+            </div>
+          `;
+        }
+
+        box.innerHTML = inner;
+        return box;
+      }
+
+      // Section 5: What is working
+      repWhatIsWorkingList.innerHTML = '';
+      if (s.whatIsWorking.length === 0) {
+        repWhatIsWorkingList.innerHTML = '<p class="empty-section-notice">None in this review.</p>';
+      } else {
+        s.whatIsWorking.forEach(item => {
+          repWhatIsWorkingList.appendChild(renderFindingCard(item, 'working'));
+        });
+      }
+
+      // Section 6: Areas to improve
+      repAreasToImproveList.innerHTML = '';
+      if (s.areasToImprove.length === 0) {
+        repAreasToImproveList.innerHTML = '<p class="empty-section-notice">No immediate areas to improve were identified.</p>';
+      } else {
+        s.areasToImprove.forEach(item => {
+          repAreasToImproveList.appendChild(renderFindingCard(item, 'improve'));
+        });
+      }
+
+      // Section 7: Needs further review
+      repNeedsFurtherReviewList.innerHTML = '';
+      if (s.needsFurtherReview.length === 0) {
+        repNeedsFurtherReviewList.innerHTML = '<p class="empty-section-notice">All areas were assessed.</p>';
+      } else {
+        s.needsFurtherReview.forEach(item => {
+          repNeedsFurtherReviewList.appendChild(renderFindingCard(item, 'review'));
+        });
+      }
+
+      // Section 8: Changed suggestions
+      repChangedSuggestionsList.innerHTML = '';
+      if (s.changedSuggestions.length === 0) {
+        repChangedSuggestionsList.innerHTML = '<p class="empty-section-notice">All suggested answers were accepted.</p>';
+      } else {
+        const ul = document.createElement('ul');
+        ul.style.margin = '0';
+        ul.style.paddingLeft = 'var(--token-space-4)';
+        ul.style.fontSize = 'var(--token-font-body-b2-size)';
+        ul.style.lineHeight = 'var(--token-font-body-b2-line)';
+
+        s.changedSuggestions.forEach(ch => {
+          const li = document.createElement('li');
+          li.style.marginBottom = 'var(--token-space-1)';
+          li.innerHTML = '<strong>' + escapeHtml(ch.area) + ':</strong> WebAudX suggested <em>' + escapeHtml(ch.suggested) + '</em>, and you chose <strong>' + escapeHtml(ch.userChoice) + '</strong>.';
+          ul.appendChild(li);
+        });
+        repChangedSuggestionsList.appendChild(ul);
+      }
+    }
+
+    // Report Actions
+    function restartReview() {
+      input.value = '';
+      clearError();
+      adjustedNote.style.display = 'none';
+      submitBtn.disabled = false;
+      selectedAnswers = {};
+      initialSuggestions = {};
+      showScreen('landing');
+      input.focus();
+    }
+
+    reportRestartBtn.addEventListener('click', restartReview);
+    reportRestartBtnBottom.addEventListener('click', restartReview);
+
+    reportDownloadPdfBtn.addEventListener('click', function() {
+      window.print();
+    });
+    reportDownloadPdfBtnBottom.addEventListener('click', function() {
+      window.print();
     });
   </script>
 </body>

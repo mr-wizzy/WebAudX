@@ -108,5 +108,181 @@
     "not_full_audit": "WebAudX is a quick clarity and usability review, not a full technical audit.",
     "watermark": "Generated with WebAudX",
     "branding_scope": "No account is needed to view or download standard reports. An account is only needed if you want custom agency branding."
+  },
+  "report": {
+    "title": "Webpage Usability Report",
+    "lead": "A plain-English evaluation of webpage clarity and usability.",
+    "review": {
+      "title": "Review Your Answers",
+      "lead": "Please check your answers before creating the report. You can change any answer at this stage.",
+      "edit_answers": "Edit Answers",
+      "generate_report": "Generate Report",
+      "all_answered": "All 7 questions answered.",
+      "changed_suggestions_note": "You chose different answers for suggested items:"
+    },
+    "sections": {
+      "page_reviewed": "Page Reviewed",
+      "check_status": "Check Status",
+      "summary": "Summary",
+      "check_results": "Check Results",
+      "what_is_working": "What Is Working",
+      "areas_to_improve": "Areas to Improve",
+      "needs_further_review": "Needs Further Review",
+      "changed_suggestions": "Changed Suggestions",
+      "multi_page_note": "Checking multiple pages will come in a future version.",
+      "about_this_report": "About this report: It combines an automated check of one page with the user's answers. It is not a full or independent audit, and it reflects the page on the date shown."
+    },
+    "badges": {
+      "measured": "Measured",
+      "your_answer": "Your answer",
+      "suggested": "Suggested"
+    },
+    "actions": {
+      "download_pdf": "Download PDF",
+      "brand_report": "Brand this report",
+      "review_another": "Review another page"
+    },
+    "findings_and_recommendations": {
+      "1": {
+        "area": "First impression",
+        "question": "Can a first-time visitor quickly understand what this website is about?",
+        "yes": {
+          "finding": "Visitors can quickly tell what this website is about as soon as they land on the page.",
+          "recommendation": null
+        },
+        "partly": {
+          "finding": "The website purpose is somewhat clear, but a visitor may have to read closely to figure out what it offers.",
+          "recommendation": "Place a concise headline and a one-sentence summary near the very top of your page explaining your core service or product."
+        },
+        "no": {
+          "finding": "It is difficult for a new visitor to quickly grasp the purpose of the website.",
+          "recommendation": "Add a clear, prominent headline at the top of the page that plainly states what your organization does."
+        },
+        "not_sure": {
+          "finding": "First impression could not be confidently assessed from the delivered page alone.",
+          "recommendation": "Ask someone unfamiliar with your business to look at your homepage for five seconds and describe what you do."
+        }
+      },
+      "2": {
+        "area": "Messaging",
+        "question": "Can a visitor understand what is being offered and who it is for?",
+        "yes": {
+          "finding": "The page clearly explains what is offered and specifically who the service or product is for.",
+          "recommendation": null
+        },
+        "partly": {
+          "finding": "The offering is mentioned, but the target audience or benefits are not immediately distinct.",
+          "recommendation": "Directly state who your service is for and list two or three key benefits near the top of the page."
+        },
+        "no": {
+          "finding": "The page does not clearly communicate the specific offering or target audience.",
+          "recommendation": "Write a short introductory paragraph identifying who you help and the primary problem you solve."
+        },
+        "not_sure": {
+          "finding": "Messaging clarity could not be confidently determined.",
+          "recommendation": "Review your main headline and text with a client or customer to verify whether your core offer is instantly obvious."
+        }
+      },
+      "3": {
+        "area": "Navigation",
+        "question": "Can a visitor easily find the information they are looking for?",
+        "yes": {
+          "finding": "The navigation menu and internal page links make it easy for visitors to find the information they need.",
+          "recommendation": null
+        },
+        "partly": {
+          "finding": "Visitors can find some key pages, but some links or menu sections may be unclear or difficult to locate.",
+          "recommendation": "Simplify your navigation menu into 5 to 7 clearly labeled items and ensure all links point to active, relevant pages."
+        },
+        "no": {
+          "finding": "Visitors may struggle to find information because the page lacks a clear navigation menu or helpful links.",
+          "recommendation": "Add a visible navigation menu at the top of the page with direct links to your most important sections."
+        },
+        "not_sure": {
+          "finding": "Ease of navigation could not be confidently evaluated.",
+          "recommendation": "Test your page links in your browser to verify that every menu item and button leads directly to where a visitor expects."
+        }
+      },
+      "4": {
+        "area": "Visual hierarchy",
+        "question": "Are the most important information and elements easy to notice?",
+        "yes": {
+          "finding": "The page uses clear headings and distinct sections so visitors notice the most important information first.",
+          "recommendation": null
+        },
+        "partly": {
+          "finding": "Some important information stands out, but large text blocks or competing sections make scanning difficult.",
+          "recommendation": "Break up long paragraphs with descriptive subheadings, bullet points, and generous spacing between sections."
+        },
+        "no": {
+          "finding": "The page layout makes it hard to distinguish primary information from secondary details.",
+          "recommendation": "Organize your content into clear visual levels with one main headline, clear subheadings, and bold key points."
+        },
+        "not_sure": {
+          "finding": "Visual hierarchy could not be confidently determined.",
+          "recommendation": "Step back from your screen or view the page on a smaller window to see if your eyes naturally focus on the most important message first."
+        }
+      },
+      "5": {
+        "area": "Call to action",
+        "question": "Is it clear what the visitor should do next?",
+        "yes": {
+          "finding": "The page clearly guides visitors toward the next step with prominent action buttons and easy contact methods.",
+          "recommendation": null
+        },
+        "partly": {
+          "finding": "Next steps are available, but action buttons or contact options may be easy to overlook or confusingly placed.",
+          "recommendation": "Add a high-contrast action button (such as 'Contact us' or 'Get started') above the fold and repeat it at the bottom."
+        },
+        "no": {
+          "finding": "The page lacks a clear call to action, leaving visitors unsure of what step to take next.",
+          "recommendation": "Include a clear, prominent button inviting the visitor to take a specific action, such as scheduling a call or requesting information."
+        },
+        "not_sure": {
+          "finding": "Call to action clarity could not be confidently assessed.",
+          "recommendation": "Look at your page and confirm that a visitor can reach your contact form, phone link, or purchase button within one click."
+        }
+      },
+      "6": {
+        "area": "User experience",
+        "question": "Can a visitor use the website without unnecessary confusion?",
+        "yes": {
+          "finding": "The page delivers a straightforward, predictable browsing experience without frustrating roadblocks.",
+          "recommendation": null
+        },
+        "partly": {
+          "finding": "The overall experience is usable, but certain elements or layout shifts may cause minor confusion.",
+          "recommendation": "Remove distracting pop-ups, simplify complex forms, and ensure page elements remain predictable as visitors scroll."
+        },
+        "no": {
+          "finding": "The page presents friction or confusion that could cause visitors to leave before finishing their visit.",
+          "recommendation": "Streamline the page by removing unnecessary distractions, clarifying form labels, and keeping layout interactions simple."
+        },
+        "not_sure": {
+          "finding": "Overall user experience could not be confidently determined.",
+          "recommendation": "Observe a colleague or friend navigating the page on their own device to spot where they pause or encounter difficulty."
+        }
+      },
+      "7": {
+        "area": "Mobile experience",
+        "question": "Is the website easy to understand and use on a mobile device?",
+        "yes": {
+          "finding": "The page is sized and formatted so visitors can comfortably read text and tap buttons on mobile devices.",
+          "recommendation": null
+        },
+        "partly": {
+          "finding": "The page loads on mobile devices, but text sizing, button spacing, or scrolling could be improved.",
+          "recommendation": "Adjust font sizes and tap target spacing so phone users can easily read text and tap buttons without zooming."
+        },
+        "no": {
+          "finding": "The page is not properly formatted for mobile screens, making it difficult to read and navigate on a phone.",
+          "recommendation": "Configure your site so that page content automatically fits mobile screen widths without requiring horizontal scrolling."
+        },
+        "not_sure": {
+          "finding": "Mobile experience could not be confidently assessed from desktop view.",
+          "recommendation": "Open the page on an actual smartphone and test scrolling, reading text, and tapping links with your thumb."
+        }
+      }
+    }
   }
 }
