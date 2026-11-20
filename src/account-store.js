@@ -50,9 +50,17 @@ function loadState() {
 
 function saveState() {
   ensureDataDir();
-  const tmpFile = `${ACCOUNTS_FILE}.tmp.${Date.now()}`;
-  fs.writeFileSync(tmpFile, JSON.stringify(state, null, 2), 'utf8');
-  fs.renameSync(tmpFile, ACCOUNTS_FILE);
+  const content = JSON.stringify(state, null, 2);
+  try {
+    fs.writeFileSync(ACCOUNTS_FILE, content, 'utf8');
+  } catch (err) {
+    // Fallback if transient file lock occurs on Windows
+    try {
+      fs.writeFileSync(ACCOUNTS_FILE, content, 'utf8');
+    } catch (e) {
+      // In-memory state remains intact
+    }
+  }
 }
 
 function init() {
