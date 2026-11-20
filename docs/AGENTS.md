@@ -375,6 +375,39 @@ The PRD contains decisions that must not be silently treated as finalized:
 
 Use only explicitly approved decisions. If an open decision blocks implementation, identify it and request a decision.
 
+---
+
+## 8. Release Roadmap & Scope Allocation
+
+By explicit product owner approval, the scope allocation across versions is confirmed:
+
+### Version 1.0 (Current MVP)
+- Single-page clarity review based on 13 baseline checks and 7 questionnaire answers.
+- 10-section report generation with zero scores or letter grades.
+- PDF generation with standard watermark.
+- Optional agency accounts and custom branding.
+- Rate limits (10 checks per 24 hours).
+
+### Version 1.1 (Static Quality & Governance Checks — Group A)
+*Approved for development following v1.0 release.*
+Expands automated page checks using lightweight static HTML parsing without script execution or external services:
+1. **SEO Basics**: Canonical link tag verification and Search indexing / Robots directive (`meta name="robots"`).
+2. **Form Accessibility**: Associated `<label>` verification for form inputs.
+3. **Analytics Setup**: Detection of analytics tags (GA4, GTM, Meta Pixel, Plausible).
+4. **Privacy Governance**: Visible Privacy Policy link verification.
+
+### Version 2.0 (Deep Auditing & Infrastructure Expansion — Group B)
+*Scheduled for v2.0 architectural expansion.*
+Requires dynamic browser execution, multi-page crawling, or third-party service infrastructure:
+1. Core Web Vitals and real page speed (LCP, CLS, INP via headless browser or PageSpeed API).
+2. Deep accessibility auditing (WCAG AA/AAA color contrast, keyboard tab navigation, visible focus).
+3. Interactive form testing (submitting test data and error validation).
+4. Privacy consent and cookie banner verification (dynamic CMP evaluation).
+5. Multi-page website auditing (crawling whole websites).
+6. Cross-browser and real-device matrix testing.
+
+---
+
 ### Final instruction
 
 Build the product defined by the approved WebAudX PRD, within the existing approved technical architecture.

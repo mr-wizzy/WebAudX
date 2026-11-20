@@ -108,6 +108,29 @@ npm start
 
 ---
 
+## 🗺️ Product Roadmap & Release Versioning
+
+* **Version 1.0 (Current MVP Release)**:
+  * Safe single-page inspection with 13 usability checks and zero script execution.
+  * 7-question clarity questionnaire with suggestions for Questions 3, 5, and 7.
+  * Plain-English report generation with 10 required sections and no arbitrary scores or letter grades.
+  * Printable PDF export with standard "Generated with WebAudX" footer.
+  * Optional agency branding and 10 checks per 24 hours rate limiting.
+* **Version 1.1 (Static Quality & Governance Checks — Group A)**:
+  * *SEO Basics*: Canonical URL tag validation and Robots search indexing directives (`meta robots`).
+  * *Form Accessibility*: Associated `<label>` verification for interactive form controls.
+  * *Analytics Setup*: Detection of analytics tags (GA4, GTM, Meta Pixel, Plausible).
+  * *Privacy Governance*: Link verification for Privacy Policy.
+* **Version 2.0 (Deep Auditing & Infrastructure Expansion — Group B)**:
+  * *Core Web Vitals & Real Speed*: LCP, CLS, and INP metrics via headless browser or PageSpeed API.
+  * *Deep Accessibility*: WCAG color contrast ratios, keyboard navigation, and visible focus states.
+  * *Interactive Forms*: Form submission and error validation testing.
+  * *Privacy Consent*: Dynamic client-side cookie consent banner verification.
+  * *Multi-Page Audits*: Crawling and analyzing full websites.
+  * *Cross-Browser & Device Matrix*: Real device and multi-engine rendering checks.
+
+---
+
 ## 📄 Product Specifications & Governance
 
 For full product rules and acceptance criteria, please review:

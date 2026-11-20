@@ -396,3 +396,45 @@ All screens work on phones, tablets, and desktops. Each screen has one main task
 | 4 | Final fonts, logo, and colour | Confirm with design |
 | 5 | Reliability of theme colour detection | Test on 20 live pages before launch |
 | 6 | Final plain-English text library | Approve before build |
+
+---
+
+## 18. Product Roadmap and Versioning
+
+### 18.1 Version 1.0 (Current MVP Release)
+- The approved 13 automated checks and 7 usability questions.
+- Address input with HTTPS auto-prefixing and SSRF defense.
+- Deterministic 10-section report generation with zero numerical scores, letter grades, or pass/fail verdicts.
+- Anonymous and branded client-side printable PDF generation with "Generated with WebAudX" watermark.
+- Optional agency accounts with custom branding (name, logo, brand colour, font).
+- Rate limiting of 10 checks per 24 hours per connection/account.
+
+### 18.2 Version 1.1 (Static Quality and Governance Checks — Group A)
+*Status: Explicitly approved by product owner for v1.1 implementation following v1.0 release.*
+Expands automated page checks while strictly adhering to the zero-script, safe-inspection architecture:
+1. **SEO Basics (Canonical & Search Indexing Directives)**:
+   - Check if `<link rel="canonical" href="...">` is present and valid.
+   - Check `<meta name="robots" content="...">` for restrictive indexing directives (e.g. `noindex`).
+2. **Form Accessibility**:
+   - Check whether input fields (`<input>`, `<select>`, `<textarea>`) have associated `<label>` tags or `aria-label` attributes for screen readers.
+3. **Analytics and Conversion Setup**:
+   - Check for the presence of standard analytics and tracking tags (Google Analytics 4 / Google Tag Manager `gtag.js`, Meta Pixel, Plausible) in delivered HTML.
+4. **Privacy Governance**:
+   - Check whether the page provides a visible link to a Privacy Policy (link or anchor text matching `/privacy` or "Privacy Policy").
+
+### 18.3 Version 2.0 (Deep Auditing and Infrastructure Expansion — Group B)
+*Status: Scheduled for v2.0 architectural expansion.*
+These capabilities require dynamic browser execution, multi-page crawling, or third-party service infrastructure:
+1. **Core Web Vitals and Real Page Speed**:
+   - Automated measurement of Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS), and Interaction to Next Paint (INP) via headless browser execution or Google PageSpeed Insights API integration.
+2. **Deep Accessibility Auditing**:
+   - Automated WCAG AA/AAA color contrast ratio verification, keyboard tab order, and visible focus indicator checks.
+3. **Interactive Form Testing**:
+   - Automated validation testing and submission testing on public forms.
+4. **Privacy Consent and Cookie Banner Verification**:
+   - Dynamic evaluation of client-side Consent Management Platforms (CMPs) and cookie banner execution.
+5. **Multi-Page Website Auditing**:
+   - Crawling and aggregating scores/findings across entire sites or multi-page sitemaps.
+6. **Cross-Browser and Real-Device Matrix Testing**:
+   - Automated layout rendering verification across real phone/tablet hardware and multiple browser rendering engines (WebKit, Blink, Gecko).
+

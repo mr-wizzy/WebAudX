@@ -168,3 +168,10 @@ The PRD lists these as open decisions. Do not treat its recommendations as appro
 - The complete conditions that produce `Not completed`.
 
 Do not implement a decision that depends on one of these items until it is confirmed.
+
+## 13. Approved version roadmap
+By explicit product-owner decision, the release roadmap is:
+- **Version 1.0 (Current MVP):** Focuses on the baseline 13 measurements, 7 questionnaire items, 10-section report, PDF export, agency accounts, and 10 checks/24h rate limiting.
+- **Version 1.1 (Static Quality & Governance — Group A):** Scheduled after v1.0 launch. Adds 4 lightweight static checks: SEO Basics (canonical link & meta robots), Form Accessibility (`<label>` association), Analytics Setup (detection of analytics tags), and Privacy Governance (Privacy Policy link verification).
+- **Version 2.0 (Deep Auditing & Infrastructure — Group B):** Scheduled for future architectural expansion. Covers Core Web Vitals, WCAG AA/AAA color contrast, form submission testing, privacy cookie banner verification, multi-page crawling, and cross-browser/device matrix testing.
+
