@@ -15,6 +15,8 @@ const accountStore = require('./src/account-store.js');
 const brandingValidator = require('./src/branding.js');
 const rateLimiter = require('./src/rate-limiter.js');
 const mailer = require('./src/mailer.js');
+const embeddedAssets = require('./src/embedded-assets.js');
+const copyLibrary = require('./docs/copy-library.json');
 
 const PORT = process.env.PORT || 3000;
 const ROOT_DIR = process.cwd();
@@ -135,12 +137,7 @@ const server = http.createServer((req, res) => {
 
   // 2. API: Copy Library
   if (req.method === 'GET' && pathname === '/api/copy-library') {
-    const copyPath = resolveStaticPath('docs/copy-library.json');
-    return fs.readFile(copyPath, 'utf8', (err, data) => {
-      if (err) return sendJson(res, 500, { error: 'Failed to read copy library' });
-      res.writeHead(200, { 'Content-Type': 'application/json; charset=UTF-8' });
-      res.end(data);
-    });
+    return sendJson(res, 200, copyLibrary);
   }
 
   // 3. API: Address Validation Endpoint (Feature 1)
@@ -372,6 +369,18 @@ const server = http.createServer((req, res) => {
 
   // 4. Static Asset Routing
   if (req.method === 'GET' || req.method === 'HEAD') {
+    const cleanPath = pathname.replace(/^\//, '');
+    if (embeddedAssets[cleanPath]) {
+      const asset = embeddedAssets[cleanPath];
+      res.writeHead(200, {
+        'Content-Type': asset.contentType,
+        'Content-Length': asset.buffer.length,
+        'X-Content-Type-Options': 'nosniff',
+        'Cache-Control': 'public, max-age=86400'
+      });
+      return res.end(asset.buffer);
+    }
+
     let filePath;
     if (pathname === '/' || pathname === '/index.html') {
       filePath = resolveStaticPath('index.html');
