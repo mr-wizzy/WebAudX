@@ -2916,6 +2916,35 @@
           credit.innerHTML = text;
         }
       }
+
+      // Apply agency brand color theme and font to the report output (PRD Section 10.2 & 10.3)
+      if (branding.brandColor) {
+        const color = branding.brandColor.trim();
+        let cleanHex = color.replace('#', '');
+        if (cleanHex.length === 3) cleanHex = cleanHex.split('').map(c => c + c).join('');
+        const num = parseInt(cleanHex, 16);
+        if (!isNaN(num) && cleanHex.length === 6) {
+          const r = (num >> 16) & 255;
+          const g = (num >> 8) & 255;
+          const b = num & 255;
+          const rDark = Math.max(0, Math.round(r * 0.72));
+          const gDark = Math.max(0, Math.round(g * 0.72));
+          const bDark = Math.max(0, Math.round(b * 0.72));
+
+          const screenReport = document.getElementById('screen-report');
+          if (screenReport) {
+            screenReport.style.setProperty('--token-color-primary-400', color);
+            screenReport.style.setProperty('--token-color-primary-500', `rgb(${rDark}, ${gDark}, ${bDark})`);
+            screenReport.style.setProperty('--token-color-primary-alpha-10', `rgba(${r}, ${g}, ${b}, 0.1)`);
+            screenReport.style.setProperty('--token-color-secondary-100', `rgba(${r}, ${g}, ${b}, 0.22)`);
+            screenReport.style.setProperty('--token-color-secondary-alpha-10', `rgba(${r}, ${g}, ${b}, 0.06)`);
+            if (branding.font) {
+              screenReport.style.setProperty('--token-font-headings-family', `'${branding.font}', sans-serif`);
+              screenReport.style.setProperty('--token-font-body-family', `'${branding.font}', sans-serif`);
+            }
+          }
+        }
+      }
     }
 
     loadActiveBranding();

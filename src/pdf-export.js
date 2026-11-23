@@ -48,12 +48,73 @@
   }
 
   /**
+   * Parse hex string into { r, g, b } components.
+   */
+  function hexToRgb(hex) {
+    if (!hex || typeof hex !== 'string') return { r: 131, g: 6, b: 193 };
+    let clean = hex.replace('#', '').trim();
+    if (clean.length === 3) {
+      clean = clean.split('').map(c => c + c).join('');
+    }
+    const num = parseInt(clean, 16);
+    if (isNaN(num) || clean.length !== 6) return { r: 131, g: 6, b: 193 };
+    return {
+      r: (num >> 16) & 255,
+      g: (num >> 8) & 255,
+      b: num & 255
+    };
+  }
+
+  /**
+   * Derive a coordinated theme color palette from an agency's selected brand accent color.
+   */
+  function getThemePalette(brandColor) {
+    const color = (brandColor && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(brandColor.trim()))
+      ? brandColor.trim()
+      : '#8306c1';
+    const { r, g, b } = hexToRgb(color);
+
+    const bgLight = `rgba(${r}, ${g}, ${b}, 0.06)`;
+    const badgeBg = `rgba(${r}, ${g}, ${b}, 0.12)`;
+    const border = `rgba(${r}, ${g}, ${b}, 0.22)`;
+    const borderDashed = `rgba(${r}, ${g}, ${b}, 0.35)`;
+    const rDark = Math.max(0, Math.round(r * 0.72));
+    const gDark = Math.max(0, Math.round(g * 0.72));
+    const bDark = Math.max(0, Math.round(b * 0.72));
+    const darkText = `rgb(${rDark}, ${gDark}, ${bDark})`;
+
+    return {
+      primary: color,
+      bgLight,
+      badgeBg,
+      border,
+      borderDashed,
+      darkText
+    };
+  }
+
+  /**
+   * Check whether an output has agency custom branding applied.
+   */
+  function isAgencyBranded(customBranding) {
+    if (!customBranding) return false;
+    return Boolean(
+      (customBranding.agencyName && customBranding.agencyName.trim().length > 0) ||
+      customBranding.logo ||
+      (customBranding.brandColor && customBranding.brandColor.toLowerCase() !== '#8306c1') ||
+      (customBranding.contactEmail && customBranding.contactEmail.trim().length > 0) ||
+      (customBranding.contactPhone && customBranding.contactPhone.trim().length > 0)
+    );
+  }
+
+  /**
    * Generates clean CSS for print and PDF export.
    * Ensures:
    * 1. Top navigation header and generic app footer are excluded.
    * 2. Interactive action buttons (toolbars) are excluded.
-   * 3. Repeating branded footer with logo and custom web development contact (08168076603) appears on each printed page.
-   * 4. Page breaks are handled cleanly without splitting findings across pages.
+   * 3. Repeating branded footer with custom web development contact appears on each printed page.
+   * 4. For agency branded outputs, theme dynamically adopts agency brand color.
+   * 5. Page breaks are handled cleanly without splitting findings across pages.
    */
   function getPrintStyles(customBranding) {
     const fontFamily = (customBranding && customBranding.font)
@@ -62,6 +123,7 @@
     const brandColor = (customBranding && customBranding.brandColor)
       ? customBranding.brandColor
       : '#8306c1';
+    const palette = getThemePalette(brandColor);
 
     return `
       @page {
@@ -117,7 +179,7 @@
           display: flex !important;
           align-items: center;
           justify-content: space-between;
-          border-bottom: 2px solid ${brandColor};
+          border-bottom: 2px solid ${palette.primary};
           padding-bottom: 8pt;
           margin-bottom: 12pt;
         }
@@ -136,7 +198,7 @@
         /* Report Cards in Print */
         .report-card {
           background: #ffffff !important;
-          border: 1px solid #e2d5ec !important;
+          border: 1px solid ${palette.border} !important;
           border-radius: 8px !important;
           box-shadow: none !important;
           padding: 10pt 12pt !important;
@@ -146,7 +208,7 @@
         }
 
         .finding-item-box {
-          border: 1px solid #e2d5ec !important;
+          border: 1px solid ${palette.border} !important;
           background: #fbfbfe !important;
           border-radius: 6px !important;
           padding: 8pt !important;
@@ -163,6 +225,15 @@
           font-size: 9pt !important;
         }
 
+        .finding-recommendation-box {
+          background: ${palette.bgLight} !important;
+          border-left: 2px solid ${palette.primary} !important;
+        }
+
+        .finding-recommendation-box strong {
+          color: ${palette.darkText} !important;
+        }
+
         /* 2. Branded Footer for every printed page */
         .pdf-print-page-footer {
           display: flex !important;
@@ -171,7 +242,7 @@
           left: 0 !important;
           right: 0 !important;
           height: 30pt !important;
-          border-top: 1px solid #e2d5ec !important;
+          border-top: 1px solid ${palette.border} !important;
           background: #ffffff !important;
           align-items: center !important;
           justify-content: space-between !important;
@@ -194,7 +265,7 @@
 
         .pdf-footer-watermark {
           font-weight: 700;
-          color: ${brandColor};
+          color: ${palette.primary};
         }
 
         .pdf-footer-contact-side {
@@ -208,7 +279,7 @@
 
         .pdf-footer-phone-number {
           font-weight: 700;
-          color: ${brandColor};
+          color: ${palette.primary};
         }
       }
     `;
@@ -217,21 +288,29 @@
   /**
    * Builds the branded PDF page footer HTML.
    * Displays:
-   * - WebAudX logo
-   * - "Generated with WebAudX" watermark
-   * - Contact for custom web development with phone: 08168076603
+   * - Unbranded: WebAudX logo + "Generated with WebAudX"
+   * - Agency Branded: Logo removed, leaving only the tool name "WebAudX"
+   * - Contact for custom web development with phone
    */
   function buildPdfFooterHtml(customBranding) {
-    const watermark = PDF_CONFIG.watermark;
     const phone = (customBranding && customBranding.contactPhone) ? customBranding.contactPhone : PDF_CONFIG.phoneNumber;
     const contactText = `For custom web development, contact: ${phone}`;
     const brandColor = (customBranding && customBranding.brandColor) || '#8306c1';
+    const palette = getThemePalette(brandColor);
+    const branded = isAgencyBranded(customBranding);
+
+    // For agency branded outputs, remove the logo from the footer of every page. Leave only the tool name: WebAudX.
+    const brandSideHtml = branded
+      ? `<span class="pdf-footer-watermark" style="font-weight: 700; color: ${escapeHtml(palette.primary)};">WebAudX</span>`
+      : `
+        <img src="${escapeHtml(PDF_CONFIG.logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" class="pdf-footer-logo" />
+        <span class="pdf-footer-watermark" style="font-weight: 700; color: ${escapeHtml(palette.primary)};">${escapeHtml(PDF_CONFIG.watermark)}</span>
+      `;
 
     return `
-      <div class="pdf-print-page-footer" id="pdf-branded-footer">
+      <div class="pdf-print-page-footer" id="pdf-branded-footer" style="border-top-color: ${escapeHtml(palette.border)};">
         <div class="pdf-footer-brand-side">
-          <img src="${escapeHtml(PDF_CONFIG.logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" class="pdf-footer-logo" />
-          <span class="pdf-footer-watermark" style="color: ${escapeHtml(brandColor)};">${escapeHtml(watermark)}</span>
+          ${brandSideHtml}
         </div>
         <div class="pdf-footer-contact-side">
           <span class="pdf-footer-contact-text">${escapeHtml(contactText)}</span>
@@ -301,6 +380,7 @@
 
     const s = report.sections;
     const brandColor = (customBranding && customBranding.brandColor) || '#8306c1';
+    const palette = getThemePalette(brandColor);
     const headerHtml = buildPdfHeaderHtml(report, customBranding);
     const footerHtml = buildPdfFooterHtml(customBranding);
 
@@ -318,7 +398,7 @@
       }
 
       measurementsHtml += `
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 4pt 0; border-bottom: 1px solid #f3eef7; font-size: 9pt;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 4pt 0; border-bottom: 1px solid ${palette.border}; font-size: 9pt;">
           <div>
             <strong>${m.id}. ${escapeHtml(m.name)}:</strong>
             <span style="color: #4a4a58;">${escapeHtml(m.explanation || '')}</span>
@@ -343,7 +423,7 @@
           <div class="finding-item-box">
             <div style="display: flex; justify-content: space-between; margin-bottom: 3pt;">
               <strong style="color: #17171d; font-size: 9pt;">${escapeHtml(item.area)}</strong>
-              <span style="font-size: 8pt; font-weight: 700; color: #8306c1; background: #f3eef7; padding: 1pt 5pt; border-radius: 9999px;">
+              <span style="font-size: 8pt; font-weight: 700; color: ${palette.primary}; background: ${palette.badgeBg}; padding: 1pt 5pt; border-radius: 9999px;">
                 Your answer: ${escapeHtml(item.answer)}
               </span>
             </div>
@@ -352,8 +432,8 @@
 
         if (type === 'improve' && item.recommendation) {
           box += `
-            <div class="finding-recommendation-box" style="background: #fbf5fe; border-left: 2px solid #8306c1; padding: 4pt 6pt; margin-top: 4pt;">
-              <strong style="font-size: 7.5pt; text-transform: uppercase; color: #5a0484; display: block;">Practical next step</strong>
+            <div class="finding-recommendation-box" style="background: ${palette.bgLight}; border-left: 2px solid ${palette.primary}; padding: 4pt 6pt; margin-top: 4pt;">
+              <strong style="font-size: 7.5pt; text-transform: uppercase; color: ${palette.darkText}; display: block;">Practical next step</strong>
               <span style="font-size: 8.5pt; color: #17171d;">${escapeHtml(item.recommendation)}</span>
             </div>
           `;
@@ -368,7 +448,7 @@
 
         if (item.supportingCheck) {
           box += `
-            <div style="font-size: 8pt; color: #68687a; margin-top: 4pt; border-top: 1px dashed #e2d5ec; padding-top: 3pt;">
+            <div style="font-size: 8pt; color: #68687a; margin-top: 4pt; border-top: 1px dashed ${palette.borderDashed}; padding-top: 3pt;">
               <span style="background: #68687a; color: #fff; font-size: 6.5pt; text-transform: uppercase; padding: 1pt 3pt; border-radius: 2px; margin-right: 4pt;">Measured</span>
               <span>${escapeHtml(item.supportingCheck)}</span>
             </div>
@@ -425,7 +505,7 @@
     <!-- Section 3: Summary -->
     <div class="report-card">
       <h3 style="font-size: 11pt; color: #17171d; margin: 0 0 4pt 0;">3. Summary</h3>
-      <p style="font-size: 9.5pt; color: #17171d; background: #fbf5fe; border-left: 2px solid ${escapeHtml(brandColor)}; padding: 6pt 8pt; margin: 0;">
+      <p style="font-size: 9.5pt; color: #17171d; background: ${palette.bgLight}; border-left: 2px solid ${escapeHtml(palette.primary)}; padding: 6pt 8pt; margin: 0;">
         ${escapeHtml(s.summary)}
       </p>
     </div>
@@ -461,7 +541,7 @@
     </div>
 
     <!-- Section 9: Multi-page checking -->
-    <div class="report-card" style="background: #fbf5fe;">
+    <div class="report-card" style="background: ${palette.bgLight};">
       <h3 style="font-size: 11pt; color: #17171d; margin: 0 0 4pt 0;">9. Multi-Page Checking</h3>
       <p style="font-size: 9pt; color: #4a4a58; margin: 0;">${escapeHtml(s.multiPageNote)}</p>
     </div>
@@ -481,7 +561,7 @@
   /**
    * Triggers native print/PDF export in browser.
    * Excludes the website header and footer.
-   * Brands the PDF footer on every page with logo & contact phone 08168076603.
+   * Brands the PDF footer on every page with contact phone.
    */
   function exportPdf(report, customBranding) {
     if (typeof window === 'undefined') {
@@ -489,12 +569,14 @@
     }
 
     const brandColor = (customBranding && customBranding.brandColor) || '#8306c1';
+    const palette = getThemePalette(brandColor);
+    const branded = isAgencyBranded(customBranding);
     const headerLogo = (customBranding && customBranding.logo) || PDF_CONFIG.logoSrc;
     const headerLogoAlt = (customBranding && customBranding.agencyName)
       ? (customBranding.agencyName + ' Logo')
       : PDF_CONFIG.logoAlt;
     const preparedByHtml = (customBranding && customBranding.agencyName)
-      ? `<div style="font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line); font-weight: 600; color: ${escapeHtml(brandColor)};">Prepared by ${escapeHtml(customBranding.agencyName)}</div>`
+      ? `<div style="font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line); font-weight: 600; color: ${escapeHtml(palette.primary)};">Prepared by ${escapeHtml(customBranding.agencyName)}</div>`
       : '';
 
     const contactParts = [];
@@ -515,7 +597,7 @@
         screenReport.insertBefore(headerEl, screenReport.firstChild);
       }
     }
-    headerEl.style.borderBottomColor = brandColor;
+    headerEl.style.borderBottomColor = palette.primary;
     headerEl.innerHTML = `
       <div>
         <img src="${escapeHtml(headerLogo)}" alt="${escapeHtml(headerLogoAlt)}" style="max-height: 28pt; width: auto;" />
@@ -539,10 +621,18 @@
     const footerPhone = (customBranding && customBranding.contactPhone) ? customBranding.contactPhone : PDF_CONFIG.phoneNumber;
     const footerContactText = `For custom web development, contact: ${footerPhone}`;
 
+    // For agency branded outputs, remove the logo from the footer of every page. Leave only the tool name: WebAudX.
+    const brandSideHtml = branded
+      ? `<span class="pdf-footer-watermark" style="font-weight: 700; color: ${escapeHtml(palette.primary)};">WebAudX</span>`
+      : `
+        <img src="${escapeHtml(PDF_CONFIG.logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" class="pdf-footer-logo" style="max-height: 18pt; width: auto;" />
+        <span class="pdf-footer-watermark" style="font-weight: 700; color: ${escapeHtml(palette.primary)};">${escapeHtml(PDF_CONFIG.watermark)}</span>
+      `;
+
+    footerEl.style.borderTopColor = palette.border;
     footerEl.innerHTML = `
       <div style="display: flex; align-items: center; gap: var(--token-space-2);">
-        <img src="${escapeHtml(PDF_CONFIG.logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" class="pdf-footer-logo" style="max-height: 18pt; width: auto;" />
-        <span class="pdf-footer-watermark" style="font-weight: 700; color: ${escapeHtml(brandColor)};">${escapeHtml(PDF_CONFIG.watermark)}</span>
+        ${brandSideHtml}
       </div>
       <div style="text-align: right;">
         <span style="color: var(--token-color-neutral-1000);">${escapeHtml(footerContactText)}</span>

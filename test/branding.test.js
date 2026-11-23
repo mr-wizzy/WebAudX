@@ -187,8 +187,9 @@ test('Feature 6: Agency Accounts & Custom Branding Test Suite', async (t) => {
 
     const printableHtml = pdfExport.generatePrintableHtml(report, customBranding);
 
-    // 1. Mandatory watermark and developer contact must be retained
-    assert.ok(printableHtml.includes('Generated with WebAudX'), 'Branded PDF must still show "Generated with WebAudX"');
+    // 1. Mandatory tool name and developer contact must be retained
+    assert.ok(printableHtml.includes('WebAudX'), 'Branded PDF must show tool name "WebAudX"');
+    assert.ok(!printableHtml.includes('class="pdf-footer-logo"'), 'Branded PDF footer must not contain logo image element');
     assert.ok(printableHtml.includes('08168076603'), 'Branded PDF must retain custom dev contact phone');
 
     // 2. Custom logo, agency name, and font are included
@@ -265,7 +266,39 @@ test('Feature 6: Agency Accounts & Custom Branding Test Suite', async (t) => {
     const printableHtml = pdfExport.generatePrintableHtml(report, sessionAccount.branding);
     assert.ok(printableHtml.includes('contact@apexux.com'), 'PDF header must include contact email');
     assert.ok(printableHtml.includes('+1 (555) 987-6543'), 'PDF header and footer must include contact phone');
-    assert.ok(printableHtml.includes('Generated with WebAudX'), 'Mandatory watermark must remain');
+    assert.ok(printableHtml.includes('WebAudX'), 'Mandatory tool name must remain');
+    assert.ok(!printableHtml.includes('class="pdf-footer-logo"'), 'Branded PDF footer must not contain logo image element');
+  });
+
+  await t.test('Branded outputs adapt purple theme to agency color and remove logo from footer', () => {
+    const sampleInspection = {
+      url: 'https://example.com/',
+      submittedUrl: 'example.com',
+      overallStatus: 'Complete',
+      timestamp: '2026-11-20T12:00:00.000Z',
+      measurements: []
+    };
+    const sampleAnswers = { 1: 'Yes', 2: 'Yes', 3: 'Yes', 4: 'Yes', 5: 'Yes', 6: 'Yes', 7: 'Yes' };
+    const report = reportEngine.assembleReport(sampleInspection, sampleAnswers);
+
+    const blueBranding = {
+      agencyName: 'Blue Ocean UX',
+      brandColor: '#2563eb', // Blue
+      font: 'Roboto'
+    };
+
+    const printableHtml = pdfExport.generatePrintableHtml(report, blueBranding);
+
+    // 1. Footer has no logo image, only tool name "WebAudX"
+    assert.ok(!printableHtml.includes('class="pdf-footer-logo"'), 'Footer must not have logo image');
+    assert.ok(printableHtml.includes('>WebAudX</span>'), 'Footer must display only tool name WebAudX');
+
+    // 2. Purple theme elements replaced with agency blue color (#2563eb)
+    assert.ok(printableHtml.includes('#2563eb'), 'Must contain agency selected brand color');
+    assert.ok(!printableHtml.includes('#8306c1'), 'Must not contain default purple #8306c1');
+    assert.ok(!printableHtml.includes('#e2d5ec'), 'Must not contain default purple border #e2d5ec');
+    assert.ok(!printableHtml.includes('#fbf5fe'), 'Must not contain default purple background #fbf5fe');
+    assert.ok(!printableHtml.includes('#f3eef7'), 'Must not contain default purple tint #f3eef7');
   });
 
   await t.test('Acceptance Test 25: Account deletion completely purges account and logs completion within 30 days', () => {
