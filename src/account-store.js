@@ -12,7 +12,9 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const brandingValidator = require('./branding.js');
 
-const DATA_DIR = path.resolve(__dirname, '..', 'data');
+const DATA_DIR = process.env.VERCEL
+  ? path.join('/tmp', 'data')
+  : path.resolve(__dirname, '..', 'data');
 const ACCOUNTS_FILE = process.env.NODE_ENV === 'test'
   ? path.join(DATA_DIR, 'accounts.test.json')
   : path.join(DATA_DIR, 'accounts.json');

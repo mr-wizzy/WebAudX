@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/server.js" }
+  ],
+  "functions": {
+    "server.js": {
+      "includeFiles": [
+        "assets/**",
+        "src/**",
+        "docs/**",
+        "*.html"
+      ]
+    }
+  }
+}

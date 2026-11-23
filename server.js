@@ -17,7 +17,22 @@ const rateLimiter = require('./src/rate-limiter.js');
 const mailer = require('./src/mailer.js');
 
 const PORT = process.env.PORT || 3000;
-const ROOT_DIR = __dirname;
+const ROOT_DIR = process.cwd();
+const ROOT_DIRS = [
+  process.cwd(),
+  path.resolve(__dirname)
+];
+
+function resolveStaticPath(pathname) {
+  const clean = decodeURIComponent(pathname.replace(/^\//, ''));
+  for (const root of ROOT_DIRS) {
+    const candidate = path.join(root, clean);
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+  return path.join(ROOT_DIR, clean);
+}
 
 // MIME types for static assets
 const MIME_TYPES = {
@@ -48,9 +63,13 @@ function sendJson(res, statusCode, data) {
 function serveStatic(req, res, filePath) {
   // Prevent directory traversal and block private data directories
   const safePath = path.normalize(filePath);
+  const isInsideRoot = ROOT_DIRS.some(root => {
+    const rel = path.relative(root, safePath);
+    return !rel.startsWith('..') && !path.isAbsolute(rel);
+  });
   const relPath = path.relative(ROOT_DIR, safePath);
   if (
-    !safePath.startsWith(ROOT_DIR) ||
+    !isInsideRoot ||
     relPath.startsWith('data') ||
     relPath.startsWith('.agent') ||
     relPath.startsWith('.git') ||
@@ -72,7 +91,8 @@ function serveStatic(req, res, filePath) {
     res.writeHead(200, {
       'Content-Type': contentType,
       'Content-Length': stats.size,
-      'X-Content-Type-Options': 'nosniff'
+      'X-Content-Type-Options': 'nosniff',
+      'Cache-Control': 'public, max-age=3600'
     });
 
     const stream = fs.createReadStream(safePath);
@@ -115,7 +135,7 @@ const server = http.createServer((req, res) => {
 
   // 2. API: Copy Library
   if (req.method === 'GET' && pathname === '/api/copy-library') {
-    const copyPath = path.join(ROOT_DIR, 'docs', 'copy-library.json');
+    const copyPath = resolveStaticPath('docs/copy-library.json');
     return fs.readFile(copyPath, 'utf8', (err, data) => {
       if (err) return sendJson(res, 500, { error: 'Failed to read copy library' });
       res.writeHead(200, { 'Content-Type': 'application/json; charset=UTF-8' });
@@ -354,11 +374,11 @@ const server = http.createServer((req, res) => {
   if (req.method === 'GET' || req.method === 'HEAD') {
     let filePath;
     if (pathname === '/' || pathname === '/index.html') {
-      filePath = path.join(ROOT_DIR, 'index.html');
+      filePath = resolveStaticPath('index.html');
     } else if (pathname === '/signup.html') {
-      filePath = path.join(ROOT_DIR, 'signup.html');
+      filePath = resolveStaticPath('signup.html');
     } else {
-      filePath = path.join(ROOT_DIR, decodeURIComponent(pathname));
+      filePath = resolveStaticPath(pathname);
     }
     return serveStatic(req, res, filePath);
   }
