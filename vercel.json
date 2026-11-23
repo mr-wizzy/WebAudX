@@ -5,12 +5,7 @@
   ],
   "functions": {
     "server.js": {
-      "includeFiles": [
-        "assets/**",
-        "src/**",
-        "docs/**",
-        "*.html"
-      ]
+      "includeFiles": "{assets/**,src/**,docs/**,*.html}"
     }
   }
 }
