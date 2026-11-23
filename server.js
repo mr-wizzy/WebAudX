@@ -14,6 +14,7 @@ const { inspectWebpage } = require('./src/inspect-page.js');
 const accountStore = require('./src/account-store.js');
 const brandingValidator = require('./src/branding.js');
 const rateLimiter = require('./src/rate-limiter.js');
+const mailer = require('./src/mailer.js');
 
 const PORT = process.env.PORT || 3000;
 const ROOT_DIR = __dirname;
@@ -226,16 +227,24 @@ const server = http.createServer((req, res) => {
       body += chunk;
       if (body.length > 10240) { req.destroy(); }
     });
-    return req.on('end', () => {
+    return req.on('end', async () => {
       try {
         const payload = JSON.parse(body || '{}');
         const link = accountStore.createMagicLink(payload.email);
         const host = req.headers.host || 'localhost:3000';
         const dynamicDevLink = `http://${host}/signup.html?token=${link.token}`;
         console.log(`[Auth API] Magic link generated for ${link.email}: ${dynamicDevLink}`);
+
+        // Dispatch real email via SMTP if configured
+        const mailResult = await mailer.sendMagicLinkEmail({
+          to: link.email,
+          magicLink: dynamicDevLink
+        });
+
         sendJson(res, 200, {
           success: true,
           message: 'Sign-in link sent.',
+          emailSent: mailResult.sent,
           token: link.token,
           devLink: dynamicDevLink
         });

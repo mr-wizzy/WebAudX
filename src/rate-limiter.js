@@ -14,7 +14,9 @@ const copyLibrary = require('../docs/copy-library.json');
 const MAX_CHECKS_PER_24H = 10;
 const WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours in ms
 const DATA_DIR = path.resolve(__dirname, '..', 'data');
-const RATE_LIMITS_FILE = path.join(DATA_DIR, 'rate-limits.json');
+const RATE_LIMITS_FILE = process.env.NODE_ENV === 'test'
+  ? path.join(DATA_DIR, 'rate-limits.test.json')
+  : path.join(DATA_DIR, 'rate-limits.json');
 
 // In-memory cache synced to disk
 let memoryStore = {};

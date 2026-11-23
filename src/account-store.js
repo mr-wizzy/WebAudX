@@ -13,7 +13,9 @@ const crypto = require('node:crypto');
 const brandingValidator = require('./branding.js');
 
 const DATA_DIR = path.resolve(__dirname, '..', 'data');
-const ACCOUNTS_FILE = path.join(DATA_DIR, 'accounts.json');
+const ACCOUNTS_FILE = process.env.NODE_ENV === 'test'
+  ? path.join(DATA_DIR, 'accounts.test.json')
+  : path.join(DATA_DIR, 'accounts.json');
 
 // Memory store backed by atomic file writes
 let state = {
