@@ -13,7 +13,7 @@ const copyLibrary = require('../docs/copy-library.json');
 
 const MAX_CHECKS_PER_24H = 10;
 const WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours in ms
-const DATA_DIR = process.env.VERCEL
+const DATA_DIR = (process.env.VERCEL || process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME)
   ? path.join('/tmp', 'data')
   : path.resolve(__dirname, '..', 'data');
 const RATE_LIMITS_FILE = process.env.NODE_ENV === 'test'

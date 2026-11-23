@@ -12,7 +12,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const brandingValidator = require('./branding.js');
 
-const DATA_DIR = process.env.VERCEL
+const DATA_DIR = (process.env.VERCEL || process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME)
   ? path.join('/tmp', 'data')
   : path.resolve(__dirname, '..', 'data');
 const ACCOUNTS_FILE = process.env.NODE_ENV === 'test'

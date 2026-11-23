@@ -116,8 +116,12 @@ function getSessionToken(req) {
 }
 
 const server = http.createServer((req, res) => {
-  const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-  const pathname = parsedUrl.pathname;
+  const rawPath = req.headers['x-forwarded-uri'] || req.headers['x-matched-path'] || req.url;
+  const parsedUrl = new URL(rawPath, `http://${req.headers.host || 'localhost'}`);
+  let pathname = parsedUrl.pathname;
+  if ((pathname === '/server.js' || pathname === '/api/index.js' || pathname === '/api') && (req.headers['x-forwarded-uri'] || req.headers['x-matched-path'])) {
+    pathname = new URL(req.headers['x-forwarded-uri'] || req.headers['x-matched-path'], 'http://localhost').pathname;
+  }
 
   // CORS Preflight
   if (req.method === 'OPTIONS') {
