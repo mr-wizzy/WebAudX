@@ -180,7 +180,9 @@
       position: relative;
     }
 
-    input[type="email"] {
+    input[type="email"],
+    input[type="text"],
+    input[type="tel"] {
       width: 100%;
       padding: var(--token-space-3) var(--token-space-4);
       font-family: var(--token-font-body-family);
@@ -194,12 +196,16 @@
       transition: all 0.15s ease;
     }
 
-    input[type="email"]:focus {
+    input[type="email"]:focus,
+    input[type="text"]:focus,
+    input[type="tel"]:focus {
       border-color: var(--token-color-primary-400);
       box-shadow: 0 0 0 var(--token-space-1) var(--token-color-primary-alpha-10);
     }
 
-    input[type="email"].has-error {
+    input[type="email"].has-error,
+    input[type="text"].has-error,
+    input[type="tel"].has-error {
       border-color: var(--token-color-red-100);
       background-color: var(--token-color-red-alpha-10);
     }
@@ -461,6 +467,14 @@
       font-weight: var(--token-font-body-b1-weight);
     }
 
+    .preview-contact {
+      font-size: var(--token-font-body-b3-size);
+      line-height: var(--token-font-body-b3-line);
+      color: var(--token-color-neutral-700);
+      margin-top: var(--token-space-0);
+      display: none;
+    }
+
     .color-picker-wrap {
       display: flex;
       align-items: center;
@@ -688,6 +702,7 @@
             <div class="preview-text-block">
               <div class="preview-title" id="preview-title-text">Webpage Usability Report</div>
               <div class="preview-prepared-by" id="preview-prepared-by">Prepared by Your Agency</div>
+              <div class="preview-contact" id="preview-contact"></div>
             </div>
           </div>
         </div>
@@ -709,6 +724,36 @@
             </div>
             <div id="agency-name-counter" class="char-counter">0 / 60 characters</div>
             <div class="field-hint">Shown as "Prepared by [name]" on reports and PDFs.</div>
+          </div>
+
+          <!-- Agency Contact Email -->
+          <div class="form-group">
+            <label for="agency-email-input">Agency contact email</label>
+            <div class="input-wrapper">
+              <input 
+                type="email" 
+                id="agency-email-input" 
+                name="contactEmail" 
+                placeholder="e.g. contact@agency.com" 
+                maxlength="100" 
+              />
+            </div>
+            <div class="field-hint">Shown on report header and footer so clients can reach you.</div>
+          </div>
+
+          <!-- Agency Phone Number -->
+          <div class="form-group">
+            <label for="agency-phone-input">Agency phone number</label>
+            <div class="input-wrapper">
+              <input 
+                type="tel" 
+                id="agency-phone-input" 
+                name="contactPhone" 
+                placeholder="e.g. 08168076603 or +1 (555) 019-2834" 
+                maxlength="30" 
+              />
+            </div>
+            <div class="field-hint">Shown on report and PDF for clients requesting follow-up development.</div>
           </div>
 
           <!-- Agency Logo Upload -->
@@ -924,6 +969,8 @@
     const brandingForm = document.getElementById('branding-form');
     const agencyNameInput = document.getElementById('agency-name-input');
     const agencyNameCounter = document.getElementById('agency-name-counter');
+    const agencyEmailInput = document.getElementById('agency-email-input');
+    const agencyPhoneInput = document.getElementById('agency-phone-input');
     const logoDropzone = document.getElementById('logo-dropzone');
     const logoFileInput = document.getElementById('logo-file-input');
     const logoPreviewWrap = document.getElementById('logo-preview-wrap');
@@ -936,6 +983,7 @@
     const previewHeaderBox = document.getElementById('preview-header-box');
     const previewLogoImg = document.getElementById('preview-logo-img');
     const previewPreparedBy = document.getElementById('preview-prepared-by');
+    const previewContact = document.getElementById('preview-contact');
     const activeUserEmail = document.getElementById('active-user-email');
     const signoutBtn = document.getElementById('signout-btn');
     const deleteAccountBtn = document.getElementById('delete-account-btn');
@@ -1002,6 +1050,8 @@
       const b = data.branding || {};
       agencyNameInput.value = b.agencyName || '';
       agencyNameCounter.textContent = (b.agencyName || '').length + ' / 60 characters';
+      if (agencyEmailInput) agencyEmailInput.value = b.contactEmail || '';
+      if (agencyPhoneInput) agencyPhoneInput.value = b.contactPhone || '';
       brandColorPicker.value = b.brandColor || '#8306c1';
       brandColorHex.value = b.brandColor || '#8306c1';
       fontSelect.value = b.font || 'Inter';
@@ -1023,6 +1073,21 @@
       previewPreparedBy.style.color = color;
       previewHeaderBox.style.borderTopColor = color;
       previewHeaderBox.style.fontFamily = fontSelect.value + ', sans-serif';
+
+      if (previewContact) {
+        const contactParts = [];
+        const emailVal = agencyEmailInput ? agencyEmailInput.value.trim() : '';
+        const phoneVal = agencyPhoneInput ? agencyPhoneInput.value.trim() : '';
+        if (emailVal) contactParts.push(emailVal);
+        if (phoneVal) contactParts.push(phoneVal);
+        if (contactParts.length > 0) {
+          previewContact.textContent = contactParts.join(' • ');
+          previewContact.style.display = 'block';
+        } else {
+          previewContact.textContent = '';
+          previewContact.style.display = 'none';
+        }
+      }
     }
 
     // Live sync inputs
@@ -1030,6 +1095,14 @@
       agencyNameCounter.textContent = this.value.length + ' / 60 characters';
       updateLivePreview();
     });
+
+    if (agencyEmailInput) {
+      agencyEmailInput.addEventListener('input', updateLivePreview);
+    }
+
+    if (agencyPhoneInput) {
+      agencyPhoneInput.addEventListener('input', updateLivePreview);
+    }
 
     brandColorPicker.addEventListener('input', function() {
       brandColorHex.value = this.value;
@@ -1061,24 +1134,32 @@
 
       const reader = new FileReader();
       reader.onload = function(evt) {
-        const raw = evt.target.result;
-        // Client-side validation if WebAudXBranding is loaded
-        if (window.WebAudXBranding) {
-          const val = window.WebAudXBranding.validateLogo(raw, file.name);
-          if (!val.valid) {
-            showAlert(val.error);
-            return;
+        try {
+          const raw = evt.target.result;
+          // Client-side validation if WebAudXBranding is loaded
+          if (window.WebAudXBranding) {
+            const val = window.WebAudXBranding.validateLogo(raw, file.name);
+            if (!val.valid) {
+              showAlert(val.error);
+              return;
+            }
+            currentLogoData = val.dataUri;
+          } else {
+            currentLogoData = raw;
           }
-          currentLogoData = val.dataUri;
-        } else {
-          currentLogoData = raw;
-        }
 
-        previewLogoImg.src = currentLogoData;
-        logoFilename.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
-        logoPreviewWrap.style.display = 'flex';
-        hideAlert();
-        updateLivePreview();
+          previewLogoImg.src = currentLogoData;
+          logoFilename.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+          logoPreviewWrap.style.display = 'flex';
+          hideAlert();
+          updateLivePreview();
+        } catch (err) {
+          console.error('[Logo Processing Error]', err);
+          showAlert('Please upload a PNG, JPG, or SVG file.');
+        }
+      };
+      reader.onerror = function() {
+        showAlert('Could not read logo file. Please try again.');
       };
       reader.readAsDataURL(file);
     }
@@ -1098,6 +1179,8 @@
 
       const payload = {
         agencyName: agencyNameInput.value.trim(),
+        contactEmail: agencyEmailInput ? agencyEmailInput.value.trim() : '',
+        contactPhone: agencyPhoneInput ? agencyPhoneInput.value.trim() : '',
         brandColor: brandColorHex.value.trim(),
         font: fontSelect.value,
         logo: currentLogoData

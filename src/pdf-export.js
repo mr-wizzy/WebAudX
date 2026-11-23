@@ -223,7 +223,8 @@
    */
   function buildPdfFooterHtml(customBranding) {
     const watermark = PDF_CONFIG.watermark;
-    const contactText = PDF_CONFIG.contactText;
+    const phone = (customBranding && customBranding.contactPhone) ? customBranding.contactPhone : PDF_CONFIG.phoneNumber;
+    const contactText = `For custom web development, contact: ${phone}`;
     const brandColor = (customBranding && customBranding.brandColor) || '#8306c1';
 
     return `
@@ -263,6 +264,13 @@
       ? `<div style="font-size: 8.5pt; font-weight: 600; color: ${escapeHtml(brandColor)};">Prepared by ${escapeHtml(customBranding.agencyName)}</div>`
       : '';
 
+    const contactParts = [];
+    if (customBranding && customBranding.contactEmail) contactParts.push(escapeHtml(customBranding.contactEmail));
+    if (customBranding && customBranding.contactPhone) contactParts.push(escapeHtml(customBranding.contactPhone));
+    const contactMetaHtml = contactParts.length > 0
+      ? `<div style="font-size: 8pt; color: #4a4a58;">Contact: ${contactParts.join(' &bull; ')}</div>`
+      : '';
+
     return `
       <div class="pdf-print-header" id="pdf-branded-header" style="border-bottom-color: ${escapeHtml(brandColor)};">
         <div>
@@ -271,6 +279,7 @@
         <div class="pdf-print-header-meta">
           <div><strong>Webpage Usability Report</strong></div>
           ${preparedByHtml}
+          ${contactMetaHtml}
           <div>${escapeHtml(submittedAddress)} &bull; ${escapeHtml(formattedDate)}</div>
         </div>
       </div>
@@ -488,6 +497,13 @@
       ? `<div style="font-size: var(--token-font-body-b2-size); line-height: var(--token-font-body-b2-line); font-weight: 600; color: ${escapeHtml(brandColor)};">Prepared by ${escapeHtml(customBranding.agencyName)}</div>`
       : '';
 
+    const contactParts = [];
+    if (customBranding && customBranding.contactEmail) contactParts.push(escapeHtml(customBranding.contactEmail));
+    if (customBranding && customBranding.contactPhone) contactParts.push(escapeHtml(customBranding.contactPhone));
+    const contactMetaHtml = contactParts.length > 0
+      ? `<div style="font-size: var(--token-font-body-b3-size); line-height: var(--token-font-body-b3-line); color: var(--token-color-neutral-700);">Contact: ${contactParts.join(' &bull; ')}</div>`
+      : '';
+
     // Ensure the dedicated printable header exists in the DOM
     let headerEl = document.getElementById('pdf-branded-header');
     if (!headerEl) {
@@ -507,6 +523,7 @@
       <div style="text-align: right; font-size: var(--token-font-body-b3-size); line-height: var(--token-font-body-b3-line); color: var(--token-color-neutral-700);">
         <div><strong>Webpage Usability Report</strong></div>
         ${preparedByHtml}
+        ${contactMetaHtml}
         <div>${escapeHtml(report.sections.pageReviewed.submittedAddress)} &bull; ${escapeHtml(report.sections.pageReviewed.formattedDate)}</div>
       </div>
     `;
@@ -519,13 +536,16 @@
       footerEl.className = 'pdf-print-page-footer';
       document.body.appendChild(footerEl);
     }
+    const footerPhone = (customBranding && customBranding.contactPhone) ? customBranding.contactPhone : PDF_CONFIG.phoneNumber;
+    const footerContactText = `For custom web development, contact: ${footerPhone}`;
+
     footerEl.innerHTML = `
       <div style="display: flex; align-items: center; gap: var(--token-space-2);">
         <img src="${escapeHtml(PDF_CONFIG.logoSrc)}" alt="${escapeHtml(PDF_CONFIG.logoAlt)}" class="pdf-footer-logo" style="max-height: 18pt; width: auto;" />
         <span class="pdf-footer-watermark" style="font-weight: 700; color: ${escapeHtml(brandColor)};">${escapeHtml(PDF_CONFIG.watermark)}</span>
       </div>
       <div style="text-align: right;">
-        <span style="color: var(--token-color-neutral-1000);">${escapeHtml(PDF_CONFIG.contactText)}</span>
+        <span style="color: var(--token-color-neutral-1000);">${escapeHtml(footerContactText)}</span>
       </div>
     `;
 

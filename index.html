@@ -2900,10 +2900,20 @@
           `;
         }
       });
-      if (branding.agencyName) {
+      if (branding.agencyName || branding.contactEmail || branding.contactPhone) {
         const credit = document.getElementById('report-agency-credit');
         if (credit) {
-          credit.innerHTML = 'A plain-English evaluation of webpage clarity and usability. <strong style="color: ' + (branding.brandColor || 'var(--token-color-primary-400)') + ';">Prepared by ' + escapeHtml(branding.agencyName) + '</strong>';
+          let text = 'A plain-English evaluation of webpage clarity and usability.';
+          if (branding.agencyName) {
+            text += ' <strong style="color: ' + (branding.brandColor || 'var(--token-color-primary-400)') + ';">Prepared by ' + escapeHtml(branding.agencyName) + '</strong>';
+          }
+          const contacts = [];
+          if (branding.contactEmail) contacts.push(escapeHtml(branding.contactEmail));
+          if (branding.contactPhone) contacts.push(escapeHtml(branding.contactPhone));
+          if (contacts.length > 0) {
+            text += ' &bull; <span>' + contacts.join(' &bull; ') + '</span>';
+          }
+          credit.innerHTML = text;
         }
       }
     }

@@ -30,8 +30,119 @@
     NAME_TOO_LONG: "Agency name cannot exceed 60 characters.",
     NAME_REQUIRED: "Please enter your agency name.",
     INVALID_COLOR: "Please enter a valid hex colour code, such as #8306c1.",
-    INVALID_FONT: "Please select one of the five approved fonts: Montserrat, Inter, Roboto, Lato, or Open Sans."
+    INVALID_FONT: "Please select one of the five approved fonts: Montserrat, Inter, Roboto, Lato, or Open Sans.",
+    INVALID_CONTACT_EMAIL: "Please enter a valid contact email address.",
+    INVALID_CONTACT_PHONE: "Please enter a valid phone number (e.g. 08168076603 or +1 555-019-2834)."
   };
+
+  /**
+   * Cross-environment binary and string conversion helpers.
+   * Runs seamlessly in both Node.js and browser environments without ReferenceErrors.
+   */
+  function base64ToUint8(base64Str) {
+    if (typeof Buffer !== 'undefined') {
+      return Buffer.from(base64Str, 'base64');
+    }
+    const binaryStr = atob(base64Str);
+    const len = binaryStr.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryStr.charCodeAt(i);
+    }
+    return bytes;
+  }
+
+  function utf8ToUint8(str) {
+    if (typeof Buffer !== 'undefined') {
+      return Buffer.from(str, 'utf8');
+    }
+    if (typeof TextEncoder !== 'undefined') {
+      return new TextEncoder().encode(str);
+    }
+    const encoded = unescape(encodeURIComponent(str));
+    const bytes = new Uint8Array(encoded.length);
+    for (let i = 0; i < encoded.length; i++) {
+      bytes[i] = encoded.charCodeAt(i);
+    }
+    return bytes;
+  }
+
+  function uint8ToBase64(bytes) {
+    if (typeof Buffer !== 'undefined' && Buffer.isBuffer(bytes)) {
+      return bytes.toString('base64');
+    }
+    if (typeof Buffer !== 'undefined') {
+      return Buffer.from(bytes).toString('base64');
+    }
+    let binary = '';
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+  }
+
+  function uint8ToUtf8(bytes, maxBytes) {
+    const slice = (maxBytes && bytes.length > maxBytes) ? bytes.subarray(0, maxBytes) : bytes;
+    if (typeof Buffer !== 'undefined' && Buffer.isBuffer(slice)) {
+      return slice.toString('utf8');
+    }
+    if (typeof TextDecoder !== 'undefined') {
+      return new TextDecoder('utf-8').decode(slice);
+    }
+    if (typeof Buffer !== 'undefined') {
+      return Buffer.from(slice).toString('utf8');
+    }
+    let binary = '';
+    for (let i = 0; i < slice.length; i++) {
+      binary += String.fromCharCode(slice[i]);
+    }
+    return decodeURIComponent(escape(binary));
+  }
+
+  /**
+   * Validate contact email (optional, max 100 characters).
+   */
+  function validateContactEmail(email) {
+    if (!email || typeof email !== 'string') {
+      return { valid: true, sanitized: '' };
+    }
+    const trimmed = email.trim();
+    if (trimmed.length === 0) {
+      return { valid: true, sanitized: '' };
+    }
+    if (trimmed.length > 100) {
+      return { valid: false, error: 'Contact email cannot exceed 100 characters.' };
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmed)) {
+      return { valid: false, error: COPY.INVALID_CONTACT_EMAIL };
+    }
+    const sanitized = trimmed.replace(/<[^>]*>?/gm, '');
+    return { valid: true, sanitized: sanitized };
+  }
+
+  /**
+   * Validate contact phone (optional, max 30 characters).
+   */
+  function validateContactPhone(phone) {
+    if (!phone || typeof phone !== 'string') {
+      return { valid: true, sanitized: '' };
+    }
+    const trimmed = phone.trim();
+    if (trimmed.length === 0) {
+      return { valid: true, sanitized: '' };
+    }
+    if (trimmed.length > 30) {
+      return { valid: false, error: 'Contact phone number cannot exceed 30 characters.' };
+    }
+    const phoneRegex = /^[0-9+\s\-().]{5,30}$/;
+    if (!phoneRegex.test(trimmed)) {
+      return { valid: false, error: COPY.INVALID_CONTACT_PHONE };
+    }
+    const sanitized = trimmed.replace(/<[^>]*>?/gm, '');
+    return { valid: true, sanitized: sanitized };
+  }
 
   /**
    * Validate agency name (up to 60 characters per PRD Section 10.2).
@@ -145,46 +256,53 @@
       return { valid: false, error: COPY.LOGO_TYPE_NOT_ALLOWED };
     }
 
-    let buffer;
+    let bytes;
     if (typeof data === 'string') {
       if (data.startsWith('data:')) {
-        const parts = data.split(',');
-        buffer = Buffer.from(parts[1], 'base64');
+        const commaIndex = data.indexOf(',');
+        if (commaIndex === -1) {
+          return { valid: false, error: COPY.LOGO_TYPE_NOT_ALLOWED };
+        }
+        try {
+          bytes = base64ToUint8(data.substring(commaIndex + 1));
+        } catch (e) {
+          return { valid: false, error: COPY.LOGO_TYPE_NOT_ALLOWED };
+        }
       } else {
-        buffer = Buffer.from(data, 'utf8');
+        bytes = utf8ToUint8(data);
       }
-    } else if (Buffer.isBuffer(data)) {
-      buffer = data;
+    } else if (typeof Buffer !== 'undefined' && Buffer.isBuffer(data)) {
+      bytes = data;
     } else if (data instanceof Uint8Array) {
-      buffer = Buffer.from(data);
+      bytes = data;
     } else {
       return { valid: false, error: COPY.LOGO_TYPE_NOT_ALLOWED };
     }
 
     // 1. Strict 1 MB size check (PRD Section 10.2 & 13)
-    if (buffer.length > MAX_LOGO_SIZE_BYTES) {
+    if (bytes.length > MAX_LOGO_SIZE_BYTES) {
       return { valid: false, error: COPY.LOGO_TOO_LARGE };
     }
-    if (buffer.length === 0) {
+    if (bytes.length === 0) {
       return { valid: false, error: COPY.LOGO_TYPE_NOT_ALLOWED };
     }
 
     // 2. Binary Magic Bytes Inspection
     // PNG Magic Bytes: 89 50 4E 47 0D 0A 1A 0A
-    const isPng = buffer.length >= 8 &&
-      buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4e && buffer[3] === 0x47 &&
-      buffer[4] === 0x0d && buffer[5] === 0x0a && buffer[6] === 0x1a && buffer[7] === 0x0a;
+    const isPng = bytes.length >= 8 &&
+      bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47 &&
+      bytes[4] === 0x0d && bytes[5] === 0x0a && bytes[6] === 0x1a && bytes[7] === 0x0a;
 
     // JPG/JPEG Magic Bytes: FF D8 FF
-    const isJpg = buffer.length >= 3 &&
-      buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff;
+    const isJpg = bytes.length >= 3 &&
+      bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
 
     // SVG: Check text representation
     let isSvg = false;
     let sanitizedSvg = null;
-    const textSnippet = buffer.toString('utf8', 0, Math.min(buffer.length, 1024)).trim();
+    const textSnippet = uint8ToUtf8(bytes, Math.min(bytes.length, 1024)).trim();
     if (textSnippet.includes('<svg') || textSnippet.startsWith('<?xml')) {
-      const fullSvgText = buffer.toString('utf8');
+      const fullSvgText = uint8ToUtf8(bytes);
       sanitizedSvg = sanitizeSvg(fullSvgText);
       if (sanitizedSvg && sanitizedSvg.length > 0) {
         isSvg = true;
@@ -200,21 +318,21 @@
 
     if (isPng) {
       mimeType = 'image/png';
-      dataUri = `data:image/png;base64,${buffer.toString('base64')}`;
+      dataUri = `data:image/png;base64,${uint8ToBase64(bytes)}`;
     } else if (isJpg) {
       mimeType = 'image/jpeg';
-      dataUri = `data:image/jpeg;base64,${buffer.toString('base64')}`;
+      dataUri = `data:image/jpeg;base64,${uint8ToBase64(bytes)}`;
     } else if (isSvg) {
       mimeType = 'image/svg+xml';
-      const cleanBuffer = Buffer.from(sanitizedSvg, 'utf8');
-      dataUri = `data:image/svg+xml;base64,${cleanBuffer.toString('base64')}`;
+      const cleanBytes = utf8ToUint8(sanitizedSvg);
+      dataUri = `data:image/svg+xml;base64,${uint8ToBase64(cleanBytes)}`;
     }
 
     return {
       valid: true,
       mimeType: mimeType,
       dataUri: dataUri,
-      sizeBytes: buffer.length
+      sizeBytes: bytes.length
     };
   }
 
@@ -253,6 +371,24 @@
       sanitized.logo = null;
     }
 
+    // 5. Contact Email (optional)
+    if (payload.contactEmail !== undefined && payload.contactEmail !== null) {
+      const emailRes = validateContactEmail(payload.contactEmail);
+      if (!emailRes.valid) errors.push(emailRes.error);
+      else sanitized.contactEmail = emailRes.sanitized;
+    } else {
+      sanitized.contactEmail = '';
+    }
+
+    // 6. Contact Phone (optional)
+    if (payload.contactPhone !== undefined && payload.contactPhone !== null) {
+      const phoneRes = validateContactPhone(payload.contactPhone);
+      if (!phoneRes.valid) errors.push(phoneRes.error);
+      else sanitized.contactPhone = phoneRes.sanitized;
+    } else {
+      sanitized.contactPhone = '';
+    }
+
     return {
       valid: errors.length === 0,
       errors: errors,
@@ -268,6 +404,8 @@
     validateAgencyName,
     validateBrandColor,
     validateFont,
+    validateContactEmail,
+    validateContactPhone,
     sanitizeSvg,
     validateLogo,
     validateBrandingPayload

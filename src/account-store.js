@@ -136,7 +136,9 @@ function verifyMagicLink(token) {
         agencyName: '',
         logo: null,
         brandColor: '#8306c1',
-        font: 'Inter'
+        font: 'Inter',
+        contactEmail: '',
+        contactPhone: ''
       },
       savedReports: []
     };
@@ -201,7 +203,9 @@ function updateAccountBranding(accountId, brandingPayload) {
     agencyName: val.sanitized.agencyName,
     brandColor: val.sanitized.brandColor,
     font: val.sanitized.font,
-    logo: val.sanitized.logo !== undefined ? val.sanitized.logo : account.branding.logo
+    logo: val.sanitized.logo !== undefined ? val.sanitized.logo : account.branding.logo,
+    contactEmail: val.sanitized.contactEmail !== undefined ? val.sanitized.contactEmail : (account.branding.contactEmail || ''),
+    contactPhone: val.sanitized.contactPhone !== undefined ? val.sanitized.contactPhone : (account.branding.contactPhone || '')
   };
 
   saveState();

@@ -197,6 +197,77 @@ test('Feature 6: Agency Accounts & Custom Branding Test Suite', async (t) => {
     assert.ok(printableHtml.includes("'Montserrat', sans-serif"), 'Must use chosen font');
   });
 
+  await t.test('Agency Contact Info: Contact email and phone validation', () => {
+    // Valid email
+    assert.equal(brandingValidator.validateContactEmail('hello@studio.agency').valid, true);
+    assert.equal(brandingValidator.validateContactEmail('hello@studio.agency').sanitized, 'hello@studio.agency');
+    // Empty email is valid (optional field)
+    assert.equal(brandingValidator.validateContactEmail('').valid, true);
+    assert.equal(brandingValidator.validateContactEmail(null).valid, true);
+    // Invalid email
+    assert.equal(brandingValidator.validateContactEmail('invalid-email').valid, false);
+
+    // Valid phone
+    assert.equal(brandingValidator.validateContactPhone('08168076603').valid, true);
+    assert.equal(brandingValidator.validateContactPhone('+1 (555) 019-2834').valid, true);
+    // Empty phone is valid (optional field)
+    assert.equal(brandingValidator.validateContactPhone('').valid, true);
+    assert.equal(brandingValidator.validateContactPhone(null).valid, true);
+    // Invalid phone
+    assert.equal(brandingValidator.validateContactPhone('not-a-phone!@#$').valid, false);
+  });
+
+  await t.test('Browser compatibility: Uint8Array and DataURI logo validation succeeds without Buffer', () => {
+    // PNG bytes represented as a standard browser Uint8Array
+    const pngBytes = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00]);
+    const resBytes = brandingValidator.validateLogo(pngBytes, 'test.png');
+    assert.equal(resBytes.valid, true);
+    assert.equal(resBytes.mimeType, 'image/png');
+
+    // Data URI input
+    const dataUri = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    const resUri = brandingValidator.validateLogo(dataUri, 'pixel.png');
+    assert.equal(resUri.valid, true);
+    assert.equal(resUri.mimeType, 'image/png');
+  });
+
+  await t.test('Agency contact email and phone are stored and rendered on branded PDF', () => {
+    const link = accountStore.createMagicLink('contact-test@agency.com');
+    const auth = accountStore.verifyMagicLink(link.token);
+
+    const updated = accountStore.updateAccountBranding(auth.accountId, {
+      agencyName: 'Apex UX Agency',
+      contactEmail: 'contact@apexux.com',
+      contactPhone: '+1 (555) 987-6543',
+      brandColor: '#2b0340',
+      font: 'Roboto'
+    });
+
+    assert.equal(updated.contactEmail, 'contact@apexux.com');
+    assert.equal(updated.contactPhone, '+1 (555) 987-6543');
+
+    // Verify session retrieval includes contact fields
+    const sessionAccount = accountStore.getAccountBySession(auth.sessionToken);
+    assert.equal(sessionAccount.branding.contactEmail, 'contact@apexux.com');
+    assert.equal(sessionAccount.branding.contactPhone, '+1 (555) 987-6543');
+
+    // Verify PDF rendering with contact info
+    const sampleInspection = {
+      url: 'https://example.com/',
+      submittedUrl: 'example.com',
+      overallStatus: 'Complete',
+      timestamp: '2026-11-20T12:00:00.000Z',
+      measurements: []
+    };
+    const sampleAnswers = { 1: 'Yes', 2: 'Yes', 3: 'Yes', 4: 'Yes', 5: 'Yes', 6: 'Yes', 7: 'Yes' };
+    const report = reportEngine.assembleReport(sampleInspection, sampleAnswers);
+
+    const printableHtml = pdfExport.generatePrintableHtml(report, sessionAccount.branding);
+    assert.ok(printableHtml.includes('contact@apexux.com'), 'PDF header must include contact email');
+    assert.ok(printableHtml.includes('+1 (555) 987-6543'), 'PDF header and footer must include contact phone');
+    assert.ok(printableHtml.includes('Generated with WebAudX'), 'Mandatory watermark must remain');
+  });
+
   await t.test('Acceptance Test 25: Account deletion completely purges account and logs completion within 30 days', () => {
     const link = accountStore.createMagicLink('delete-me@agency.com');
     const auth = accountStore.verifyMagicLink(link.token);

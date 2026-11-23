@@ -305,7 +305,7 @@ const server = http.createServer((req, res) => {
     let body = '';
     req.on('data', chunk => {
       body += chunk;
-      if (body.length > 2097152) { // 2 MB limit to accommodate 1 MB base64 logo
+      if (body.length > 5242880) { // 5 MB limit to accommodate 1 MB base64 logo and branding data
         res.writeHead(413, { 'Content-Type': 'text/plain' });
         res.end('Payload Too Large');
         req.destroy();
